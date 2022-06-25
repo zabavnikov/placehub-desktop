@@ -1,4 +1,4 @@
-import { USER_FIELDS } from '~/modules/users/graphql';
+import { USER_FIELDS } from '~/components/modules/users/graphql';
 
 export const POST = `
   post(id: $postId) {
