@@ -28,7 +28,7 @@ export const POST_CARD_FRAGMENT = `
   id
   user_id
   place_id
-  shortText
+  text(words: 24)
   likesCount
   hashtags
   can
@@ -111,12 +111,6 @@ export const POST_REPLY_FRAGMENT = `
   }
   user {
     ${USER_FIELDS}
-  }
-`;
-
-export const POST_REPLIES = `
-  postReplies(postId: $postId) {
-    ${POST_REPLY_FRAGMENT}
   }
 `;
 

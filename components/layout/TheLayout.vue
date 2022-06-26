@@ -3,7 +3,7 @@
     <TheHeader></TheHeader>
     <div class="flex flex-col min-h-screen mx-auto layout-container">
       <div class="layout">
-        <!--<nav class="layout-nav">
+<!--        <nav class="layout-nav">
           123
         </nav>-->
         <main class="layout-main">
@@ -73,12 +73,12 @@ export default {
 
 <style lang="scss">
 $nav-width: 200px;
-$content-width: 540px;
+$content-width: 560px;
 $sidebar-width: 280px;
 $column-gap: 40px;
 
 .layout-container {
-  width: $content-width + $sidebar-width + $column-gap;
+  width: $content-width + $sidebar-width;
 }
 
 .layout {
@@ -88,11 +88,10 @@ $column-gap: 40px;
 
 .layout-nav {
   width: $nav-width;
-  margin-right: $column-gap;
 }
 
 .layout-main {
-  width: $content-width + $sidebar-width + $column-gap;
+  width: $content-width + $sidebar-width;
 }
 
 .layout-content {
@@ -106,22 +105,22 @@ $column-gap: 40px;
   flex-shrink: 0;
   border-left: 1px solid #f1f1f1;
 
-  + .layout-content {
+  /*+ .layout-content {
     margin-right: $column-gap;
-  }
+  }*/
 }
 
 .layout-not-revers {
   flex-direction: row-reverse;
 
-  .layout-sidebar + .layout-content {
+  /*.layout-sidebar + .layout-content {
     margin-right: $column-gap;
-  }
+  }*/
 }
 
 .layout-revers {
-  .layout-sidebar {
+  /*.layout-sidebar {
     margin-right: $column-gap;
-  }
+  }*/
 }
 </style>

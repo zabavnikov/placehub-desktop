@@ -1,17 +1,9 @@
 <template>
   <TheLayout>
+    <Post :content="post" full />
     <div class="p-4">
-      <div class="flex">
-        <NuxtLink to="/">
-          <img :src="post.user.avatar" :alt="post.user.name" class="block w-10 h-10 rounded-full">
-        </NuxtLink>
-        <div class="ml-2 text-sm">
-          <NuxtLink to="/" class="font-semibold inline-block">{{ post.user.name }}</NuxtLink>
-          <div class="text-gray-600">{{ post.created_at }}</div>
-        </div>
-      </div>
       <div class="mt-4">
-        <div class="whitespace-pre-line">{{ post.text }}</div>
+        {{ replies }}
       </div>
     </div>
   </TheLayout>
@@ -20,9 +12,13 @@
 <script>
 import { useRoute } from '#app'
 import { useGql } from '~/uses'
-import { POST_FRAGMENT } from '../graphql'
+import { POST_FRAGMENT, POST_REPLY_FRAGMENT } from '../graphql.ts'
+import Post from '../components/Post.vue'
 
 export default {
+  components: {
+    Post
+  },
   async setup() {
     const route = useRoute();
 
@@ -31,13 +27,17 @@ export default {
         post(id: $id) {
           ${POST_FRAGMENT}
         }
+        postReplies(postId: $id) {
+          ${POST_REPLY_FRAGMENT}
+        }
       }
     `, {
       id: parseInt(route.params.postId)
     })
 
     return {
-      post: data.value.post
+      post: data.value.post,
+      replies: data.value.postReplies
     }
   }
 }
