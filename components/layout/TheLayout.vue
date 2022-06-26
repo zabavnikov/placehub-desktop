@@ -1,45 +1,45 @@
 <template>
- <div>
-   <TheHeader></TheHeader>
-   <div class="flex flex-col min-h-screen mx-auto layout-container">
-     <div class="layout">
-       <!--<nav class="layout-nav">
-         123
-       </nav>-->
-       <main class="layout-main">
-         <section v-if="hasHeroSlot" class="my-4">
-           <slot name="hero" />
-         </section>
+  <div>
+    <TheHeader></TheHeader>
+    <div class="flex flex-col min-h-screen mx-auto layout-container">
+      <div class="layout">
+        <!--<nav class="layout-nav">
+          123
+        </nav>-->
+        <main class="layout-main">
+          <section v-if="hasHeroSlot" class="my-4">
+            <slot name="hero"/>
+          </section>
 
-         <div class="mt-4 mb-4">
-           <h1 v-if="hasHeaderSlot" class="font-bold uppercase">
-             <slot name="header" />
-           </h1>
-         </div>
+          <div v-if="hasHeaderSlot" class="mt-4 mb-4">
+            <h1 class="font-bold uppercase">
+              <slot name="header"/>
+            </h1>
+          </div>
 
-         <!--        <div v-if="$auth.loggedIn && $auth.user.email_verified_at === null" class="p-4 mt-4 bg-red-200">
-                   На вашу электронную почту мы отправили письмо. Пожалуйста подтвердите, что электронная почта Ваша. Спасибо.
-                 </div>-->
+          <!--        <div v-if="$auth.loggedIn && $auth.user.email_verified_at === null" class="p-4 mt-4 bg-red-200">
+                    На вашу электронную почту мы отправили письмо. Пожалуйста подтвердите, что электронная почта Ваша. Спасибо.
+                  </div>-->
 
-         <div :class="{
+          <div :class="{
           'flex min-h-full layout-not-revers': true,
           // [this.reverse ? 'layout-revers' : 'layout-not-revers']: true
-        }">
-           <div class="layout-sidebar">
-             <slot name="sidebar-before" />
-             <slot name="sidebar" />
-             <slot name="sidebar-after" />
-           </div>
-           <div class="layout-content">
-             <slot name="content-before" />
-             <slot />
-             <slot name="content-after" />
-           </div>
-         </div>
-       </main>
-     </div>
-   </div>
- </div>
+          }">
+            <div class="layout-sidebar">
+              <slot name="sidebar-before"/>
+              <slot name="sidebar"/>
+              <slot name="sidebar-after"/>
+            </div>
+            <div class="layout-content">
+              <slot name="content-before"/>
+              <slot/>
+              <slot name="content-after"/>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -98,11 +98,13 @@ $column-gap: 40px;
 .layout-content {
   width: $content-width;
   flex: 1;
+  border-left: 1px solid #f1f1f1;
 }
 
 .layout-sidebar {
   width: $sidebar-width;
   flex-shrink: 0;
+  border-left: 1px solid #f1f1f1;
 
   + .layout-content {
     margin-right: $column-gap;

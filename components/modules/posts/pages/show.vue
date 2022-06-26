@@ -1,6 +1,19 @@
 <template>
   <TheLayout>
-    {{ data.post }}
+    <div class="p-4">
+      <div class="flex">
+        <NuxtLink to="/">
+          <img :src="post.user.avatar" :alt="post.user.name" class="block w-10 h-10 rounded-full">
+        </NuxtLink>
+        <div class="ml-2 text-sm">
+          <NuxtLink to="/" class="font-semibold inline-block">{{ post.user.name }}</NuxtLink>
+          <div class="text-gray-600">{{ post.created_at }}</div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="whitespace-pre-line">{{ post.text }}</div>
+      </div>
+    </div>
   </TheLayout>
 </template>
 
@@ -24,7 +37,7 @@ export default {
     })
 
     return {
-      data
+      post: data.value.post
     }
   }
 }

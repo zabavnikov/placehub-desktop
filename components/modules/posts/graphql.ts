@@ -24,11 +24,33 @@ export const POST = `
   }
 `;
 
-export const POST_FRAGMENT = `
+export const POST_CARD_FRAGMENT = `
   id
   user_id
   place_id
   shortText
+  likesCount
+  hashtags
+  can
+  created_at(relative: true)
+  images(sizes: "default@resize:auto:640:480") {
+    id
+    url
+    sizes
+  }
+  like {
+    is_liked
+  }
+  user {
+    ${USER_FIELDS}
+  }
+`;
+
+export const POST_FRAGMENT = `
+  id
+  user_id
+  place_id
+  text
   likesCount
   hashtags
   can
