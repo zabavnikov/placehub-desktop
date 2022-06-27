@@ -1,6 +1,6 @@
-import { useFetch, useRoute } from '#app'
+import { $fetch } from 'ohmyfetch'
 
-export default async (query, variables) => await useFetch(
+export default async (query, variables) => await $fetch(
   'http://localhost/graphql',
   {
     body: {
@@ -9,8 +9,6 @@ export default async (query, variables) => await useFetch(
           .replaceAll(/\s+/ig, ' '),
       variables
     },
-    transform: data => data.data,
-    method: 'POST',
-    key: useRoute().fullPath
+    method: 'POST'
   }
 )

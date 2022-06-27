@@ -1,8 +1,9 @@
 <template>
   <TheLayout>
     <Post :content="post" full />
-    <div class="p-4">
-      <div class="mt-4">
+    <hr>
+    <div class="p-6">
+      <div>
         {{ replies }}
       </div>
     </div>
@@ -11,7 +12,7 @@
 
 <script>
 import { useRoute } from '#app'
-import { useGql } from '~/uses'
+import { useAsyncGql } from '~/uses'
 import { POST_FRAGMENT, POST_REPLY_FRAGMENT } from '../graphql.ts'
 import Post from '../components/Post.vue'
 
@@ -22,7 +23,7 @@ export default {
   async setup() {
     const route = useRoute();
 
-    const { data, error } = await useGql(`
+    const { data, error } = await useAsyncGql(`
       query ($id: Int!) {
         post(id: $id) {
           ${POST_FRAGMENT}

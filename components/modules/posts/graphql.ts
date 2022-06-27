@@ -78,7 +78,7 @@ export const GET_POSTS = `
 export const CREATE_POST = `
   mutation($input: PostInput!) {
     postForm: createPost(input: $input) {
-      ${POST_FRAGMENT}
+      ${POST_CARD_FRAGMENT}
     }
   }
 `;

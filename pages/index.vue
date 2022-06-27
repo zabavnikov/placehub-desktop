@@ -1,23 +1,26 @@
 <template>
   <TheLayout>
     <div class="posts">
-      <Post v-for="post in data.posts" :key="post.id" :content="post" />
+      <post-form></post-form>
+      <post v-for="post in data.posts" :key="post.id" :content="post"/>
     </div>
   </TheLayout>
 </template>
 
 <script>
-import { useGql } from '~/uses'
-import { POST_CARD_FRAGMENT } from '../components/modules/posts/graphql'
-import Post from '~/components/modules/posts/components/Post.vue'
+import { useAsyncGql } from '~/uses'
+import { POST_CARD_FRAGMENT } from '~/components/modules/posts/graphql';
+import Post from '~/components/modules/posts/components/Post'
+import PostForm from '~/components/modules/posts/components/PostForm'
 
 export default {
   components: {
-    Post
+    Post,
+    PostForm
   },
 
   async setup() {
-    const { data, pending, error } = await useGql(`
+    const { data } = await useAsyncGql(`
       query {
         posts {
           ${POST_CARD_FRAGMENT}
