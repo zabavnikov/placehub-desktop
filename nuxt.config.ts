@@ -4,6 +4,7 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
-    '~/modules/routes',
-  ]
+    '@pinia/nuxt',
+    '~/modules/routes'
+  ],
 })

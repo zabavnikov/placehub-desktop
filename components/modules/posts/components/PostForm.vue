@@ -1,59 +1,57 @@
 <template>
-  <div>
-    <div class="bg-white p-4 rounded-t-lg">
-      <v-textarea
+  <div class="p-6">
+    <v-textarea
         v-model="form.text"
         placeholder="Привет, что нового?"
         @url="form.url_id = $event.id; form.url = $event"
-      />
+    />
 
-      <post-form-images v-if="form.images.length > 0" class="mt-2" v-model="form.images"></post-form-images>
+    <post-form-images v-if="form.images.length > 0" class="mt-2" v-model="form.images"></post-form-images>
 
-      <div v-if="form.place && Object.keys(form.place).length > 0"
-           class="mt-2 flex justify-between shadow-sm p-2 border rounded">
-        <div>
-          <div class="font-bold">{{ form.place.name }}</div>
-          <div class="help">{{ form.place.parent_names }}</div>
-        </div>
-        <span @click="form.place = {}" class="cursor-pointer"><v-icon name="x" stroke="red"></v-icon></span>
+    <div v-if="form.place && Object.keys(form.place).length > 0"
+         class="mt-2 flex justify-between shadow-sm p-2 border rounded">
+      <div>
+        <div class="font-bold">{{ form.place.name }}</div>
+        <div class="help">{{ form.place.parent_names }}</div>
       </div>
-
-      <VUrl v-if="form.url" :url="form.url" @delete="form.url = null; form.url_id = null" editable class="mt-2"/>
-
-      <div v-if="errors.any()" class="is-invalid mt-4">
-        <div v-for="error in errors.all()" class="help">
-          {{ error[0] }}
-        </div>
-      </div>
+      <span @click="form.place = {}" class="cursor-pointer"><v-icon name="x" stroke="red"></v-icon></span>
     </div>
 
-    <div class="bg-gray-50 border-t border-solid border-t-gray-100 rounded-b-lg px-4 py-3 sticky bottom-0 z-10">
-      <div class="flex items-center ">
-        <div class="flex items-center space-x-2">
-          <!-- Загрузка изображений. -->
-          <button
-              @click="$refs.upload.$el.click()"
-              type="button"
-              class="post-form-tool">
-            <v-icon name="camera" stroke="#b0bec5"></v-icon>
-          </button>
-          <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
-          <!-- / Загрузка изображений. -->
+    <VUrl v-if="form.url" :url="form.url" @delete="form.url = null; form.url_id = null" editable class="mt-2"/>
 
-          <!-- Выбор места. -->
-          <button
-              @click="$overlay.show(() => import('~/modules/places/components/VChoosePlaceOverlay'), mapOverlay)"
-              type="button"
-              class="post-form-tool"
-              :style="{backgroundColor: errors.first('placeId') ? 'red' : undefined}">
-            <v-icon name="location-marker" stroke="#b0bec5"></v-icon>
-          </button>
-          <!-- / Выбор места. -->
-        </div>
+    <div v-if="errors.any()" class="is-invalid mt-4">
+      <div v-for="error in errors.all()" class="help">
+        {{ error[0] }}
+      </div>
+    </div>
+  </div>
 
-        <div class="ml-auto space-x-2 flex items-center">
-          <button @click="onSubmit" :class="{loading}" class="button">Отправить</button>
-        </div>
+  <div class="border-b border-solid border-b-gray-100 px-6 pb-6 sticky bottom-0 z-10">
+    <div class="flex items-center ">
+      <div class="flex items-center space-x-2">
+        <!-- Загрузка изображений. -->
+        <button
+            @click="$refs.upload.$el.click()"
+            type="button"
+            class="post-form-tool">
+          <v-icon name="camera" stroke="#b0bec5"></v-icon>
+        </button>
+        <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
+        <!-- / Загрузка изображений. -->
+
+        <!-- Выбор места. -->
+        <button
+            @click="$overlay.show(() => import('~/modules/places/components/VChoosePlaceOverlay'), mapOverlay)"
+            type="button"
+            class="post-form-tool"
+            :style="{backgroundColor: errors.first('place_id') ? 'red' : undefined}">
+          <v-icon name="location-marker" stroke="#b0bec5"></v-icon>
+        </button>
+        <!-- / Выбор места. -->
+      </div>
+
+      <div class="ml-auto space-x-2 flex items-center">
+        <button @click="onSubmit" :class="{loading}" class="button">Отправить</button>
       </div>
     </div>
   </div>
@@ -73,7 +71,7 @@ import VUrl from "~/components/modules/urls/components/VUrl";
 import { CREATE_POST, UPDATE_POST } from '../graphql';
 
 const formInitialState = {
-  placeId: null,
+  place_id: null,
   text: '',
   place: {},
   images: [],
@@ -128,12 +126,12 @@ export default {
 
   watch: {
     'form.place.id'(newValue) {
-      // Если прилетел undefined, то axios его пропустит и на сервер placeId не улетит,
+      // Если прилетел undefined, то axios его пропустит и на сервер place_id не улетит,
       // а значит сервер тоже пропустит это поле и не обновит его, по этому если undefined, то заменим его на null.
-      this.form.placeId = newValue || null;
+      this.form.place_id = newValue || null;
 
       if (newValue) {
-        this.errors.clear('placeId');
+        this.errors.clear('place_id');
       }
     },
     'form.images'(newValue) {
@@ -149,7 +147,7 @@ export default {
 
       this.loading = true
 
-      const input = pick(this.form, ['placeId', 'linkId', 'text', 'images'])
+      const input = pick(this.form, ['place_id', 'link_id', 'text', 'images'])
 
       input.images = input.images.map(image => image.id)
 
@@ -201,8 +199,9 @@ export default {
   border-radius: 99px;
 
   &:hover {
+    background-color: #f1f1f1;
     svg {
-      stroke: #1a202c;
+      stroke: #111;
     }
   }
 }

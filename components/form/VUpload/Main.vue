@@ -67,7 +67,11 @@ export default {
 
       $fetch(`http://localhost/api/images/${this.to}`, {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
       })
           /*.$post(`/api/images/${this.to}`, formData, {
             onUploadProgress: progressEvent => {

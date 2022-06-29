@@ -9,6 +9,10 @@ export default async (query, variables) => await $fetch(
           .replaceAll(/\s+/ig, ' '),
       variables
     },
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    },
     method: 'POST'
   }
 )

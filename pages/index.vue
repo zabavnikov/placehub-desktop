@@ -1,6 +1,6 @@
 <template>
   <TheLayout>
-    <div class="posts">
+    <div class="posts" @click="onClick">
       <post-form></post-form>
       <post v-for="post in data.posts" :key="post.id" :content="post"/>
     </div>
@@ -9,7 +9,7 @@
 
 <script>
 import { useAsyncGql } from '~/uses'
-import { POST_CARD_FRAGMENT } from '~/components/modules/posts/graphql';
+import { POST_CARD_FRAGMENT } from '~/components/modules/posts/graphql'
 import Post from '~/components/modules/posts/components/Post'
 import PostForm from '~/components/modules/posts/components/PostForm'
 
@@ -29,7 +29,7 @@ export default {
     `)
 
     return {
-      data,
+      data
     }
   }
 }

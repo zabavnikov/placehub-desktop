@@ -13,6 +13,9 @@
     "sass": "^1.53.0"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.1.9",
+    "pinia": "^2.0.14",
+    "vue-final-modal": "^3.4.4",
     "vuedraggable": "^2.24.3"
   }
 }

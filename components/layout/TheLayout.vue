@@ -97,13 +97,13 @@ $column-gap: 40px;
 .layout-content {
   width: $content-width;
   flex: 1;
-  border-left: 1px solid #f1f1f1;
+  border-left: 1px solid #f5f5f5;
+  border-right: 1px solid #f5f5f5;
 }
 
 .layout-sidebar {
   width: $sidebar-width;
   flex-shrink: 0;
-  border-left: 1px solid #f1f1f1;
 
   /*+ .layout-content {
     margin-right: $column-gap;

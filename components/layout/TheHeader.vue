@@ -2,15 +2,16 @@
   <header class="header px-6">
     <div class="header-container mx-auto flex items-center h-full">
       <NuxtLink to="/" class="mr-6 font-bold uppercase">PlaceHub</NuxtLink>
-<!--      <div class="py-2">
-        <n-link v-if="$auth.loggedIn" :to="{name: 'users.show', params: {userId: $auth.user.id}}" class="button button-success">Написать</n-link>
+
+      <div class="py-2">
+        <nuxt-link v-if="$jwt.check" :to="{name: 'users.show', params: {userId: parseInt($jwt.user.id)}}" class="button button-success">Написать</nuxt-link>
       </div>
 
-      <n-link v-if="$auth.loggedIn" to="/places/create" class="ml-3 text-base uppercase">Добавить место</n-link>-->
+<!--      <n-link v-if="$auth.loggedIn" to="/places/create" class="ml-3 text-base uppercase">Добавить место</n-link>
 
-      <!--      <n-link to="/places" class="mr-6 font-bold">Места</n-link>-->
-      <!--<n-link to="/images" class="mr-6 font-bold">Фотографии</n-link>-->
-      <!--<span class="cursor-pointer" @click="$store.commit('modals/toggle', ['users', 'loginRegister'])">Войти</span>-->
+            <n-link to="/places" class="mr-6 font-bold">Места</n-link>
+      <n-link to="/images" class="mr-6 font-bold">Фотографии</n-link>
+      <span class="cursor-pointer" @click="$store.commit('modals/toggle', ['users', 'loginRegister'])">Войти</span>-->
 
       <div class="flex items-center ml-auto">
 
