@@ -1,59 +1,77 @@
 <template>
-  <div class="p-6">
-    <v-textarea
-        v-model="form.text"
-        placeholder="Привет, что нового?"
-        @url="form.url_id = $event.id; form.url = $event"
-    />
-
-    <post-form-images v-if="form.images.length > 0" class="mt-2" v-model="form.images"></post-form-images>
-
-    <div v-if="form.place && Object.keys(form.place).length > 0"
-         class="mt-2 flex justify-between shadow-sm p-2 border rounded">
-      <div>
-        <div class="font-bold">{{ form.place.name }}</div>
-        <div class="help">{{ form.place.parent_names }}</div>
-      </div>
-      <span @click="form.place = {}" class="cursor-pointer"><v-icon name="x" stroke="red"></v-icon></span>
-    </div>
-
-    <VUrl v-if="form.url" :url="form.url" @delete="form.url = null; form.url_id = null" editable class="mt-2"/>
-
-    <div v-if="errors.any()" class="is-invalid mt-4">
-      <div v-for="error in errors.all()" class="help">
-        {{ error[0] }}
+  <div class="p-6 bg-white">
+    <div v-if="isReply">
+      <div class="flex">
+        <nuxt-link to="/">
+          <img :src="parent.user.avatar" :alt="parent.user.name" class="block w-10 h-10 rounded-full">
+        </nuxt-link>
+        <div class="ml-2 text-sm">
+          <nuxt-link to="/" class="font-semibold inline-block">{{ parent.user.name }}</nuxt-link>
+          <div class="text-gray-600">{{ parent.created_at }}</div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="border-b border-solid border-b-gray-100 px-6 pb-6 sticky bottom-0 z-10">
-    <div class="flex items-center ">
-      <div class="flex items-center space-x-2">
-        <!-- Загрузка изображений. -->
-        <button
-            @click="$refs.upload.$el.click()"
-            type="button"
-            class="post-form-tool">
-          <v-icon name="camera" stroke="#b0bec5"></v-icon>
-        </button>
-        <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
-        <!-- / Загрузка изображений. -->
+    <div class="sticky bottom-0 z-10">
 
-        <!-- Выбор места. -->
-        <button
-            @click="$overlay.show(() => import('~/modules/places/components/VChoosePlaceOverlay'), mapOverlay)"
-            type="button"
-            class="post-form-tool"
-            :style="{backgroundColor: errors.first('place_id') ? 'red' : undefined}">
-          <v-icon name="location-marker" stroke="#b0bec5"></v-icon>
-        </button>
-        <!-- / Выбор места. -->
+      <v-textarea
+          v-model="form.text"
+          placeholder="Привет, что нового?"
+          @url="form.url_id = $event.id; form.url = $event"
+      />
+
+      <div class="h-6"></div>
+
+      <div class="bg-white">
+        <post-form-images v-if="form.images.length > 0" class="mt-2" v-model="form.images"></post-form-images>
+
+        <div v-if="form.place && Object.keys(form.place).length > 0"
+             class="mt-2 flex justify-between shadow-sm p-2 border rounded">
+          <div>
+            <div class="font-bold">{{ form.place.name }}</div>
+            <div class="help">{{ form.place.parent_names }}</div>
+          </div>
+          <span @click="form.place = {}" class="cursor-pointer"><v-icon name="x" stroke="red"></v-icon></span>
+        </div>
+
+        <VUrl v-if="form.url" :url="form.url" @delete="form.url = null; form.url_id = null" editable class="mt-2"/>
+
+        <div v-if="errors.any()" class="is-invalid mt-4">
+          <div v-for="error in errors.all()" class="help">
+            {{ error[0] }}
+          </div>
+        </div>
       </div>
 
-      <div class="ml-auto space-x-2 flex items-center">
-        <button @click="onSubmit" :class="{loading}" class="button">Отправить</button>
+      <div class="flex items-center ">
+        <div class="flex items-center space-x-2">
+          <!-- Загрузка изображений. -->
+          <button
+              @click="$refs.upload.$el.click()"
+              type="button"
+              class="post-form-tool">
+            <v-icon name="camera" stroke="#b0bec5"></v-icon>
+          </button>
+          <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
+          <!-- / Загрузка изображений. -->
+
+          <!-- Выбор места. -->
+          <button
+              @click="$overlay.show(() => import('~/modules/places/components/VChoosePlaceOverlay'), mapOverlay)"
+              type="button"
+              class="post-form-tool"
+              :style="{backgroundColor: errors.first('place_id') ? 'red' : undefined}">
+            <v-icon name="location-marker" stroke="#b0bec5"></v-icon>
+          </button>
+          <!-- / Выбор места. -->
+        </div>
+
+        <div class="ml-auto space-x-2 flex items-center">
+          <button @click="onSubmit" :class="{loading}" class="button">Отправить</button>
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -69,6 +87,7 @@ import VUpload from '~/components/form/VUpload';
 import VIcon from '~/components/common/VIcon';
 import VUrl from "~/components/modules/urls/components/VUrl";
 import { CREATE_POST, UPDATE_POST } from '../graphql';
+import { usePostsStore } from '~/stores/posts'
 
 const formInitialState = {
   place_id: null,
@@ -86,6 +105,10 @@ export default {
         return cloneDeep(formInitialState)
       }
     },
+    isReply: {
+      type: Boolean,
+      default: false
+    }
   },
 
   components: {
@@ -96,15 +119,17 @@ export default {
     VUrl
   },
 
-  setup(props) {
+  setup(props, { $pinia }) {
     const errors = ref(new Validation())
     const form = ref(props.post)
     const loading = ref(false)
+    const postsStore = usePostsStore($pinia)
 
     return {
       errors,
       form,
-      loading
+      loading,
+      parent: postsStore.replyParent
     }
   },
 

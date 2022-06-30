@@ -10,12 +10,14 @@
       </div>
     </div>
     <div class="whitespace-pre-line mt-4">{{ content.text }}</div>
+    <post-form v-if="replyParentId === content.id" is-reply></post-form>
+    {{ replyParentId }}
   </article>
 </template>
 
 <script>
-import { $vfm } from 'vue-final-modal'
-import PostReplyDialog from '~/components/modules/posts/components/PostReplyDialog'
+import { usePostsStore } from '~/stores/posts'
+import PostForm from '~/components/modules/posts/components/PostForm'
 
 export default {
   props: {
@@ -24,14 +26,18 @@ export default {
       required: true
     }
   },
-  setup() {
-    const onClick = () => {
-      $vfm.show({
-        component: PostReplyDialog
-      })
+  components: {
+    PostForm
+  },
+  setup({ content }, { $pinia }) {
+    const store = usePostsStore($pinia)
+
+    const onClick = async () => {
+      store.replyParentId = content.id
     }
 
     return {
+      replyParentId: store.replyParentId,
       onClick
     }
   }

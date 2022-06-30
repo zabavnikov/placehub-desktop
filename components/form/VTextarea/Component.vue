@@ -1,20 +1,21 @@
 <template>
   <div class="v-textarea">
-    <textarea
-        :id="id"
-        :value="value"
-        :rows="rows"
-        :autofocus="autofocus"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        :maxlength="maxlength"
-        @input="$emit('input', $event.target.value)"
-        @focus="$emit('focus')"
-        @paste="onPaste"
-        ref="textarea"
-        class="input"
-    >
+    <client-only>
+      <textarea
+          :id="id"
+          :value="modelValue"
+          :rows="rows"
+          :autofocus="autofocus"
+          :placeholder="placeholder"
+          :disabled="disabled"
+          :maxlength="maxlength"
+          @input="$emit('update:modelValue', $event.target.value)"
+          @focus="$emit('focus')"
+          ref="textarea"
+          class="input"
+      >
     </textarea>
+    </client-only>
   </div>
 </template>
 
@@ -83,9 +84,10 @@ select:-webkit-autofill:focus {
 // import regExpUrl from '~/utils/regexp-url';
 
 export default {
+  emits: ['update:modelValue', 'focus'],
   props: {
     id: String,
-    value: String,
+    modelValue: String,
     placeholder: String,
     maxlength: String,
 

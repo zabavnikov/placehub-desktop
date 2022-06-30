@@ -1,16 +1,16 @@
 <template>
-  <TheLayout>
+  <the-layout>
     <post :content="post" full />
     <hr>
     <div class="posts">
       <post-form />
       <post-reply v-for="reply in replies" :key="reply.id" :content="reply" />
     </div>
-  </TheLayout>
+  </the-layout>
 </template>
 
 <script>
-import { useRoute, useState } from '#app'
+import { useRoute } from '#app'
 import { useAsyncGql } from '~/uses'
 import { POST_FRAGMENT, POST_REPLY_FRAGMENT } from '../graphql'
 import Post from '../components/Post'
