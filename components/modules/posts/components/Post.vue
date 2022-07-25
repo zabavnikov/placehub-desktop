@@ -1,11 +1,11 @@
 <template>
   <article class="post p-6">
     <div class="flex">
-      <nuxt-link to="/">
+      <nuxt-link :to="{name: 'users.show', params: {userId: content.user_id }}">
         <img :src="content.user.avatar" :alt="content.user.name" class="block w-10 h-10 rounded-full">
       </nuxt-link>
       <div class="ml-2 text-sm">
-        <nuxt-link to="/" class="font-semibold inline-block">{{ content.user.name }}</nuxt-link>
+        <nuxt-link :to="{name: 'users.show', params: {userId: content.user_id }}" class="font-semibold inline-block">{{ content.user.name }}</nuxt-link>
         <div class="text-gray-600">{{ content.created_at }}</div>
       </div>
     </div>

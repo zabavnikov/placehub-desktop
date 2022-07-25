@@ -2,7 +2,7 @@
   <the-layout>
     <post-form v-if="$jwt.check" @create="posts.unshift($event)" class="mb-4"></post-form>
 
-    <div v-if="posts.length" class="posts">
+    <div v-if="posts && posts.length" class="posts">
       <post v-for="(post, index) in posts" @delete="posts.splice(index, 1)" :key="post.id" :content="post"></post>
     </div>
     <div v-else class="text-gray p-3 bg-gray-50 border border-solid border-gray-100 rounded-lg">Ничего не найдено</div>

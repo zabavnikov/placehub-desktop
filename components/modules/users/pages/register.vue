@@ -19,14 +19,14 @@
       <div class="mt-2" :class="{'is-invalid': errors.has('password')}">
         <div class="flex justify-between">
           <label for="password" class="label">Пароль: <span class="asterisk"></span></label>
-          <n-link :to="{name: 'users.password.email'}">Забыли пароль?</n-link>
+<!--          <nuxt-link :to="{name: 'users.password.email'}">Забыли пароль?</nuxt-link>-->
         </div>
         <input v-model="form.password" class="input" type="password" id="password">
         <div v-if="errors.has('password')" class="help mt-1">{{ errors.first('password') }}</div>
       </div>
 
       <div class="mt-4">
-        Авторизуясь, вы соглашаетесь с <n-link to="/terms" class="underline">правилами пользования сайтом</n-link> и даете согласие на <n-link class="underline" to="/privacy">обработку персональных данных</n-link>.
+        Авторизуясь, вы соглашаетесь с <nuxt-link to="/terms" class="underline">правилами пользования сайтом</nuxt-link> и даете согласие на <nuxt-link class="underline" to="/privacy">обработку персональных данных</nuxt-link>.
       </div>
 
       <div class="mt-4">

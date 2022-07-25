@@ -7,25 +7,25 @@
         <nuxt-link v-if="$jwt.check" :to="{name: 'users.show', params: {userId: parseInt($jwt.user.id)}}" class="button button-success">Написать</nuxt-link>
       </div>
 
-<!--      <n-link v-if="$auth.loggedIn" to="/places/create" class="ml-3 text-base uppercase">Добавить место</n-link>
+<!--      <nuxt-link v-if="$auth.loggedIn" to="/places/create" class="ml-3 text-base uppercase">Добавить место</nuxt-link>
 
-            <n-link to="/places" class="mr-6 font-bold">Места</n-link>
-      <n-link to="/images" class="mr-6 font-bold">Фотографии</n-link>
+            <nuxt-link to="/places" class="mr-6 font-bold">Места</nuxt-link>
+      <nuxt-link to="/images" class="mr-6 font-bold">Фотографии</nuxt-link>
       <span class="cursor-pointer" @click="$store.commit('modals/toggle', ['users', 'loginRegister'])">Войти</span>-->
 
       <div class="flex items-center ml-auto">
 
 <!--        <div v-if="$auth.loggedIn" class="flex items-center">
-          <n-link to="/feedback" class="font-bold">Сообщить об ошибке</n-link>
+          <nuxt-link to="/feedback" class="font-bold">Сообщить об ошибке</nuxt-link>
 
           <v-dropdown>
             <div slot="trigger" class="header-iconable">
               <img :src="$auth.user.avatar" width="32" class="block rounded-full" :alt="$auth.user.name">
             </div>
             <ul class="dropdown-menu">
-              <n-link :to="{name: 'users.show', params: {userId: $auth.user.id}}" class="dropdown-menu-item">Мой профиль</n-link>
-              <n-link :to="{name: 'posts.drafts'}" class="dropdown-menu-item">Мои черновики</n-link>
-              <n-link :to="{name: 'users.edit', params: {userId: $auth.user.id}}" class="dropdown-menu-item">Редактировать</n-link>
+              <nuxt-link :to="{name: 'users.show', params: {userId: $auth.user.id}}" class="dropdown-menu-item">Мой профиль</nuxt-link>
+              <nuxt-link :to="{name: 'posts.drafts'}" class="dropdown-menu-item">Мои черновики</nuxt-link>
+              <nuxt-link :to="{name: 'users.edit', params: {userId: $auth.user.id}}" class="dropdown-menu-item">Редактировать</nuxt-link>
               <a @click="$auth.logout()" class="dropdown-menu-item">Выход</a>
             </ul>
           </v-dropdown>
