@@ -77,15 +77,15 @@ export const GET_POSTS = `
 // Mutations
 export const CREATE_POST = `
   mutation($input: PostInput!) {
-    postForm: createPost(input: $input) {
-      ${POST_CARD_FRAGMENT}
+    post: createPost(input: $input) {
+      id
     }
   }
 `;
 
 export const UPDATE_POST = `
   mutation($id: Int!, $input: PostInput!) {
-    postForm: updatePost(id: $id, input: $input)
+    post: updatePost(id: $id, input: $input)
   }
 `;
 

@@ -30,7 +30,7 @@
       </div>
 
       <div class="mt-4">
-        <button class="button button-success">Войти</button>
+        <button type="submit" class="button button-success">Войти</button>
       </div>
     </form>
   </the-layout>
@@ -65,7 +65,7 @@ export default {
 
       this.loading = true;
 
-      this.$jwt.login(this.form)
+      this.$auth.loginWith('local', {data: this.form})
           .then(response => {
             console.log(response)
           })

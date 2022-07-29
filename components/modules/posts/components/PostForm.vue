@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="sticky bottom-0 z-10">
+    <form @submit.prevent="onSubmit" class="sticky bottom-0 z-10">
 
       <v-textarea
           v-model="form.text"
@@ -67,16 +67,17 @@
         </div>
 
         <div class="ml-auto space-x-2 flex items-center">
-          <button @click="onSubmit" :class="{loading}" class="button">Отправить</button>
+          <button :class="{loading}" class="button">Отправить</button>
         </div>
       </div>
-    </div>
+    </form>
 
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { useRouter } from 'nuxt/app';
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
 import { useGql } from '~/uses'
@@ -124,12 +125,14 @@ export default {
     const form = ref(props.post)
     const loading = ref(false)
     const postsStore = usePostsStore($pinia)
+    const router = useRouter()
 
     return {
       errors,
       form,
       loading,
-      parent: postsStore.replyParent
+      parent: postsStore.replyParent,
+      router
     }
   },
 
@@ -180,34 +183,21 @@ export default {
         input
       }
 
-      const { data } = await useGql(
-        this.isEdit
-          ? UPDATE_POST
-          : CREATE_POST,
+      try {
+        const { data: { post } } = await useGql(
+          this.isEdit
+            ? UPDATE_POST
+            : CREATE_POST,
           variables)
-        .catch((error) => {
-          console.log(error)
-        })
-
-      /*try {
-
-
-
 
         if (! this.isEdit) {
-          this.$emit('create', postForm);
-        } else {
-          await this.$router.push({name: 'posts.show', params: {postId: this.$route.params.postId}});
+          await this.router.push({ name: 'posts.show', params: { postId: post.id }})
         }
-
-        this.form = cloneDeep(formInitialState);
-        this.errors.clear();
-      } catch ({ response }) {
-        console.log(response)
-        this.errors.record(response.errors)
+      } catch (error) {
+        console.log(error)
       } finally {
-        this.loading = false;
-      }*/
+        this.loading = false
+      }
     },
   }
 }

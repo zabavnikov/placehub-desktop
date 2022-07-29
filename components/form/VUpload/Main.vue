@@ -9,11 +9,13 @@
 </template>
 
 <script>
-import {$fetch} from 'ohmyfetch'
+import { $fetch } from 'ohmyfetch'
 
 export default {
+  emits: ['update:modelValue', 'progress'],
+
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default() {
         return [];
@@ -55,7 +57,7 @@ export default {
           files.length === 0 ||
           this.to.length === 0 ||
           this.progress > 0 ||
-          this.max > 0 && this.value.length >= this.max
+          this.max > 0 && this.modelValue.length >= this.max
       ) {
         event.target.value = '';
         return;
@@ -70,7 +72,7 @@ export default {
         body: formData,
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: this.$auth.strategy.token.get()
         },
       })
           /*.$post(`/api/images/${this.to}`, formData, {
@@ -81,7 +83,7 @@ export default {
           })*/
           .then(images => {
             if (images.length > 0) {
-              this.$emit('input', [...this.value, ...images]);
+              this.$emit('update:modelValue', [...this.modelValue, ...images]);
             }
           })
           .finally(() => {

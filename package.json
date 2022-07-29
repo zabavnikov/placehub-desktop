@@ -14,6 +14,8 @@
     "sass": "^1.54.0"
   },
   "dependencies": {
+    "@nuxtjs-alt/auth": "^1.2.5",
+    "@nuxtjs-alt/axios": "^1.0.15",
     "@pinia/nuxt": "^0.3.0",
     "pinia": "^2.0.16",
     "vue-final-modal": "^3.5.0-beta.38",

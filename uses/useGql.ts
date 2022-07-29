@@ -1,4 +1,5 @@
 import { $fetch } from 'ohmyfetch'
+import { useNuxtApp } from 'nuxt/app'
 
 export default async (query, variables) => await $fetch(
   'http://localhost/graphql',
@@ -11,7 +12,7 @@ export default async (query, variables) => await $fetch(
     },
     headers: {
       Accept: 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
+      Authorization: useNuxtApp().$auth.strategy.token.get()
     },
     method: 'POST'
   }

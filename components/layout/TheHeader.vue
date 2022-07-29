@@ -4,7 +4,7 @@
       <NuxtLink to="/" class="mr-6 font-bold uppercase">PlaceHub</NuxtLink>
 
       <div class="py-2">
-        <nuxt-link v-if="$jwt.check" :to="{name: 'users.show', params: {userId: parseInt($jwt.user.id)}}" class="button button-success">Написать</nuxt-link>
+        <nuxt-link v-if="$auth.loggedIn" :to="{name: 'users.show', params: {userId: parseInt($auth.user.id)}}" class="button button-success">Написать</nuxt-link>
       </div>
 
 <!--      <nuxt-link v-if="$auth.loggedIn" to="/places/create" class="ml-3 text-base uppercase">Добавить место</nuxt-link>
@@ -15,10 +15,10 @@
 
       <div class="flex items-center ml-auto">
 
-<!--        <div v-if="$auth.loggedIn" class="flex items-center">
+        <div v-if="$auth.loggedIn" class="flex items-center">
           <nuxt-link to="/feedback" class="font-bold">Сообщить об ошибке</nuxt-link>
 
-          <v-dropdown>
+<!--          <v-dropdown>
             <div slot="trigger" class="header-iconable">
               <img :src="$auth.user.avatar" width="32" class="block rounded-full" :alt="$auth.user.name">
             </div>
@@ -28,9 +28,9 @@
               <nuxt-link :to="{name: 'users.edit', params: {userId: $auth.user.id}}" class="dropdown-menu-item">Редактировать</nuxt-link>
               <a @click="$auth.logout()" class="dropdown-menu-item">Выход</a>
             </ul>
-          </v-dropdown>
-        </div>-->
-        <div class="flex items-center">
+          </v-dropdown>-->
+        </div>
+        <div v-else  class="flex items-center">
           <NuxtLink to="/login">Войти</NuxtLink>&nbsp; | &nbsp;
           <NuxtLink to="/register">Регистрация</NuxtLink>
         </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TheHeader></TheHeader>
+    <the-header></the-header>
     <div class="flex flex-col min-h-screen mx-auto layout-container">
       <div class="layout">
 <!--        <nav class="layout-nav">
