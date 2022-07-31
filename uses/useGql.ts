@@ -14,6 +14,11 @@ export default async (query, variables) => await $fetch(
       Accept: 'application/json',
       Authorization: useNuxtApp().$auth.strategy.token.get()
     },
-    method: 'POST'
+    method: 'POST',
+    async onResponse({ response}) {
+      if (response?._data?.errors) {
+        return new Promise((resolve, reject) => reject(response._data.errors))
+      }
+    }
   }
 )

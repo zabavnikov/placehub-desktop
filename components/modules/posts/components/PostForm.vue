@@ -20,8 +20,6 @@
           @url="form.url_id = $event.id; form.url = $event"
       />
 
-      <div class="h-6"></div>
-
       <div class="bg-white">
         <post-form-images v-if="form.images.length > 0" class="mt-2" v-model="form.images"></post-form-images>
 
@@ -36,7 +34,7 @@
 
         <VUrl v-if="form.url" :url="form.url" @delete="form.url = null; form.url_id = null" editable class="mt-2"/>
 
-        <div v-if="errors.any()" class="is-invalid mt-4">
+        <div v-if="errors.any()" class="text-red-500 text-sm mt-4">
           <div v-for="error in errors.all()" class="help">
             {{ error[0] }}
           </div>
@@ -121,18 +119,22 @@ export default {
   },
 
   setup(props, { $pinia }) {
-    const errors = ref(new Validation())
     const form = ref(props.post)
     const loading = ref(false)
     const postsStore = usePostsStore($pinia)
     const router = useRouter()
 
     return {
-      errors,
       form,
       loading,
       parent: postsStore.replyParent,
       router
+    }
+  },
+
+  data() {
+    return {
+      errors: new Validation
     }
   },
 
@@ -193,8 +195,8 @@ export default {
         if (! this.isEdit) {
           await this.router.push({ name: 'posts.show', params: { postId: post.id }})
         }
-      } catch (error) {
-        console.log(error)
+      } catch (errors) {
+        this.errors.record(errors)
       } finally {
         this.loading = false
       }

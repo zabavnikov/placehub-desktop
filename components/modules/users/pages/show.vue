@@ -1,6 +1,6 @@
 <template>
   <the-layout>
-    <post-form v-if="$jwt.check" @create="posts.unshift($event)" class="mb-4"></post-form>
+    <post-form v-if="$auth.loggedIn" @create="posts.unshift($event)" class="mb-4"></post-form>
 
     <div v-if="posts && posts.length" class="posts">
       <post v-for="(post, index) in posts" @delete="posts.splice(index, 1)" :key="post.id" :content="post"></post>
