@@ -33,6 +33,7 @@ export default defineNuxtConfig({
         },
         user: {
           property: false,
+          autoFetch: true
         },
       }
     },

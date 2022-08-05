@@ -2,10 +2,7 @@
   <the-layout>
     <post :content="post" full />
     <hr>
-    <div class="posts">
-      <post-form />
-      <post-reply v-for="reply in replies" :key="reply.id" :content="reply" />
-    </div>
+    <comment-form />
   </the-layout>
 </template>
 
@@ -15,13 +12,13 @@ import { useAsyncGql } from '~/uses'
 import { POST_FRAGMENT, POST_REPLY_FRAGMENT } from '../graphql'
 import Post from '../components/Post'
 import PostForm from '~/components/modules/posts/components/PostForm'
-import PostReply from '../components/PostReply'
+import CommentForm from '~/components/modules/comments/components/CommentForm';
 
 export default {
   components: {
     Post,
     PostForm,
-    PostReply
+    CommentForm,
   },
   async setup() {
     const route = useRoute();
