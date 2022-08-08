@@ -1,7 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit">
     <input type="text" v-model="form.text" class="bg-emerald-300">
-{{ form.text }}
     <button>Отправить</button>
   </form>
 </template>
@@ -11,18 +10,39 @@ import { reactive } from 'vue'
 import { useFetch, useNuxtApp } from 'nuxt/app'
 
 export default {
-  setup() {
+  props: {
+    modelType: {
+      type: String,
+      required: true,
+    },
+    modelId: {
+      type: Number,
+      required: true,
+    }
+  },
+
+  setup(props) {
     const form = reactive({
-      text: ''
+      text: '',
     })
 
     const onSubmit = () => {
-      return useFetch('http://localhost/api/comments', {
-        method: 'POST',
-        headers: {
-          Authorization: useNuxtApp().$auth.strategy.token.get()
-        }
-      })
+      try {
+        useFetch('http://localhost/api/comments', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            Authorization: useNuxtApp().$auth.strategy.token.get()
+          },
+          body: {
+            ...form,
+            model_type: props.modelType,
+            model_id: props.modelId,
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     return {

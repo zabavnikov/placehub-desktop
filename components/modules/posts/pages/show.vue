@@ -2,7 +2,8 @@
   <the-layout>
     <post :content="post" full />
     <hr>
-    <comment-form />
+    <comment-form model-type="posts" :model-id="post.id" />
+    <comment-list :comments="comments"></comment-list>
   </the-layout>
 </template>
 
@@ -13,32 +14,35 @@ import { POST_FRAGMENT, POST_REPLY_FRAGMENT } from '../graphql'
 import Post from '../components/Post'
 import PostForm from '~/components/modules/posts/components/PostForm'
 import CommentForm from '~/components/modules/comments/components/CommentForm';
+import CommentList from '~/components/modules/comments/components/CommentList';
 
 export default {
   components: {
     Post,
     PostForm,
     CommentForm,
+    CommentList,
   },
   async setup() {
     const route = useRoute();
 
     const { data } = await useAsyncGql(`
-      query ($id: Int!) {
+      query ($id: Int!, $modelType: String) {
         post(id: $id) {
           ${POST_FRAGMENT}
         }
-        postReplies(postId: $id) {
+        comments(modelType: $modelType, modelId: $id) {
           ${POST_REPLY_FRAGMENT}
         }
       }
     `, {
-      id: parseInt(route.params.postId)
+      id: parseInt(route.params.postId),
+      modelType: 'posts'
     })
 
     return {
       post: data.value.post,
-      replies: data.value.postReplies
+      comments: data.value.comments
     }
   }
 }
