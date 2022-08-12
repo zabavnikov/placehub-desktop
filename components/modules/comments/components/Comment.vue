@@ -8,13 +8,14 @@
       <footer class="flex text-red-700 text-sm">
         <p @click="isReply = !isReply">Ответить</p>
       </footer>
-      <comment-form model-id="" model-type="" />
+      <comment-form v-if="isReply" model-id="" model-type="" />
     </section>
   </article>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { useCommentFormStore } from '../stores/form'
 import CommentForm  from './CommentForm'
 
 export default {
@@ -31,7 +32,9 @@ export default {
     CommentForm
   },
 
-  setup() {
+  setup(_, { $pinia }) {
+    const formStore = useCommentFormStore($pinia)
+
     return {
       isReply: ref(false)
     }

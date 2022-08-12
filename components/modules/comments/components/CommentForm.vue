@@ -8,6 +8,7 @@
 <script>
 import { reactive } from 'vue'
 import { useFetch, useNuxtApp } from 'nuxt/app'
+import { useCommentFormStore } from '../stores/form'
 
 export default {
   name: 'CommentForm',
@@ -40,8 +41,8 @@ export default {
           body: {
             ...form,
             model_type: props.modelType,
-            model_id: props.modelId,
-            parent_id: props.parentId,
+            model_id:   props.modelId,
+            parent_id:  props.parentId,
           }
         })
       } catch (error) {

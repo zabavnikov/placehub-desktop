@@ -76,8 +76,8 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'nuxt/app';
-import cloneDeep from 'lodash/cloneDeep';
-import pick from 'lodash/pick';
+import cloneDeep from 'lodash/cloneDeep.js';
+import pick from 'lodash/pick.js';
 import { useGql } from '~/uses'
 import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages";
