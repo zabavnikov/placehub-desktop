@@ -31,7 +31,7 @@ export default {
         post(id: $id) {
           ${POST_FRAGMENT}
         }
-        comments(modelType: $modelType, modelId: $id) {
+        comments(model_type: $modelType, model_id: $id) {
           ${POST_REPLY_FRAGMENT}
         }
       }

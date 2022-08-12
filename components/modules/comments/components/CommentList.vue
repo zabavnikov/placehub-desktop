@@ -1,7 +1,11 @@
 <template>
-  <div class="space-y-4">
-    <comment v-for="comment in comments" :key="comment.id" :comment="comment" />
-  </div>
+  <section class="space-y-4">
+    <comment
+      v-for="comment in comments"
+      :key="comment.id"
+      :comment="comment"
+    />
+  </section>
 </template>
 
 <script>

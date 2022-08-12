@@ -10,6 +10,8 @@ import { reactive } from 'vue'
 import { useFetch, useNuxtApp } from 'nuxt/app'
 
 export default {
+  name: 'CommentForm',
+
   props: {
     modelType: {
       type: String,
@@ -18,7 +20,8 @@ export default {
     modelId: {
       type: Number,
       required: true,
-    }
+    },
+    parentId: Number,
   },
 
   setup(props) {
@@ -38,6 +41,7 @@ export default {
             ...form,
             model_type: props.modelType,
             model_id: props.modelId,
+            parent_id: props.parentId,
           }
         })
       } catch (error) {
