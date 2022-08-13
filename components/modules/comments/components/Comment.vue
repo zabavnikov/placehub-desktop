@@ -1,15 +1,20 @@
 <template>
-  <article class="flex space-x-2">
-    <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}">
-      <img :src="comment.user.avatar" :alt="comment.user.name" class="w-10 h-10">
-    </nuxt-link>
-    <section>
-      <p>{{ comment.text }}</p>
-      <footer class="flex text-red-700 text-sm">
-        <p @click="onReply">Ответить</p>
-      </footer>
-      <comment-form v-if="isReply" />
-    </section>
+  <article>
+    <div class="flex">
+      <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}" class="mr-2">
+        <img :src="comment.user.avatar" :alt="comment.user.name" class="w-10 h-10 bg-gray-300/50 rounded-full block">
+      </nuxt-link>
+      <section>
+        <p class="text-sm">{{ comment.text }}</p>
+        <footer class="flex text-red-700 text-sm flex space-x-4">
+          <p @click="onReply">Ответить</p> / {{ comment.replies_count }} ответов
+        </footer>
+        <comment-form v-if="isReply" />
+      </section>
+    </div>
+    <div v-if="comment.replies" class="ml-10">
+      <comment v-for="reply in comment.replies" :comment="reply" :key="reply.id" />
+    </div>
   </article>
 </template>
 

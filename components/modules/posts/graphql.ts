@@ -103,6 +103,19 @@ export const POST_REPLY_FRAGMENT = `
   user {
     ${USER_FIELDS}
   }
+  replies {
+    id
+    user_id
+    text
+    replies_count
+    created_at(relative: true)
+    like {
+      is_liked
+    }
+    user {
+      ${USER_FIELDS}
+    }
+  }
 `;
 
 export const CREATE_POST_REPLY = `

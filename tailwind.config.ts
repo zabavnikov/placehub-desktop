@@ -11,7 +11,7 @@ export default {
         semibold: 500,
       },
       fontSize: {
-        base: '12px',
+        base: '0.875rem',
       },
     }
   },
