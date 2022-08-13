@@ -7,7 +7,7 @@
       <section>
         <p class="text-sm">{{ comment.text }}</p>
         <footer class="flex text-red-700 text-sm flex space-x-4">
-          <p @click="onReply">Ответить</p> / {{ comment.replies_count }} ответов
+          <p @click="onReply">Ответить</p> / {{ comment.replies_count }}
         </footer>
         <comment-form v-if="isReply" />
       </section>

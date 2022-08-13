@@ -97,6 +97,7 @@ export const POST_REPLY_FRAGMENT = `
   user_id
   text
   created_at(relative: true)
+  replies_count(declination: ["ответ", "ответа", "ответов"])
   like {
     is_liked
   }
@@ -107,7 +108,7 @@ export const POST_REPLY_FRAGMENT = `
     id
     user_id
     text
-    replies_count
+    replies_count(declination: ["ответ", "ответа", "ответов"])
     created_at(relative: true)
     like {
       is_liked
