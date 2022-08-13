@@ -6,29 +6,14 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
 import { useFetch, useNuxtApp } from 'nuxt/app'
-import { useCommentFormStore } from '../stores/form'
+import { useCommentsStore } from '../stores/comments'
 
 export default {
   name: 'CommentForm',
 
-  props: {
-    modelType: {
-      type: String,
-      required: true,
-    },
-    modelId: {
-      type: Number,
-      required: true,
-    },
-    parentId: Number,
-  },
-
-  setup(props) {
-    const form = reactive({
-      text: '',
-    })
+  setup(props, { $pinia }) {
+    const comments = useCommentsStore($pinia)
 
     const onSubmit = () => {
       try {
@@ -38,12 +23,7 @@ export default {
             Accept: 'application/json',
             Authorization: useNuxtApp().$auth.strategy.token.get()
           },
-          body: {
-            ...form,
-            model_type: props.modelType,
-            model_id:   props.modelId,
-            parent_id:  props.parentId,
-          }
+          body: comments.form
         })
       } catch (error) {
         console.log(error)
@@ -51,7 +31,7 @@ export default {
     }
 
     return {
-      form,
+      form: comments.form,
       onSubmit
     }
   }

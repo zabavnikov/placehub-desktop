@@ -6,16 +6,16 @@
     <section>
       <p>{{ comment.text }}</p>
       <footer class="flex text-red-700 text-sm">
-        <p @click="isReply = !isReply">Ответить</p>
+        <p @click="onReply">Ответить</p>
       </footer>
-      <comment-form v-if="isReply" model-id="" model-type="" />
+      <comment-form v-if="isReply" />
     </section>
   </article>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useCommentFormStore } from '../stores/form'
+import { computed } from 'vue'
+import { useCommentsStore } from '../stores/comments'
 import CommentForm  from './CommentForm'
 
 export default {
@@ -32,11 +32,18 @@ export default {
     CommentForm
   },
 
-  setup(_, { $pinia }) {
-    const formStore = useCommentFormStore($pinia)
+  setup({ comment }, { $pinia }) {
+    const comments = useCommentsStore($pinia)
+
+    const onReply = () => {
+      comments.$patch(state => {
+        state.form.parent_id = comment.id
+      })
+    }
 
     return {
-      isReply: ref(false)
+      isReply: computed(() => comments.form.parent_id === comment.id),
+      onReply
     }
   }
 }

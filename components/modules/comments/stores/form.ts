@@ -3,10 +3,10 @@ import { defineStore } from 'pinia'
 export const useCommentFormStore = defineStore('comment-form', {
   state: () => {
     return {
-      formKey: null,
-      form: {
-        text: ''
-      }
+      model_type: '',
+      model_id:   null,
+      parent_id:  null,
+      text:       '',
     }
   }
 })
