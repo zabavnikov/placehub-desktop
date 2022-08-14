@@ -81,7 +81,7 @@ import pick from 'lodash/pick.js';
 import { useGql } from '~/uses'
 import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages";
-import VTextarea from "~/components/form/VTextarea";
+import VTextarea from "~/components/library/VTextarea";
 import VUpload from '~/components/form/VUpload';
 import VIcon from '~/components/common/VIcon';
 import VUrl from "~/components/modules/urls/components/VUrl";

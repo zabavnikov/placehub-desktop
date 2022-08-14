@@ -3,7 +3,7 @@
   <div class="c-Textarea" :class="textareaClassObject">
     <textarea
         ref="textarea"
-        class="c-Textarea__input"
+        class="c-Textarea__input rounded-lg py-2.5 px-4 text-sm font-medium text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
         :value="text"
         :name="name"
         :rows="rows"
@@ -33,7 +33,7 @@ export default {
     },
     rows: {
       type: [Number, String],
-      default: 4
+      default: 2
     },
     autofocus: Boolean,
     label: {
@@ -130,53 +130,13 @@ export default {
 
 .c-Textarea__input {
   overflow: auto;
-  min-width: 240px;
   width: 100%;
   height: 100%;
-  outline: none;
-  border: 1px solid black;
-  border-radius: 4px;
-  background-color: transparent;
-  font-size: 16px;
-  line-height: 24px;
-  color: black;
-  padding: 8px;
   cursor: pointer;
-  position: relative;
-  transition: border 150ms ease-in-out, box-shadow 150ms ease-in-out;
   z-index: 1;
+  position: relative;
 }
 
-.c-Textarea__label {
-  display: block;
-  font-size: 16px;
-  color: black;
-  cursor: pointer;
-  position: absolute;
-  top: 12px;
-  left: 9px;
-  z-index: 2;
-  transition: 150ms ease-in-out;
-  width: calc(100% - 16px);
-}
-
-.c-Textarea__input:focus {
-  box-shadow: inset 0 0 0 1px black;
-}
-
-.c-Textarea__input:focus + .c-Textarea__label {
-  top: 5px;
-  font-size: 12px;
-}
-
-.c-Textarea.has-value .c-Textarea__label {
-  top: 5px;
-  font-size: 12px;
-}
-
-.c-Textarea.has-label .c-Textarea__input {
-  padding: 20px 8px 6px 8px;
-}
 
 .c-Textarea__input:invalid {
   border-color: #e53935;
@@ -185,10 +145,6 @@ export default {
 
 .c-Textarea__input:invalid:focus {
   box-shadow: inset 0 0 0 1px #e53935;
-}
-
-.c-Textarea__input:invalid + .c-Textarea__label {
-  color: #e53935;
 }
 
 .c-Textarea__input:disabled {
@@ -232,14 +188,7 @@ export default {
   visibility: hidden;
   grid-area: 1 / 1 / 2 / 2;
   /* Properties that affect height need to match the textarea element */
-  border: 1px solid transparent;
-  font-size: 16px;
-  line-height: 24px;
-  padding: 8px;
-}
-
-.c-Textarea.has-autogrow.has-label::after {
-  padding: 20px 8px 6px 8px;
+  @apply py-2.5 px-4 text-sm font-medium;
 }
 
 .c-Textarea.has-autogrow .c-Textarea__input {
