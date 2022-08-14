@@ -10,5 +10,11 @@ export const useCommentsStore = defineStore('comments', {
         text:       '',
       }
     }
-  }
+  },
+  actions: {
+    async toggle(parentId) {
+      this.$reset()
+      this.form.parent_id = parentId
+    },
+  },
 })

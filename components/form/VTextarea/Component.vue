@@ -1,182 +1,251 @@
+
 <template>
-  <div class="v-textarea">
-    <client-only>
-      <textarea
-          :id="id"
-          :value="modelValue"
-          :rows="rows"
-          :autofocus="autofocus"
-          :placeholder="placeholder"
-          :disabled="disabled"
-          :maxlength="maxlength"
-          @input="$emit('update:modelValue', $event.target.value)"
-          @focus="$emit('focus')"
-          ref="textarea"
-          class="input"
-      >
-    </textarea>
-    </client-only>
+  <div class="c-Textarea" :class="textareaClassObject">
+    <textarea
+        ref="textarea"
+        class="c-Textarea__input"
+        :value="text"
+        :name="name"
+        :rows="rows"
+        :required="required"
+        :disabled="disabled"
+        :aria-label="label"
+        :placeholder="placeholder"
+        @input="text = $event.target.value"
+    />
+    <span
+        class="c-Textarea__label"
+        :title="label"
+        @mousedown.prevent="onLabelClick($event)"
+    >
+      {{ label }}
+    </span>
   </div>
 </template>
-
-<style lang="scss">
-.input {
-  @apply text-base font-semibold;
-  display: block;
-  width: 100%;
-  height: 36px;
-  background-color: #fff;
-  padding-right: 8px;
-  padding-left: 8px;
-  border: 1px solid #cfd8dc;
-  border-radius: 4px;;
-  line-height: normal;
-  box-shadow: inset 0 2px rgba(0,0,0,0.04);
-
-  &--sm {
-    height: 32px;
-  }
-
-  &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #bdbdbd;
-    opacity: 1; /* Firefox */
-  }
-
-  &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #bdbdbd;
-  }
-
-  &::-ms-input-placeholder { /* Microsoft Edge */
-    color: #bdbdbd;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #2196f3;
-  }
-}
-
-textarea.input {
-  display: block;
-  width: 100%;
-  resize: none;
-  overflow: hidden;
-  padding: 9px 8px;
-  line-height: 20px;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #fff inset;
-}
-
-</style>
-
 <script>
-// Utils
-// import regExpUrl from '~/utils/regexp-url';
-
 export default {
-  emits: ['update:modelValue', 'focus'],
+  name: 'VTextarea',
   props: {
-    id: String,
-    modelValue: String,
-    placeholder: String,
-    maxlength: String,
-
-    rows: {
-      type: [String, Number],
-      default: 1
+    modelValue: {
+      type: String,
+      required: false,
+      default: undefined,
     },
-
+    rows: {
+      type: [Number, String],
+      default: 4
+    },
+    autofocus: Boolean,
+    label: {
+      type: String,
+      required: false,
+      default: undefined,
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: undefined,
+    },
+    name: {
+      type: String,
+      required: false,
+      default: undefined,
+    },
+    autogrow: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    required: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     disabled: {
       type: Boolean,
+      required: false,
       default: false,
     },
-
-    autofocus: {
-      type: Boolean,
-      default: false,
+    resize: {
+      type: String,
+      required: false,
+      default: 'default',
+      validator(resize) {
+        return ['default', 'vertical', 'horizontal', 'none'].includes(resize)
+      },
     },
-
-    parseUrl: {
-      type: Boolean,
-      default: false,
-    }
   },
-
+  emits: ['update:modelValue'],
   data() {
     return {
-      parse: false
+      text: this.modelValue,
     }
   },
+  mounted() {
+    if (this.autofocus) {
+      this.$refs.textarea.focus();
+    }
+  },
+  computed: {
+    textareaClassObject() {
+      const hasText = this.text !== '' && this.text !== undefined
+      const hasPlaceholder =
+          this.placeholder !== '' && this.placeholder !== undefined
 
+      return {
+        'has-value': hasText || hasPlaceholder,
+        'has-label': this.label !== '' && this.label !== undefined,
+        'has-vertical-resize': this.resize === 'vertical' && !this.autogrow,
+        'has-horizontal-resize': this.resize === 'horizontal' && !this.autogrow,
+        'has-no-resize': this.resize === 'none',
+        'has-autogrow': this.autogrow,
+      }
+    },
+  },
   watch: {
-    value: {
-      handler() {
-        this.updateHeight();
-      },
-
-      immediate: true,
+    modelValue(newModelValue) {
+      this.text = newModelValue
     },
-
-    autofocus(newValue) {
-      if (newValue) {
-        this.$refs.textarea.focus();
-      } else {
-        this.$refs.textarea.blur();
+    text(newValue) {
+      if (this.autogrow) {
+        this.$el.dataset.replicatedText = newValue
       }
-    }
+
+      this.$emit('update:modelValue', newValue)
+    },
   },
-
   methods: {
-    updateHeight() {
-      this.$nextTick()
-          .then(() => {
-            const textarea = this.$refs.textarea;
-
-            if (textarea) {
-              textarea.style.height = 'auto';
-              textarea.style.height = textarea.scrollHeight + 'px';
-            }
-          });
+    onLabelClick() {
+      this.$refs.textarea.focus()
     },
-
-    /*onPaste: function (event) {
-      if (this.parse) return;
-
-      let text = event.clipboardData.getData('text');
-
-      if (this.parseUrl === true) {
-        const matches = text.match(regExpUrl);
-
-        if (matches) {
-          this.$emit('parse-url-progress', this.parse = true);
-
-          this.$refs.textarea.innerText = this.$refs.textarea.innerText.replace(regExpUrl, '');
-
-          this.$axios
-              .$post('/api/urls', {
-                url: matches[0]
-              })
-              .then(url => {
-                this.$emit('url', url);
-              })
-              .finally(() => {
-                this.$emit('parse-url-progress', this.parse = false);
-              });
-
-          event.preventDefault();
-        }
-      }
-    }*/
-  }
+  },
 }
 </script>
+<style scoped>
+.c-Textarea {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.c-Textarea__input {
+  overflow: auto;
+  min-width: 240px;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: transparent;
+  font-size: 16px;
+  line-height: 24px;
+  color: black;
+  padding: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: border 150ms ease-in-out, box-shadow 150ms ease-in-out;
+  z-index: 1;
+}
+
+.c-Textarea__label {
+  display: block;
+  font-size: 16px;
+  color: black;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  left: 9px;
+  z-index: 2;
+  transition: 150ms ease-in-out;
+  width: calc(100% - 16px);
+}
+
+.c-Textarea__input:focus {
+  box-shadow: inset 0 0 0 1px black;
+}
+
+.c-Textarea__input:focus + .c-Textarea__label {
+  top: 5px;
+  font-size: 12px;
+}
+
+.c-Textarea.has-value .c-Textarea__label {
+  top: 5px;
+  font-size: 12px;
+}
+
+.c-Textarea.has-label .c-Textarea__input {
+  padding: 20px 8px 6px 8px;
+}
+
+.c-Textarea__input:invalid {
+  border-color: #e53935;
+  color: #e53935;
+}
+
+.c-Textarea__input:invalid:focus {
+  box-shadow: inset 0 0 0 1px #e53935;
+}
+
+.c-Textarea__input:invalid + .c-Textarea__label {
+  color: #e53935;
+}
+
+.c-Textarea__input:disabled {
+  cursor: not-allowed;
+  border-color: #757575;
+  color: #757575;
+  background-color: #e0e0e0;
+}
+
+.c-Textarea__input:disabled + .c-Textarea__label {
+  cursor: not-allowed;
+  color: #757575;
+}
+
+.c-Textarea.has-vertical-resize .c-Textarea__input {
+  resize: vertical;
+}
+
+.c-Textarea.has-horizontal-resize .c-Textarea__input {
+  resize: horizontal;
+}
+
+.c-Textarea.has-no-resize .c-Textarea__input {
+  resize: none;
+}
+
+/**
+ * Autogrow - https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/
+ *
+ * We create an invisible pseudo element exactly in the same place as the textarea.
+ * The pseudo element has a mirror of the content and will grow according to it.
+ */
+
+.c-Textarea.has-autogrow {
+  display: grid;
+}
+
+.c-Textarea.has-autogrow::after {
+  content: attr(data-replicated-text) ' ';
+  white-space: pre-wrap;
+  visibility: hidden;
+  grid-area: 1 / 1 / 2 / 2;
+  /* Properties that affect height need to match the textarea element */
+  border: 1px solid transparent;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px;
+}
+
+.c-Textarea.has-autogrow.has-label::after {
+  padding: 20px 8px 6px 8px;
+}
+
+.c-Textarea.has-autogrow .c-Textarea__input {
+  resize: none;
+  /* Hide jumpy scrollbars in Firefox */
+  overflow: hidden;
+  grid-area: 1 / 1 / 2 / 2;
+}
+</style>

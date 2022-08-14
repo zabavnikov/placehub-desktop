@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useCommentFormStore = defineStore('comment-form', {
+export const useCommentReplyFormStore = defineStore('comment-form', {
   state: () => {
     return {
       model_type: '',
@@ -8,5 +8,10 @@ export const useCommentFormStore = defineStore('comment-form', {
       parent_id:  null,
       text:       '',
     }
-  }
+  },
+  actions: {
+    async toggleReplyForm() {
+
+    },
+  },
 })

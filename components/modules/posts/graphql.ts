@@ -102,11 +102,14 @@ export const POST_REPLY_FRAGMENT = `
     is_liked
   }
   user {
-    ${USER_FIELDS}
+    id
+    name
+    avatar
   }
   replies {
     id
     user_id
+    parent_id
     text
     replies_count(declination: ["ответ", "ответа", "ответов"])
     created_at(relative: true)
@@ -114,7 +117,25 @@ export const POST_REPLY_FRAGMENT = `
       is_liked
     }
     user {
-      ${USER_FIELDS}
+      id
+      name
+      avatar
+    }
+    replies {
+      id
+      user_id
+      parent_id
+      text
+      replies_count(declination: ["ответ", "ответа", "ответов"])
+      created_at(relative: true)
+      like {
+        is_liked
+      }
+      user {
+        id
+        name
+        avatar
+      }
     }
   }
 `;
