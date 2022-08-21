@@ -86,7 +86,6 @@ import VUpload from '~/components/form/VUpload';
 import VIcon from '~/components/common/VIcon';
 import VUrl from "~/components/modules/urls/components/VUrl";
 import { CREATE_POST, UPDATE_POST } from '../graphql';
-import { usePostsStore } from '~/stores/posts'
 
 const formInitialState = {
   place_id: null,
@@ -121,13 +120,11 @@ export default {
   setup(props, { $pinia }) {
     const form = ref(props.post)
     const loading = ref(false)
-    const postsStore = usePostsStore($pinia)
     const router = useRouter()
 
     return {
       form,
       loading,
-      parent: postsStore.replyParent,
       router
     }
   },

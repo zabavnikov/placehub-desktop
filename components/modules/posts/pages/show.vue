@@ -2,7 +2,7 @@
   <the-layout>
     <post :content="post" full />
     <hr>
-    <comment-list :comments="comments"></comment-list>
+    <comment-list :comments="comments"/>
   </the-layout>
 </template>
 

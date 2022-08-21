@@ -95,6 +95,8 @@ export const UPDATE_POST = `
 export const POST_REPLY_FRAGMENT = `
   id
   user_id
+  model_id
+  model_type
   text
   created_at(relative: true)
   replies_count(declination: ["ответ", "ответа", "ответов"])
@@ -110,6 +112,8 @@ export const POST_REPLY_FRAGMENT = `
     id
     user_id
     parent_id
+    model_id
+    model_type
     text
     replies_count(declination: ["ответ", "ответа", "ответов"])
     created_at(relative: true)
@@ -125,6 +129,8 @@ export const POST_REPLY_FRAGMENT = `
       id
       user_id
       parent_id
+      model_id
+      model_type
       text
       replies_count(declination: ["ответ", "ответа", "ответов"])
       created_at(relative: true)

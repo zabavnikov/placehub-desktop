@@ -16,7 +16,7 @@
       <footer class="flex text-red-700 text-sm flex space-x-4">
         <p @click="onReply">Ответить</p> / {{ comment.replies_count }}
       </footer>
-      <comment-form v-if="isReplyForm" @cancel="form.parent_id = null" />
+      <comment-form v-if="isReplyForm" @added="comment.replies.unshift($event)" @cancel="form.parent_id = null" />
     </section>
     <div v-if="comment.replies" class="ml-8 mt-4 space-y-4">
       <comment v-for="reply in comment.replies" :comment="reply" :key="reply.id" />
@@ -47,7 +47,7 @@ export default {
     const comments = useCommentsStore($pinia)
 
     const onReply = () => {
-      comments.toggle(comment.id)
+      comments.toggle(comment)
     }
 
     return {

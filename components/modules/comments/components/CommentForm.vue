@@ -20,16 +20,18 @@ import VButton from '~/components/library/VButton'
 export default {
   name: 'CommentForm',
 
+  emits: ['added'],
+
   components: {
     VTextarea,
     VButton
   },
 
-  setup(props, { $pinia }) {
+  setup(props, { $pinia, emit }) {
     const comments = useCommentsStore($pinia)
     const loading = ref(false)
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
       if (loading.value) {
         return
       }
@@ -37,7 +39,7 @@ export default {
       loading.value = true
 
       try {
-        useFetch('http://localhost/api/comments', {
+        const { data } = await useFetch('http://localhost/api/comments', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -45,6 +47,9 @@ export default {
           },
           body: comments.form
         })
+
+        await emit('added', data.value)
+        comments.$reset();
       } catch (error) {
         console.log(error)
       } finally {
