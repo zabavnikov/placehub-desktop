@@ -14,6 +14,7 @@ import Post from '../components/Post'
 import PostForm from '~/components/modules/posts/components/PostForm'
 import { useCommentsStore } from '~/components/modules/comments/stores/comments'
 import CommentList from '~/components/modules/comments/components/CommentList';
+import { COMMENT } from '../../comments/graphql';
 
 export default {
   components: {
@@ -36,7 +37,7 @@ export default {
           ${POST_FRAGMENT}
         }
         comments(model_type: $modelType, model_id: $id) {
-          ${POST_REPLY_FRAGMENT}
+          ${COMMENT}
         }
       }
     `, {
