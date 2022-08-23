@@ -11,6 +11,7 @@ export const COMMENT = `
   }
   parent {
     user_id
+    text
     user {
       name
     }
@@ -31,6 +32,7 @@ export const COMMENT = `
     created_at(relative: true)
     parent {
       user_id
+    text
       user {
         name
       }
@@ -54,6 +56,7 @@ export const COMMENT = `
       created_at(relative: true)
       parent {
         user_id
+        text
         user {
           name
         }

@@ -5,15 +5,20 @@
         <img :src="comment.user.avatar" :alt="comment.user.name" class="w-8 h-8 bg-gray-300/50 rounded-full block">
       </nuxt-link>
       <div>
-        <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}">
-          {{ comment.user.name }}
-        </nuxt-link>
+        <div>
+          <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}" class="underline">
+            {{ comment.user.name }}
+          </nuxt-link>
+          <span v-if="comment.parent" :title="comment.parent.text" class="text-gray-800">
+            ответ
+            <span class="text-indigo-500">{{ comment.parent.user.name }}</span>
+          </span>
+        </div>
         <div class="text-xs text-gray-500">{{ comment.created_at }}</div>
       </div>
     </header>
     <section class="mt-2">
       <p class="leading-relaxed font-semibold text-gray-900">
-        <span v-if="comment.parent" class="text-indigo-500">@{{ comment.parent.user.name }}, </span>
         {{ comment.text }}
       </p>
       <footer class="flex text-red-700 text-sm flex space-x-4">
@@ -55,6 +60,7 @@ export default {
 
   setup({ comment, depth }, { $pinia }) {
     const comments = useCommentsStore($pinia)
+    const loading = ref(false)
 
     if (! comment.hasOwnProperty('replies')) {
       comment.replies = reactive([]);
@@ -65,19 +71,31 @@ export default {
     }
 
     const onMore = async () => {
-      const { data } = await useGQL(`
+      if (loading.value) {
+        return
+      }
+
+      loading.value = true
+
+      try {
+        const { data } = await useGQL(`
         query ($model_type: String, $parent_id: Int, $offset: Int) {
           replies: comments(model_type: $model_type, parent_id: $parent_id, offset: $offset) {
             ${COMMENT}
           }
         }
       `, {
-        model_type: comment.model_type,
-        parent_id:  comment.id,
-        offset:     comment.replies.length
-      })
+          model_type: comment.model_type,
+          parent_id:  comment.id,
+          offset:     comment.replies.length
+        })
 
-      data.replies.forEach(reply => comment.replies.unshift(reply))
+        data.replies.forEach(reply => comment.replies.unshift(reply))
+      } catch (error) {
+        console.log(error)
+      } finally {
+        loading.value = false
+      }
     }
 
     return {
