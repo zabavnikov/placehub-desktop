@@ -3,6 +3,7 @@ export const COMMENT = `
   user_id
   model_id
   model_type
+  branch_id
   text
   created_at(relative: true)
   replies_count(declination: ["ответ", "ответа", "ответов"])
@@ -24,6 +25,7 @@ export const COMMENT = `
   replies {
     id
     user_id
+    branch_id
     parent_id
     model_id
     model_type
@@ -44,31 +46,6 @@ export const COMMENT = `
       id
       name
       avatar
-    }
-    replies {
-      id
-      user_id
-      parent_id
-      model_id
-      model_type
-      text
-      replies_count(declination: ["ответ", "ответа", "ответов"])
-      created_at(relative: true)
-      parent {
-        user_id
-        text
-        user {
-          name
-        }
-      }
-      like {
-        is_liked
-      }
-      user {
-        id
-        name
-        avatar
-      }
     }
   }
 `;

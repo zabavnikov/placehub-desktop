@@ -23,12 +23,13 @@
       </p>
       <footer class="flex text-red-700 text-sm flex space-x-4">
         <p @click="onReply">Ответить</p>
-        <div @click="onMore" class="cursor-pointer">{{ comment.replies_count }}</div>
+        <div class="cursor-pointer">{{ comment.replies_count }}</div>
       </footer>
       <comment-form v-if="isReplyForm" @added="comment.replies.unshift($event)" @cancel="form.parent_id = null" />
     </section>
-    <div v-if="comment.replies" class="mt-4 space-y-4" :class="{'ml-8': depth <= 2}">
+    <div v-if="comment.replies" class="mt-4 space-y-4" :class="{'ml-8': depth === 0}">
       <comment v-for="reply in comment.replies" :depth="depth + 1" :comment="reply" :key="reply.id" />
+      <div v-if="depth === 0" @click="onMore" class="p-2 bg-indigo-500/50 rounded-lg text-center cursor-pointer">Показать еще</div>
     </div>
   </article>
 </template>
@@ -79,18 +80,18 @@ export default {
 
       try {
         const { data } = await useGQL(`
-        query ($model_type: String, $parent_id: Int, $offset: Int) {
-          replies: comments(model_type: $model_type, parent_id: $parent_id, offset: $offset) {
+        query ($model_type: String, $branch_id: Int, $offset: Int) {
+          replies: comments(model_type: $model_type, branch_id: $branch_id, offset: $offset) {
             ${COMMENT}
           }
         }
       `, {
           model_type: comment.model_type,
-          parent_id:  comment.id,
+          branch_id:  comment.id,
           offset:     comment.replies.length
         })
 
-        data.replies.forEach(reply => comment.replies.unshift(reply))
+        data.replies.forEach(reply => comment.replies.push(reply))
       } catch (error) {
         console.log(error)
       } finally {
