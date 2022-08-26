@@ -1,13 +1,27 @@
 <template>
   <section class="space-y-4 p-4">
     <comment-form @added="comments.unshift($event)" />
-    <comment v-for="comment in comments" :key="comment.id" :comment="comment" />
+    <div v-for="comment in comments" :key="comment.id">
+      <comment :comment="comment" />
+
+      <div v-if="comment.replies" class="mt-4 space-y-4 ml-8">
+        <div v-for="reply in comment.replies" :key="reply.id">
+          <comment :comment="reply" @reply="onReply(reply)" />
+          <comment-form v-if="commentsForm.form.parent_id === reply.id" @added="onPushReply(comment, $event)" />
+        </div>
+        <div v-if="comment.replies.length < comment.branch_replies_count" @click="onMore(comment)" class="p-2 bg-indigo-500/50 rounded-lg text-center cursor-pointer">Показать еще</div>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
 import Comment from './Comment'
 import CommentForm from './CommentForm'
+import {useCommentsStore} from '../stores/comments';
+import {computed, ref, reactive } from 'vue';
+import {COMMENT} from '../graphql';
+import { useGQL } from '~/uses'
 
 export default {
   props: {
@@ -20,5 +34,64 @@ export default {
     Comment,
     CommentForm,
   },
+  setup(_, { $pinia }) {
+    const commentsForm = useCommentsStore($pinia)
+    const loading = ref(false)
+
+    const onReply = (comment) => {
+      commentsForm.toggle(comment)
+    }
+
+    const onPushReply = (comment, reply) => {
+      if (! comment.hasOwnProperty('replies')) {
+        comment.replies = reactive([])
+      }
+      comment.replies.push(reply)
+    }
+
+    const onMore = async (comment) => {
+      if (loading.value) {
+        return
+      }
+
+      loading.value = true
+
+      try {
+        const { data } = await useGQL(`
+        query ($model_type: String, $branch_id: Int, $offset: Int) {
+          replies: comments(model_type: $model_type, branch_id: $branch_id, offset: $offset) {
+            ${COMMENT}
+          }
+        }
+      `, {
+          model_type: comment.model_type,
+          branch_id:  comment.id,
+          offset:     comment.replies.length
+        })
+
+        data.replies.forEach((newComment) => {
+          comment.replies.forEach((oldComment, index) => {
+            if (parseInt(oldComment.id) === parseInt(newComment.id)) {
+              comment.replies.splice(index, 1)
+            }
+          })
+
+          comment.replies.push(newComment)
+        })
+        
+      } catch (error) {
+        console.log(error)
+      } finally {
+        loading.value = false
+      }
+    }
+
+    return {
+      commentsForm,
+      onReply,
+      onMore,
+      onPushReply
+    }
+  }
 }
 </script>

@@ -5,8 +5,8 @@ export const COMMENT = `
   model_type
   branch_id
   text
-  created_at(relative: true)
-  replies_count(declination: ["ответ", "ответа", "ответов"])
+  created_at
+  branch_replies_count
   like {
     is_liked
   }
@@ -30,8 +30,7 @@ export const COMMENT = `
     model_id
     model_type
     text
-    replies_count(declination: ["ответ", "ответа", "ответов"])
-    created_at(relative: true)
+    created_at
     parent {
       user_id
     text
