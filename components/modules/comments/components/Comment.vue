@@ -6,7 +6,7 @@
       </nuxt-link>
       <div>
         <div class="flex items-center space-x-1">
-          <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}" class="underline">
+          <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}" class="font-semibold">
             {{ comment.user.name }}
           </nuxt-link>
           <span v-if="comment.parent" class="flex items-center space-x-1 text-gray-800">
@@ -18,13 +18,13 @@
             </comment-reply-popover>
           </span>
         </div>
-        <div class="text-xs text-gray-500">{{ comment.created_at }}</div>
+        <div class="text-xs font-semibold text-gray-500">{{ comment.created_at }}</div>
       </div>
     </header>
-    <p class="leading-relaxed font-semibold text-gray-900 mt-2">
+    <p class="leading-relaxed font-semibold text-gray-900 mt-2 overflow-hidden">
       {{ comment.text }}
     </p>
-    <footer class="flex text-red-700 text-sm flex space-x-4 mt-2">
+    <footer class="flex space-x-4 mt-2">
       <slot name="footer"></slot>
     </footer>
   </article>

@@ -1,40 +1,47 @@
 <template>
-  <section class="space-y-4 p-4">
+  <section>
     <comment-form @added="comments.unshift($event)" />
 
-    <div v-for="(comment, index) in comments" :key="comment.id">
-      <comment :comment="comment">
-        <template #footer>
-          <p @click="onReply(comment)">Ответить</p>
-          <div v-if="comment.branch_replies_count" @click="toggleReplies[index] = !toggleReplies[index]">
-            В ветке {{ comment.branch_replies_count }} ответов
-          </div>
-        </template>
-      </comment>
-      <comment-form
-          v-if="commentsForm.form.parent_id === comment.id"
-          @added="onPushReply(comment, $event)"
-      />
+    <div class="divide-y">
+      <div v-for="(comment, index) in comments" :key="comment.id">
+        <comment :comment="comment" class="m-4">
+          <template #footer>
+            <p @click="onReply(comment)" class="cursor-pointer">ответить</p>
+            <div v-if="comment.branch_replies_count > 2" @click="toggleReplies[index] = !toggleReplies[index]" class="cursor-pointer">
+              в ветке {{ comment.branch_replies_count }} ответов
+            </div>
+          </template>
+        </comment>
+        <comment-form
+            class="m-4"
+            v-if="commentsForm.form.parent_id === comment.id"
+            @added="onPushReply(comment, $event)"
+        />
 
-      <!-- Replies -->
-      <div v-if="comment.replies"
-           v-show="comment.branch_replies_count <= 3 || toggleReplies[index]"
-           class="mt-4 space-y-4 ml-8"
-      >
-        <div v-for="reply in comment.replies" :key="reply.id">
-          <comment :comment="reply">
-            <template #footer>
-              <p @click="onReply(reply)">Ответить</p>
-            </template>
-          </comment>
-          <comment-form v-if="commentsForm.form.parent_id === reply.id" @added="onPushReply(comment, $event)" />
-        </div>
-        <div
-            v-if="comment.replies.length < comment.branch_replies_count"
-            @click="onMore(comment)"
-            class="p-2 bg-indigo-500/50 rounded-lg text-center cursor-pointer"
+        <!-- Replies -->
+        <div v-if="comment.replies"
+             v-show="!toggleReplies[index]"
+             class="ml-8 divide-y"
         >
-          Показать еще
+          <div v-for="reply in comment.replies" :key="reply.id">
+            <comment :comment="reply" class="m-4">
+              <template #footer>
+                <p @click="onReply(reply)">ответить</p>
+              </template>
+            </comment>
+            <comment-form
+                v-if="commentsForm.form.parent_id === reply.id"
+                class="m-4"
+                @added="onPushReply(comment, $event)"
+            />
+          </div>
+          <div
+              v-if="comment.replies && comment.replies.length < comment.branch_replies_count"
+              @click="onMore(comment)"
+              class="p-2 mx-4 mb-4 bg-gray-300/50 font-semibold text-xs rounded-lg text-center cursor-pointer"
+          >
+            Показать еще {{ comment.branch_replies_count - comment.replies.length }}
+          </div>
         </div>
       </div>
     </div>
@@ -72,7 +79,7 @@ export default {
 
     const onPushReply = (comment, reply) => {
       if (! comment.hasOwnProperty('replies')) {
-        comment.replies = reactive([])
+        comment.replies = []
       }
       comment.replies.push(reply)
     }
