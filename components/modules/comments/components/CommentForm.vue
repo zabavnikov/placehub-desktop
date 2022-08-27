@@ -4,7 +4,7 @@
       <v-textarea :autofocus="form.parent_id > 0" rows="1" :placeholder="form.parent_id > 0 ? 'Текст ответа' : 'Текст комментария'" v-model="form.text" />
     </div>
     <div class="flex items-center justify-end mt-2 space-x-2">
-      <v-button variant="secondary" @click="form.parent_id = null">Отмена</v-button>
+      <v-button variant="secondary" @click="$emit('cancel')">Отмена</v-button>
       <v-button type="submit" :loading="loading">Отправить</v-button>
     </div>
   </form>
@@ -12,7 +12,6 @@
 
 <script>
 import { useFetch, useNuxtApp } from 'nuxt/app'
-import { useCommentsStore } from '../stores/comments'
 import { ref } from 'vue'
 import VTextarea from '~/components/library/VTextarea'
 import VButton from '~/components/library/VButton'
@@ -20,16 +19,38 @@ import VButton from '~/components/library/VButton'
 export default {
   name: 'CommentForm',
 
-  emits: ['added'],
+  emits: ['added', 'cancel'],
+
+  props: {
+    modelType: {
+      type: String,
+      required: true,
+    },
+    modelId: {
+      type: Number,
+      required: true,
+    },
+    parentId: {
+      type: Number,
+    },
+  },
 
   components: {
     VTextarea,
     VButton
   },
 
-  setup(props, { $pinia, emit }) {
-    const comments = useCommentsStore($pinia)
+  setup({ modelType, modelId, parentId }, { emit }) {
     const loading = ref(false)
+
+    const formInitialState = {
+      model_type: modelType,
+      model_id:   modelId,
+      parent_id:  parentId,
+      text:       '',
+    }
+
+    const form = ref({...formInitialState})
 
     const onSubmit = async () => {
       if (loading.value) {
@@ -38,18 +59,22 @@ export default {
 
       loading.value = true
 
+
       try {
-        const { data } = await useFetch('http://localhost/api/comments', {
+        const { data, error } = await useFetch('http://localhost/api/comments', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             Authorization: useNuxtApp().$auth.strategy.token.get()
           },
-          body: comments.form
+          body: form.value,
+          initialCache: false,
         })
 
-        await emit('added', data.value)
-        comments.$reset();
+       if (! error.value) {
+         await emit('added', data.value)
+         Object.assign(form.value, formInitialState);
+       }
       } catch (error) {
         console.log(error)
       } finally {
@@ -58,7 +83,7 @@ export default {
     }
 
     return {
-      form: comments.form,
+      form,
       loading,
       onSubmit,
     }

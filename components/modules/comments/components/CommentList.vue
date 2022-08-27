@@ -1,6 +1,10 @@
 <template>
   <section>
-    <comment-form @added="comments.unshift($event)" />
+    <comment-form
+        :model-type="modelType"
+        :model-id="modelId"
+        @cancel="active = null"
+        @added="comments.unshift($event)" />
 
     <div class="divide-y">
       <div v-for="(comment, index) in comments" :key="comment.id">
@@ -14,29 +18,35 @@
         </comment>
         <comment-form
             class="m-4"
-            v-if="commentsForm.form.parent_id === comment.id"
+            v-if="active === comment.id"
+            :model-type="modelType"
+            :model-id="modelId"
+            :parent-id="comment.id"
+            @cancel="active = null"
             @added="onPushReply(comment, $event)"
         />
 
         <!-- Replies -->
-        <div v-if="comment.replies"
-             v-show="!toggleReplies[index]"
-             class="ml-8 divide-y"
-        >
+        <div v-if="comment.replies" v-show="!toggleReplies[index]" class="ml-8 divide-y">
           <div v-for="reply in comment.replies" :key="reply.id">
             <comment :comment="reply" class="m-4">
               <template #footer>
                 <p @click="onReply(reply)">ответить</p>
               </template>
             </comment>
+
             <comment-form
-                v-if="commentsForm.form.parent_id === reply.id"
+                v-if="active === reply.id"
+                :model-type="modelType"
+                :model-id="modelId"
+                :parent-id="reply.id"
                 class="m-4"
+                @cancel="active = null"
                 @added="onPushReply(comment, $event)"
             />
           </div>
           <div
-              v-if="comment.replies && comment.replies.length < comment.branch_replies_count"
+              v-if="comment.branch_replies_count"
               @click="onMore(comment)"
               class="p-2 mx-4 mb-4 bg-gray-300/50 font-semibold text-xs rounded-lg text-center cursor-pointer"
           >
@@ -51,9 +61,8 @@
 <script>
 import Comment from './Comment'
 import CommentForm from './CommentForm'
-import {useCommentsStore} from '../stores/comments';
-import {computed, ref, reactive } from 'vue';
-import {COMMENT} from '../graphql';
+import { ref } from 'vue';
+import { COMMENT } from '../graphql';
 import { useGQL } from '~/uses'
 
 export default {
@@ -61,20 +70,28 @@ export default {
     comments: {
       type: Array,
       default: () => [],
+    },
+    modelType: {
+      type: String,
+      required: true,
+    },
+    modelId: {
+      type: Number,
+      required: true,
     }
   },
+
   components: {
     Comment,
     CommentForm,
   },
-  setup(_, { $pinia }) {
-    const commentsForm = useCommentsStore($pinia)
+  setup() {
     const loading = ref(false)
     const toggleReplies = ref([]);
+    const active = ref(null)
 
     const onReply = (comment) => {
-      console.log(toggleReplies)
-      commentsForm.toggle(comment)
+      active.value = comment.id
     }
 
     const onPushReply = (comment, reply) => {
@@ -122,11 +139,11 @@ export default {
     }
 
     return {
-      commentsForm,
       onReply,
       onMore,
       onPushReply,
-      toggleReplies
+      toggleReplies,
+      active
     }
   }
 }
