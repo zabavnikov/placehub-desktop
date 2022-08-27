@@ -12,9 +12,11 @@ export const COMMENT = `
   }
   parent {
     user_id
+    created_at(relative: true)
     text
     user {
       name
+      avatar
     }
   }
   user {
@@ -33,9 +35,11 @@ export const COMMENT = `
     created_at
     parent {
       user_id
-    text
+      created_at(relative: true)
+      text
       user {
         name
+        avatar
       }
     }
     like {

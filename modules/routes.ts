@@ -18,7 +18,8 @@ export default defineNuxtModule({
         pages.push({
           name: route.name,
           path: route.path,
-          file: resolve(__dirname, `../components/modules/${route.name.split('.')[0]}/pages/${route.file}.vue`)
+          file: resolve(__dirname, `../components/modules/${route.name.split('.')[0]}/pages/${route.file}.vue`),
+          key: (Math.random() + 1).toString(36).substring(7),
         })
       })
     })

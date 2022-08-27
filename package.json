@@ -14,6 +14,7 @@
     "sass": "^1.54.0"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.6.7",
     "@nuxtjs-alt/auth": "^1.2.5",
     "@nuxtjs-alt/axios": "^1.0.15",
     "@pinia/nuxt": "^0.3.0",

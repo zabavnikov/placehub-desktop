@@ -1,15 +1,41 @@
 <template>
   <section class="space-y-4 p-4">
     <comment-form @added="comments.unshift($event)" />
-    <div v-for="comment in comments" :key="comment.id">
-      <comment :comment="comment" />
 
-      <div v-if="comment.replies" class="mt-4 space-y-4 ml-8">
+    <div v-for="(comment, index) in comments" :key="comment.id">
+      <comment :comment="comment">
+        <template #footer>
+          <p @click="onReply(comment)">Ответить</p>
+          <div v-if="comment.branch_replies_count" @click="toggleReplies[index] = !toggleReplies[index]">
+            В ветке {{ comment.branch_replies_count }} ответов
+          </div>
+        </template>
+      </comment>
+      <comment-form
+          v-if="commentsForm.form.parent_id === comment.id"
+          @added="onPushReply(comment, $event)"
+      />
+
+      <!-- Replies -->
+      <div v-if="comment.replies"
+           v-show="comment.branch_replies_count <= 3 || toggleReplies[index]"
+           class="mt-4 space-y-4 ml-8"
+      >
         <div v-for="reply in comment.replies" :key="reply.id">
-          <comment :comment="reply" @reply="onReply(reply)" />
+          <comment :comment="reply">
+            <template #footer>
+              <p @click="onReply(reply)">Ответить</p>
+            </template>
+          </comment>
           <comment-form v-if="commentsForm.form.parent_id === reply.id" @added="onPushReply(comment, $event)" />
         </div>
-        <div v-if="comment.replies.length < comment.branch_replies_count" @click="onMore(comment)" class="p-2 bg-indigo-500/50 rounded-lg text-center cursor-pointer">Показать еще</div>
+        <div
+            v-if="comment.replies.length < comment.branch_replies_count"
+            @click="onMore(comment)"
+            class="p-2 bg-indigo-500/50 rounded-lg text-center cursor-pointer"
+        >
+          Показать еще
+        </div>
       </div>
     </div>
   </section>
@@ -37,8 +63,10 @@ export default {
   setup(_, { $pinia }) {
     const commentsForm = useCommentsStore($pinia)
     const loading = ref(false)
+    const toggleReplies = ref([]);
 
     const onReply = (comment) => {
+      console.log(toggleReplies)
       commentsForm.toggle(comment)
     }
 
@@ -78,7 +106,7 @@ export default {
 
           comment.replies.push(newComment)
         })
-        
+
       } catch (error) {
         console.log(error)
       } finally {
@@ -90,7 +118,8 @@ export default {
       commentsForm,
       onReply,
       onMore,
-      onPushReply
+      onPushReply,
+      toggleReplies
     }
   }
 }
