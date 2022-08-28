@@ -4,6 +4,7 @@ export const COMMENT = `
   model_id
   model_type
   branch_id
+  parent_id
   text
   created_at(relative: true)
   branch_replies_count
@@ -59,6 +60,7 @@ export const REPLY = `
   model_id
   model_type
   branch_id
+  parent_id
   text
   created_at(relative: true)
   like {

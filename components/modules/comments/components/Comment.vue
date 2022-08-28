@@ -21,14 +21,14 @@
         <div class="text-xs font-semibold text-gray-500">{{ comment.created_at }}</div>
       </div>
     </header>
-    <p class="leading-relaxed font-semibold text-gray-900 mt-2 overflow-hidden">
+    <p class="leading-relaxed font-semibold text-gray-900 mt-2 overflow-hidden" @click="onEdit">
       {{ comment.text }}
     </p>
     <footer class="flex space-x-4 mt-2">
       <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="cursor-pointer">
         в ветке {{ comment.branch_replies_count }} ответов
       </div>
-      <p @click="store.showForm(comment.id)" class="cursor-pointer">ответить</p>
+      <p @click="store.replyTo(comment)" class="cursor-pointer">ответить</p>
       <v-like
         :model-type="`${comment.model_type}_comments`"
         :model-id="comment.id"
@@ -36,7 +36,12 @@
       />
     </footer>
 
-    <CommentForm v-if="store?.form.parent_id === comment.id" class="m-4" />
+    <CommentForm
+      v-if="store.form.reply[store.isReply ? 'id' : 'parent_id'] === comment[store.isEdit ? 'parent_id' : 'id']"
+      @created="onCreated"
+      @updated="onUpdated"
+      class="m-4"
+    />
   </article>
 </template>
 
@@ -64,11 +69,27 @@ export default {
     }
   },
 
-  setup(_, { $pinia }) {
+  setup({ comment }, { $pinia }) {
     const store = useCommentsStore($pinia)
 
+    const onEdit = () => {
+      store.edit(comment)
+    }
+
+    const onCreated = async (newComment) => {
+      await store.addComment(newComment)
+    }
+
+    const onUpdated = (newComment) => {
+      Object.assign(comment, newComment)
+      store.hideForm()
+    }
+
     return {
-      store
+      store,
+      onEdit,
+      onCreated,
+      onUpdated,
     }
   }
 }

@@ -20,22 +20,19 @@ import { useCommentsStore } from '../stores/comments'
 export default {
   name: 'CommentForm',
 
+  emits: ['created', 'updated'],
+
   components: {
     VTextarea,
     VButton
   },
 
-  setup({ modelType, modelId, parentId }, { $pinia }) {
+  setup({ modelType, modelId, parentId }, { $pinia, emit }) {
     const loading = ref(false)
 
     const store = useCommentsStore($pinia)
 
-    const formInitialState = {
-      ...store.form,
-      text: '',
-    }
-
-    const form = ref({...formInitialState})
+    const form = store.form.reply
 
     const onSubmit = async () => {
       if (loading.value) {
@@ -45,19 +42,22 @@ export default {
       loading.value = true
 
       try {
-        const { data, error } = await useFetch('http://localhost/api/comments', {
-          method: 'POST',
+        const { data, error } = await useFetch(`http://localhost/api/comments/${store.isEdit ? form.id : ''}`, {
+          method: store.isEdit ? 'PUT' : 'POST',
           headers: {
             Accept: 'application/json',
             Authorization: useNuxtApp().$auth.strategy.token.get()
           },
-          body: form.value,
+          body: form,
           initialCache: false,
         })
 
        if (! error.value) {
-         await store.addComment(data.value, data.value.branch_id)
-         Object.assign(form.value, formInitialState)
+         if (store.isEdit) {
+           emit('updated', form)
+         } else {
+           emit('created', data.value)
+         }
        }
       } catch (error) {
         console.log(error)

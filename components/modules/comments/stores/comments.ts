@@ -1,23 +1,41 @@
 import { defineStore } from 'pinia'
+import pick from 'lodash.pick'
+
+const form = {
+  id:         null,
+  model_type: '',
+  model_id:   null,
+  parent_id:  null,
+  text:       '',
+}
 
 export const useCommentsStore = defineStore('comments', {
   state: () => {
     return {
+      model_type: '',
+      model_id:   null,
       list: [],
-      // Общие поля для формы.
-      // Редактируемые поля - объявляются для каждой формы локально.
       form: {
-        model_type: '',
-        model_id:   null,
-        parent_id:  null,
-      }
+        comment:  {...form},
+        reply:    {...form},
+      },
+      mode: null
     }
   },
   actions: {
-    async addComment(comment: object, branchId: number = 0) {
-      if (branchId > 0) {
+    edit(comment: object) {
+      const type = comment.parent_id > 0
+          ? 'reply'
+          : 'comment';
+
+      Object.assign(this.form[type], pick(comment, Object.keys(this.form[type])))
+
+      this.mode = 'edit'
+    },
+    async addComment(comment: object) {
+      if (comment.branch_id > 0) {
         for (let branch of this.list) {
-          if (parseInt(branch.id) === branchId) {
+          if (parseInt(branch.id) === comment.branch_id) {
             branch.replies.push(comment)
             branch.branch_replies_count++
             break
@@ -33,10 +51,18 @@ export const useCommentsStore = defineStore('comments', {
       this.hideForm()
     },
     hideForm() {
-      this.form.parent_id = null;
+      this.form.reply = {...form}
     },
-    showForm(parentId: number) {
-      this.form.parent_id = parentId
+    replyTo(comment: object) {
+      this.form.reply.model_type  = this.model_type
+      this.form.reply.model_id    = this.model_id
+      this.form.reply.parent_id   = comment.id
+
+      this.mode = 'reply'
     }
+  },
+  getters: {
+    isEdit:   (state) => state.mode === 'edit',
+    isReply:  (state) => state.mode === 'reply',
   },
 })

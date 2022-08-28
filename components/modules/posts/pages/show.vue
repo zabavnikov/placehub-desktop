@@ -41,9 +41,9 @@ export default {
     })
 
     commentsStore.$patch(state => {
-      state.form.model_type = 'posts'
-      state.form.model_id = parseInt(route.params.postId)
-      state.list = data.value.comments
+      state.model_type  = 'posts'
+      state.model_id    = parseInt(route.params.postId)
+      state.list        = data.value.comments
     })
 
     return {
