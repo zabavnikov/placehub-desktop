@@ -1,35 +1,42 @@
 import { defineStore } from 'pinia'
 
-const editableFields = {
-  parent_id: null,
-  text:      '',
-}
-
 export const useCommentsStore = defineStore('comments', {
   state: () => {
     return {
+      list: [],
+      // Общие поля для формы.
+      // Редактируемые поля - объявляются для каждой формы локально.
       form: {
         model_type: '',
         model_id:   null,
-        ...editableFields,
+        parent_id:  null,
       }
     }
   },
   actions: {
-    async reset() {
-      Object.assign(this.form, editableFields);
-    },
+    async addComment(comment: object, branchId: number = 0) {
+      if (branchId > 0) {
+        for (let branch of this.list) {
+          if (parseInt(branch.id) === branchId) {
+            branch.replies.push(comment)
+            branch.branch_replies_count++
+            break
+          }
+        }
+      } else {
+        if (! comment.hasOwnProperty('replies')) {
+          comment.replies = []
+        }
+        this.list.unshift(comment)
+      }
 
-    /**
-     * @param id
-     * @param model_type
-     * @param model_id
-     */
-    async toggle({ id, model_type, model_id }) {
-      this.$reset()
-      this.form.parent_id   = id;
-      this.form.model_type  = model_type
-      this.form.model_id    = model_id
+      this.hideForm()
     },
+    hideForm() {
+      this.form.parent_id = null;
+    },
+    showForm(parentId: number) {
+      this.form.parent_id = parentId
+    }
   },
 })

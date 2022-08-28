@@ -16,7 +16,7 @@
       <div class="flex items-center ml-auto">
 
         <div v-if="$auth.loggedIn" class="flex items-center">
-          <nuxt-link to="/feedback" class="font-bold">Сообщить об ошибке</nuxt-link>
+<!--          <nuxt-link to="/feedback" class="font-bold">Сообщить об ошибке</nuxt-link>-->
 
 <!--          <v-dropdown>
             <div slot="trigger" class="header-iconable">

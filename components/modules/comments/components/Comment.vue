@@ -25,30 +25,51 @@
       {{ comment.text }}
     </p>
     <footer class="flex space-x-4 mt-2">
-      <slot name="footer"></slot>
+      <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="cursor-pointer">
+        в ветке {{ comment.branch_replies_count }} ответов
+      </div>
+      <p @click="store.showForm(comment.id)" class="cursor-pointer">ответить</p>
       <v-like
         :model-type="`${comment.model_type}_comments`"
         :model-id="comment.id"
         :is-liked="comment.like.is_liked"
       />
     </footer>
+
+    <CommentForm v-if="store?.form.parent_id === comment.id" class="m-4" />
   </article>
 </template>
 
-<script setup>
-import CommentReplyPopover from './CommentReplyPopover'
-import VLike from '~/components/library/VLike';
-</script>
-
 <script>
+import CommentReplyPopover from './CommentReplyPopover'
+import CommentForm from './CommentForm'
+import VLike from '~/components/library/VLike'
+import { useCommentsStore } from '../stores/comments'
+
 export default {
   name: 'Comment',
+
+  emits: ['toggle-replies'],
+
+  components: {
+    CommentReplyPopover,
+    CommentForm,
+    VLike
+  },
 
   props: {
     comment: {
       type:     Object,
       required: true,
-    },
+    }
   },
+
+  setup(_, { $pinia }) {
+    const store = useCommentsStore($pinia)
+
+    return {
+      store
+    }
+  }
 }
 </script>
