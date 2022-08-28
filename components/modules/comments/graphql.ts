@@ -5,7 +5,7 @@ export const COMMENT = `
   model_type
   branch_id
   text
-  created_at
+  created_at(relative: true)
   branch_replies_count
   like {
     is_liked
@@ -32,7 +32,7 @@ export const COMMENT = `
     model_id
     model_type
     text
-    created_at
+    created_at(relative: true)
     parent {
       user_id
       created_at(relative: true)
@@ -50,5 +50,32 @@ export const COMMENT = `
       name
       avatar
     }
+  }
+`;
+
+export const REPLY = `
+  id
+  user_id
+  model_id
+  model_type
+  branch_id
+  text
+  created_at(relative: true)
+  like {
+    is_liked
+  }
+  parent {
+    user_id
+    created_at(relative: true)
+    text
+    user {
+      name
+      avatar
+    }
+  }
+  user {
+    id
+    name
+    avatar
   }
 `;

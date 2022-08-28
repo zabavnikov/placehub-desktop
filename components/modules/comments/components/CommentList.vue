@@ -11,7 +11,7 @@
         <comment :comment="comment" class="m-4">
           <template #footer>
             <p @click="onReply(comment)" class="cursor-pointer">ответить</p>
-            <div v-if="comment.branch_replies_count > 2" @click="toggleReplies[index] = !toggleReplies[index]" class="cursor-pointer">
+            <div v-if="comment.branch_replies_count > 0" @click="toggleReplies[index] = !toggleReplies[index]" class="cursor-pointer">
               в ветке {{ comment.branch_replies_count }} ответов
             </div>
           </template>
@@ -45,24 +45,23 @@
                 @added="onPushReply(comment, $event)"
             />
           </div>
-          <div
-              v-if="comment.branch_replies_count"
-              @click="onMore(comment)"
-              class="p-2 mx-4 mb-4 bg-gray-300/50 font-semibold text-xs rounded-lg text-center cursor-pointer"
-          >
-            Показать еще {{ comment.branch_replies_count - comment.replies.length }}
-          </div>
+        </div>
+        <div
+            v-if="comment.branch_replies_count > comment.replies.length"
+            @click="onMore(comment)"
+            class="p-2 mx-4 mb-4 bg-gray-300/50 font-semibold text-xs rounded-lg text-center cursor-pointer"
+        >
+          Показать еще {{ comment.branch_replies_count - comment.replies.length }}
         </div>
       </div>
     </div>
   </section>
 </template>
-
 <script>
 import Comment from './Comment'
 import CommentForm from './CommentForm'
 import { ref } from 'vue';
-import { COMMENT } from '../graphql';
+import { REPLY } from '../graphql';
 import { useGQL } from '~/uses'
 
 export default {
@@ -83,7 +82,7 @@ export default {
 
   components: {
     Comment,
-    CommentForm,
+    CommentForm
   },
   setup() {
     const loading = ref(false)
@@ -99,6 +98,10 @@ export default {
         comment.replies = []
       }
       comment.replies.push(reply)
+      comment.branch_replies_count++
+
+      // Скрыли форму
+      active.value = null
     }
 
     const onMore = async (comment) => {
@@ -112,7 +115,7 @@ export default {
         const { data } = await useGQL(`
         query ($model_type: String, $branch_id: Int, $offset: Int) {
           replies: comments(model_type: $model_type, branch_id: $branch_id, offset: $offset) {
-            ${COMMENT}
+            ${REPLY}
           }
         }
       `, {
@@ -121,10 +124,14 @@ export default {
           offset:     comment.replies.length
         })
 
+        // После добавление овета он добавляется в конец ветки,
+        // но он также будет подгружен после нажатия на Показать еще,
+        // для этого нужно удалить дубликаты и пересчитать branch_replies_count
         data.replies.forEach((newComment) => {
           comment.replies.forEach((oldComment, index) => {
             if (parseInt(oldComment.id) === parseInt(newComment.id)) {
               comment.replies.splice(index, 1)
+              comment.branch_replies_count--
             }
           })
 

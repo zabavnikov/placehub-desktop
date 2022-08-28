@@ -22,6 +22,9 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '~/modules/routes'
   ],
+  build: {
+    transpile: ['@heroicons/vue']
+  },
   auth: {
     strategies: {
       local: {

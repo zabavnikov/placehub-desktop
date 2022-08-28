@@ -26,12 +26,18 @@
     </p>
     <footer class="flex space-x-4 mt-2">
       <slot name="footer"></slot>
+      <v-like
+        :model-type="`${comment.model_type}_comments`"
+        :model-id="comment.id"
+        :is-liked="comment.like.is_liked"
+      />
     </footer>
   </article>
 </template>
 
 <script setup>
 import CommentReplyPopover from './CommentReplyPopover'
+import VLike from '~/components/library/VLike';
 </script>
 
 <script>

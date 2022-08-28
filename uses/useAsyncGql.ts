@@ -13,6 +13,7 @@ export default async (query, variables) => await useFetch(
       Accept: 'application/json',
       Authorization: useNuxtApp().$auth.strategy.token.get()
     },
+    initialCache: false,
     transform: data => data.data,
     method: 'POST',
     key: useRoute().fullPath,

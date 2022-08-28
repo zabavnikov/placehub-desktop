@@ -14,6 +14,7 @@ export default async (query, variables) => await $fetch(
       Accept: 'application/json',
       Authorization: useNuxtApp().$auth.strategy.token.get()
     },
+    initialCache: false,
     method: 'POST',
     async onResponse({ response}) {
       if (response?._data?.errors) {
