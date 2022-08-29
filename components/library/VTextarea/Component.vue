@@ -1,200 +1,89 @@
-
 <template>
-  <div class="c-Textarea" :class="textareaClassObject">
+  <ClientOnly>
+    <div class="v-textarea">
     <textarea
-        ref="textarea"
-        class="c-Textarea__input rounded-lg py-2.5 px-4 text-sm font-medium text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-        :value="text"
-        :name="name"
+        :id="id"
+        :value="modelValue"
         :rows="rows"
-        :required="required"
-        :disabled="disabled"
-        :aria-label="label"
+        :autofocus="autofocus"
         :placeholder="placeholder"
-        @input="text = $event.target.value"
-    />
-    <span
-        class="c-Textarea__label"
-        :title="label"
-        @mousedown.prevent="onLabelClick($event)"
+        :disabled="disabled"
+        :maxlength="maxlength"
+        @input="$emit('update:modelValue', $event.target.value)"
+        @focus="$emit('focus')"
+        ref="textarea"
+        class="overflow-hidden resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
     >
-      {{ label }}
-    </span>
-  </div>
+    </textarea>
+    </div>
+  </ClientOnly>
 </template>
+
 <script>
+import { ref } from 'vue'
+
 export default {
-  name: 'VTextarea',
+  emits: ['update:modelValue', 'focus'],
   props: {
-    modelValue: {
-      type: String,
-      required: false,
-      default: undefined,
-    },
+    id: String,
+    modelValue: String,
+    placeholder: String,
+    maxlength: String,
+
     rows: {
-      type: [Number, String],
-      default: 2
+      type: [String, Number],
+      default: 1
     },
-    autofocus: Boolean,
-    label: {
-      type: String,
-      required: false,
-      default: undefined,
-    },
-    placeholder: {
-      type: String,
-      required: false,
-      default: undefined,
-    },
-    name: {
-      type: String,
-      required: false,
-      default: undefined,
-    },
-    autogrow: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
-    required: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
+
     disabled: {
       type: Boolean,
-      required: false,
       default: false,
     },
-    resize: {
-      type: String,
-      required: false,
-      default: 'default',
-      validator(resize) {
-        return ['default', 'vertical', 'horizontal', 'none'].includes(resize)
-      },
+
+    autofocus: {
+      type: Boolean,
+      default: false,
     },
   },
-  emits: ['update:modelValue'],
-  data() {
+
+  setup() {
+    const textarea = ref(null)
+
     return {
-      text: this.modelValue,
+      textarea
     }
   },
-  mounted() {
-    if (this.autofocus) {
-      this.$refs.textarea.focus();
-    }
-  },
-  computed: {
-    textareaClassObject() {
-      const hasText = this.text !== '' && this.text !== undefined
-      const hasPlaceholder =
-          this.placeholder !== '' && this.placeholder !== undefined
 
-      return {
-        'has-value': hasText || hasPlaceholder,
-        'has-label': this.label !== '' && this.label !== undefined,
-        'has-vertical-resize': this.resize === 'vertical' && !this.autogrow,
-        'has-horizontal-resize': this.resize === 'horizontal' && !this.autogrow,
-        'has-no-resize': this.resize === 'none',
-        'has-autogrow': this.autogrow,
-      }
-    },
-  },
   watch: {
-    modelValue(newModelValue) {
-      this.text = newModelValue
-    },
-    text(newValue) {
-      if (this.autogrow) {
-        this.$el.dataset.replicatedText = newValue
-      }
+    modelValue: {
+      handler() {
+        this.updateHeight();
+      },
 
-      this.$emit('update:modelValue', newValue)
+      immediate: true,
     },
+
+    autofocus(newValue) {
+      if (newValue) {
+        this.$refs.textarea.focus();
+      } else {
+        this.$refs.textarea.blur();
+      }
+    }
   },
+
   methods: {
-    onLabelClick() {
-      this.$refs.textarea.focus()
+    updateHeight() {
+      this.$nextTick()
+          .then(() => {
+            const textarea = this.$refs.textarea;
+
+            if (textarea) {
+              textarea.style.height = 'auto';
+              textarea.style.height = textarea.scrollHeight + 'px';
+            }
+          });
     },
-  },
+  }
 }
 </script>
-<style scoped>
-.c-Textarea {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.c-Textarea__input {
-  overflow: auto;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  z-index: 1;
-  position: relative;
-}
-
-
-.c-Textarea__input:invalid {
-  border-color: #e53935;
-  color: #e53935;
-}
-
-.c-Textarea__input:invalid:focus {
-  box-shadow: inset 0 0 0 1px #e53935;
-}
-
-.c-Textarea__input:disabled {
-  cursor: not-allowed;
-  border-color: #757575;
-  color: #757575;
-  background-color: #e0e0e0;
-}
-
-.c-Textarea__input:disabled + .c-Textarea__label {
-  cursor: not-allowed;
-  color: #757575;
-}
-
-.c-Textarea.has-vertical-resize .c-Textarea__input {
-  resize: vertical;
-}
-
-.c-Textarea.has-horizontal-resize .c-Textarea__input {
-  resize: horizontal;
-}
-
-.c-Textarea.has-no-resize .c-Textarea__input {
-  resize: none;
-}
-
-/**
- * Autogrow - https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/
- *
- * We create an invisible pseudo element exactly in the same place as the textarea.
- * The pseudo element has a mirror of the content and will grow according to it.
- */
-
-.c-Textarea.has-autogrow {
-  display: grid;
-}
-
-.c-Textarea.has-autogrow::after {
-  content: attr(data-replicated-text) ' ';
-  white-space: pre-wrap;
-  visibility: hidden;
-  grid-area: 1 / 1 / 2 / 2;
-  /* Properties that affect height need to match the textarea element */
-  @apply py-2.5 px-4 text-sm font-medium;
-}
-
-.c-Textarea.has-autogrow .c-Textarea__input {
-  resize: none;
-  /* Hide jumpy scrollbars in Firefox */
-  overflow: hidden;
-  grid-area: 1 / 1 / 2 / 2;
-}
-</style>

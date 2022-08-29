@@ -4,7 +4,7 @@
       <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}" class="mr-3 flex-shrink-0">
         <img :src="comment.user.avatar" :alt="comment.user.name" class="w-8 h-8 bg-gray-300/50 rounded-full block">
       </nuxt-link>
-      <div>
+      <div class="flex-auto">
         <div class="flex items-center space-x-1">
           <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}" class="font-semibold">
             {{ comment.user.name }}
@@ -17,11 +17,15 @@
               </template>
             </comment-reply-popover>
           </span>
+          <div v-if="isOwner" class="ml-auto flex items-center space-x-1">
+            <pencil-icon @click="onEdit" class="cursor-pointer w-4 h-4 text-gray-500"></pencil-icon>
+            <trash-icon class="cursor-pointer w-4 h-4 text-gray-500"></trash-icon>
+          </div>
         </div>
         <div class="text-xs font-semibold text-gray-500">{{ comment.created_at }}</div>
       </div>
     </header>
-    <p class="leading-relaxed font-semibold text-gray-900 mt-2 overflow-hidden" @click="onEdit">
+    <p class="whitespace-pre-line leading-relaxed font-semibold text-gray-900 mt-2 overflow-hidden">
       {{ comment.text }}
     </p>
     <footer class="flex space-x-4 mt-2">
@@ -37,7 +41,8 @@
     </footer>
 
     <CommentForm
-      v-if="store.form.reply[store.isReply ? 'id' : 'parent_id'] === comment[store.isEdit ? 'parent_id' : 'id']"
+      v-if="isReplyOrEdit"
+      is-reply
       @created="onCreated"
       @updated="onUpdated"
       class="m-4"
@@ -50,6 +55,7 @@ import CommentReplyPopover from './CommentReplyPopover'
 import CommentForm from './CommentForm'
 import VLike from '~/components/library/VLike'
 import { useCommentsStore } from '../stores/comments'
+import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 
 export default {
   name: 'Comment',
@@ -59,7 +65,24 @@ export default {
   components: {
     CommentReplyPopover,
     CommentForm,
-    VLike
+    VLike,
+    PencilIcon,
+    TrashIcon,
+  },
+
+  computed: {
+    isReplyOrEdit() {
+      if (this.store.isReply) {
+        return this.store.form.reply.parent_id === this.comment.id
+      } else if (this.store.isEdit) {
+        return this.store.form.reply.id === this.comment.id
+      }
+
+      return false;
+    },
+    isOwner() {
+      return this.$auth.loggedIn && parseInt(this.$auth.user.id) === parseInt(this.comment.user_id)
+    }
   },
 
   props: {

@@ -22,17 +22,24 @@ export default {
 
   emits: ['created', 'updated'],
 
+  props: {
+    isReply: {
+      type:     Boolean,
+      default:  false,
+    }
+  },
+
   components: {
     VTextarea,
     VButton
   },
 
-  setup({ modelType, modelId, parentId }, { $pinia, emit }) {
+  setup({ isReply }, { $pinia, emit }) {
     const loading = ref(false)
 
     const store = useCommentsStore($pinia)
 
-    const form = store.form.reply
+    const form = store.form[isReply ? 'reply' : 'comment']
 
     const onSubmit = async () => {
       if (loading.value) {

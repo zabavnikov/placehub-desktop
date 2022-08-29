@@ -1,6 +1,8 @@
 <template>
   <section>
-    <CommentForm :model-type="modelType" :model-id="modelId" />
+    <CommentForm
+        :model-type="modelType"
+        :model-id="modelId" />
 
     <div class="divide-y">
       <div v-for="(comment, index) in comments" :key="comment.id">
