@@ -17,20 +17,17 @@ export const useCommentsStore = defineStore('comments', {
       list: [],
       form: {
         comment:  {...form},
+        edit:     {...form},
         reply:    {...form},
       },
-      mode: null
+      mode: null,
+      activeForm: null
     }
   },
   actions: {
     edit(comment: object) {
-      const type = comment.parent_id > 0
-          ? 'reply'
-          : 'comment';
-
       // Берем из комментария, только те поля которые есть в form
-      Object.assign(this.form[type], pick(comment, Object.keys(form)))
-
+      Object.assign(this.form.edit, pick(comment, Object.keys(form)))
       this.mode = 'edit'
     },
     async addComment(comment: object) {
@@ -65,6 +62,6 @@ export const useCommentsStore = defineStore('comments', {
   },
   getters: {
     isEdit:  (state) => state.mode === 'edit',
-    isReply: (state) => state.mode === 'reply',
+    isReply: (state) => state.mode === 'reply'
   },
 })

@@ -25,24 +25,29 @@
         <div class="text-xs font-semibold text-gray-500">{{ comment.created_at }}</div>
       </div>
     </header>
-    <p class="whitespace-pre-line leading-relaxed font-semibold text-gray-900 mt-2 overflow-hidden">
-      {{ comment.text }}
-    </p>
-    <footer class="flex space-x-4 mt-2">
-      <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="cursor-pointer">
-        в ветке {{ comment.branch_replies_count }} ответов
-      </div>
-      <p @click="store.replyTo(comment)" class="cursor-pointer">ответить</p>
-      <v-like
-        :model-type="`${comment.model_type}_comments`"
-        :model-id="comment.id"
-        :is-liked="comment.like.is_liked"
-      />
-    </footer>
+
+    <section v-show="!isEditCurrent" class="mt-2">
+      <p class="whitespace-pre-line leading-relaxed font-semibold text-gray-900 overflow-hidden">
+        {{ comment.text }}
+      </p>
+
+      <footer class="flex space-x-4 mt-2">
+        <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="cursor-pointer">
+          в ветке {{ comment.branch_replies_count }} ответов
+        </div>
+        <p @click="onReply" class="cursor-pointer">ответить</p>
+        <v-like
+            :model-type="`${comment.model_type}_comments`"
+            :model-id="comment.id"
+            :is-liked="comment.like.is_liked"
+        />
+      </footer>
+    </section>
 
     <CommentForm
-      v-if="isReplyOrEdit"
-      is-reply
+      v-if="showForm"
+      :comment="isEdit ? comment : undefined"
+      :parent-id="isReply ? comment.id : undefined"
       @created="onCreated"
       @updated="onUpdated"
       class="m-4"
@@ -56,6 +61,7 @@ import CommentForm from './CommentForm'
 import VLike from '~/components/library/VLike'
 import { useCommentsStore } from '../stores/comments'
 import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { ref, computed } from 'vue'
 
 export default {
   name: 'Comment',
@@ -71,14 +77,8 @@ export default {
   },
 
   computed: {
-    isReplyOrEdit() {
-      if (this.store.isReply) {
-        return this.store.form.reply.parent_id === this.comment.id
-      } else if (this.store.isEdit) {
-        return this.store.form.reply.id === this.comment.id
-      }
-
-      return false;
+    isEditCurrent() {
+      return this.store.form.reply.id === this.comment.id;
     },
     isOwner() {
       return this.$auth.loggedIn && parseInt(this.$auth.user.id) === parseInt(this.comment.user_id)
@@ -95,22 +95,52 @@ export default {
   setup({ comment }, { $pinia }) {
     const store = useCommentsStore($pinia)
 
+    const mode = ref(null)
+    const isEdit  = computed(() => mode.value === 'edit')
+    const isReply = computed(() => mode.value === 'reply')
+
     const onEdit = () => {
-      store.edit(comment)
+      if (isEdit.value || isReply.value) {
+        mode.value = null;
+        store.activeForm = null
+      } else {
+        mode.value = 'edit'
+        store.activeForm = comment.id
+      }
     }
+
+    const onReply = () => {
+      store.activeForm = null
+      if (isEdit.value || isReply.value) {
+        mode.value = null;
+      } else {
+        mode.value = 'reply'
+        store.activeForm = comment.id
+      }
+    }
+
+    const showForm = computed(() => store.activeForm === comment.id && (isEdit.value || isReply.value))
 
     const onCreated = async (newComment) => {
       await store.addComment(newComment)
+      mode.value = null
+      store.activeForm = null
     }
 
     const onUpdated = (newComment) => {
       Object.assign(comment, newComment)
-      store.hideForm()
+      mode.value = null
+      store.activeForm = null
     }
 
     return {
       store,
+      isEdit,
+      isReply,
+      showForm,
+      mode,
       onEdit,
+      onReply,
       onCreated,
       onUpdated,
     }

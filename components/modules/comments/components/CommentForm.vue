@@ -16,6 +16,7 @@ import { ref } from 'vue'
 import VTextarea from '~/components/library/VTextarea'
 import VButton from '~/components/library/VButton'
 import { useCommentsStore } from '../stores/comments'
+import pick from 'lodash.pick'
 
 export default {
   name: 'CommentForm',
@@ -23,9 +24,11 @@ export default {
   emits: ['created', 'updated'],
 
   props: {
-    isReply: {
-      type:     Boolean,
-      default:  false,
+    comment: {
+      type: Object
+    },
+    parentId: {
+      type: Number,
     }
   },
 
@@ -34,12 +37,25 @@ export default {
     VButton
   },
 
-  setup({ isReply }, { $pinia, emit }) {
+  setup({ comment, parentId }, { $pinia, emit }) {
     const loading = ref(false)
 
     const store = useCommentsStore($pinia)
+    const isEdit = comment?.id > 0
 
-    const form = store.form[isReply ? 'reply' : 'comment']
+    const formInitialState = {
+      id:         null,
+      parent_id:  parentId,
+      model_type: store.model_type,
+      model_id:   store.model_id,
+      text:       '',
+    }
+
+    const form = ref({...formInitialState})
+
+    if (comment) {
+      Object.assign(form.value, pick(comment, Object.keys(formInitialState)))
+    }
 
     const onSubmit = async () => {
       if (loading.value) {
@@ -49,19 +65,19 @@ export default {
       loading.value = true
 
       try {
-        const { data, error } = await useFetch(`http://localhost/api/comments/${store.isEdit ? form.id : ''}`, {
-          method: store.isEdit ? 'PUT' : 'POST',
+        const { data, error } = await useFetch(`http://localhost/api/comments/${isEdit ? comment.id : ''}`, {
+          method: isEdit ? 'PUT' : 'POST',
           headers: {
             Accept: 'application/json',
             Authorization: useNuxtApp().$auth.strategy.token.get()
           },
-          body: form,
+          body: form.value,
           initialCache: false,
         })
 
        if (! error.value) {
-         if (store.isEdit) {
-           emit('updated', form)
+         if (isEdit) {
+           emit('updated', form.value)
          } else {
            emit('created', data.value)
          }
