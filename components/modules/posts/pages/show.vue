@@ -27,17 +27,18 @@ export default {
     const commentsStore = useCommentsStore($pinia)
 
     const { data } = await useAsyncGql(`
-      query ($id: Int!, $modelType: String) {
+      query ($id: Int!, $modelType: String, $withTrashed: Boolean) {
         post(id: $id) {
           ${POST_FRAGMENT}
         }
-        comments(model_type: $modelType, model_id: $id) {
+        comments(model_type: $modelType, model_id: $id, with_trashed: $withTrashed) {
           ${COMMENT}
         }
       }
     `, {
       id: parseInt(route.params.postId),
-      modelType: 'posts'
+      modelType: 'posts',
+      withTrashed: true
     })
 
     commentsStore.$patch(state => {

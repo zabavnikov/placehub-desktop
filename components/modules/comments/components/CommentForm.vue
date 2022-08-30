@@ -4,7 +4,7 @@
       <v-textarea :autofocus="form.parent_id > 0" rows="1" :placeholder="form.parent_id > 0 ? 'Текст ответа' : 'Текст комментария'" v-model="form.text" />
     </div>
     <div class="flex items-center justify-end mt-2 space-x-2">
-      <v-button variant="secondary" @click="store.hideForm">Отмена</v-button>
+      <v-button variant="secondary" @click="onCancel">Отмена</v-button>
       <v-button type="submit" :loading="loading">Отправить</v-button>
     </div>
   </form>
@@ -57,6 +57,11 @@ export default {
       Object.assign(form.value, pick(comment, Object.keys(formInitialState)))
     }
 
+    const onCancel = () => {
+      store.activeForm = null;
+      form.value = {...formInitialState}
+    }
+
     const onSubmit = async () => {
       if (loading.value) {
         return
@@ -93,6 +98,7 @@ export default {
       form,
       loading,
       onSubmit,
+      onCancel,
       store
     }
   }

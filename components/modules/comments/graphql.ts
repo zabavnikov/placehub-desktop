@@ -11,7 +11,7 @@ export const COMMENT = `
   like {
     is_liked
   }
-  parent {
+  parent(with_trashed: true) {
     user_id
     created_at(relative: true)
     text
@@ -25,7 +25,7 @@ export const COMMENT = `
     name
     avatar
   }
-  replies {
+  replies(with_trashed: true) {
     id
     user_id
     branch_id
@@ -34,7 +34,7 @@ export const COMMENT = `
     model_type
     text
     created_at(relative: true)
-    parent {
+    parent(with_trashed: true) {
       user_id
       created_at(relative: true)
       text
@@ -66,7 +66,7 @@ export const REPLY = `
   like {
     is_liked
   }
-  parent {
+  parent(with_trashed: true) {
     user_id
     created_at(relative: true)
     text

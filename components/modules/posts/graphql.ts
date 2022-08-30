@@ -108,7 +108,7 @@ export const POST_REPLY_FRAGMENT = `
     name
     avatar
   }
-  replies {
+  replies(with_trashed: true) {
     id
     user_id
     parent_id
@@ -125,7 +125,7 @@ export const POST_REPLY_FRAGMENT = `
       name
       avatar
     }
-    replies {
+    replies(with_trashed: true) {
       id
       user_id
       parent_id

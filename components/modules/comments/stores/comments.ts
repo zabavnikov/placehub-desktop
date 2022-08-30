@@ -49,8 +49,7 @@ export const useCommentsStore = defineStore('comments', {
       this.hideForm()
     },
     hideForm() {
-      this.form.reply = {...form}
-      this.mode = null
+      this.activeForm = null
     },
     replyTo(comment: object) {
       this.form.reply.model_type  = this.model_type
