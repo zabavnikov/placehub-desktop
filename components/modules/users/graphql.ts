@@ -15,7 +15,7 @@ export const REGISTER_USER = `
 `;
 
 export const GET_USER = `
-  getUser(id: $userId) {
+  user(id: $userId) {
     ${USER_FIELDS}
   }
 `;
