@@ -67,14 +67,7 @@ export default {
         formData.append('images[]', file);
       }
 
-      $fetch(`http://localhost/api/images/${this.to}`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Accept: 'application/json',
-          Authorization: this.$auth.strategy.token.get()
-        },
-      })
+      this.$axios.$post(`http://localhost/api/images/${this.to}`, formData)
           /*.$post(`/api/images/${this.to}`, formData, {
             onUploadProgress: progressEvent => {
               this.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);

@@ -68,9 +68,24 @@ export const POST_FRAGMENT = `
   }
 `;
 
+export const POST_FORM = `
+  post(id: $postId) {
+    id
+    user_id
+    place_id
+    text(raw: true)
+    can
+    images(sizes: "default@resize:auto:120:120") {
+      id
+      url
+      sizes
+    }
+  }
+`;
+
 export const GET_POSTS = `
   posts(userId: $userId) {
-    ${POST_FRAGMENT}
+    ${POST_CARD_FRAGMENT}
   }
 `;
 
@@ -78,14 +93,17 @@ export const GET_POSTS = `
 export const CREATE_POST = `
   mutation($input: PostInput!) {
     post: createPost(input: $input) {
-      id
+    ${POST_FRAGMENT}
     }
   }
 `;
 
 export const UPDATE_POST = `
   mutation($id: Int!, $input: PostInput!) {
-    post: updatePost(id: $id, input: $input)
+    post: updatePost(id: $id, input: $input) {
+      text
+      hashtags
+    }
   }
 `;
 

@@ -1,5 +1,7 @@
 <template>
-  <div class="whitespace-pre-line">{{ post.text }}</div>
+  <div>
+    <div class="whitespace-pre-line">{{ post.text }}</div>
+  </div>
 </template>
 
 <script setup>

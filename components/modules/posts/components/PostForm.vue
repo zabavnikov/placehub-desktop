@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-white">
+  <div class="overflow-hidden">
     <div v-if="isReply">
       <div class="flex">
         <nuxt-link to="/">
@@ -78,14 +78,14 @@ import { ref } from 'vue'
 import { useRouter } from 'nuxt/app';
 import cloneDeep from 'lodash/cloneDeep.js';
 import pick from 'lodash/pick.js';
-import { useGql } from '~/uses'
+import { useAsyncGql, useGql } from '~/uses'
 import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages";
 import VTextarea from "~/components/library/VTextarea";
 import VUpload from '~/components/form/VUpload';
 import VIcon from '~/components/common/VIcon';
 import VUrl from "~/components/modules/urls/components/VUrl";
-import { CREATE_POST, UPDATE_POST } from '../graphql';
+import {CREATE_POST, UPDATE_POST, POST_FORM} from '../graphql';
 
 const formInitialState = {
   place_id: null,
@@ -96,6 +96,8 @@ const formInitialState = {
 };
 
 export default {
+  emits: ['created', 'updated'],
+
   props: {
     post: {
       type: Object,
@@ -117,15 +119,30 @@ export default {
     VUrl
   },
 
-  setup(props, { $pinia }) {
+  async setup(props) {
     const form = ref(props.post)
     const loading = ref(false)
     const router = useRouter()
 
+    const isEdit = props.post.id > 0
+
+    if (isEdit) {
+      const { data: { value: { post } } } = await useAsyncGql(`
+          query($postId: Int!) {
+            ${POST_FORM}
+          }
+        `, {
+        postId: props.post.id
+      })
+
+      form.value = post
+    }
+
     return {
       form,
       loading,
-      router
+      router,
+      isEdit
     }
   },
 
@@ -136,9 +153,6 @@ export default {
   },
 
   computed: {
-    isEdit() {
-      return this.post.id > 0;
-    },
     mapOverlay() {
       return {
         props: {
@@ -182,6 +196,10 @@ export default {
         input
       }
 
+      if (this.isEdit) {
+        variables.id = this.post.id
+      }
+
       try {
         const { data: { post } } = await useGql(
           this.isEdit
@@ -190,8 +208,12 @@ export default {
           variables)
 
         if (! this.isEdit) {
-          await this.router.push({ name: 'posts.show', params: { postId: post.id }})
+          this.$emit('created', post)
+        } else {
+          this.$emit('updated', post)
         }
+
+        this.form = cloneDeep(formInitialState)
       } catch (errors) {
         this.errors.record(errors)
       } finally {

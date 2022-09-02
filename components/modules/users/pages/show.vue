@@ -3,7 +3,7 @@
     <template #top>
       <ProfileHeader :user="data.user" />
     </template>
-    <post-form v-if="$auth.loggedIn" @create="data.posts.unshift($event)" class="mb-4"></post-form>
+    <post-form v-if="$auth.loggedIn" @created="data.posts.unshift($event)" class="mb-4"></post-form>
 
     <div v-if="data.posts.length">
       <post v-for="(post, index) in data.posts" @delete="data.posts.splice(index, 1)" :key="post.id" :content="post"></post>
