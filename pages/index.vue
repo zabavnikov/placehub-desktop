@@ -1,7 +1,6 @@
 <template>
   <the-layout>
     <div class="posts">
-      <post-form></post-form>
       <post v-for="post in data.posts" :key="post.id" :content="post"/>
     </div>
   </the-layout>

@@ -3,10 +3,6 @@
     <div class="header-container mx-auto flex items-center h-full">
       <NuxtLink to="/" class="mr-6 font-bold uppercase">PlaceHub</NuxtLink>
 
-      <div class="py-2">
-        <nuxt-link v-if="$auth.loggedIn" :to="{name: 'users.show', params: {userId: parseInt($auth.user.id)}}" class="button button-success">Написать</nuxt-link>
-      </div>
-
 <!--      <nuxt-link v-if="$auth.loggedIn" to="/places/create" class="ml-3 text-base uppercase">Добавить место</nuxt-link>
 
             <nuxt-link to="/places" class="mr-6 font-bold">Места</nuxt-link>

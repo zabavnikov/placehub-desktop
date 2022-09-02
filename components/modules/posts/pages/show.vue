@@ -1,9 +1,9 @@
 <template>
-  <the-layout>
+  <TheLayout>
     <post :content="post" full />
     <hr>
     <comment-list model-type="posts" :model-id="post.id" />
-  </the-layout>
+  </TheLayout>
 </template>
 
 <script>

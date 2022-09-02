@@ -1,13 +1,15 @@
 <template>
-  <the-layout>
-    <ProfileHeader :user="data.user" />
+  <TheLayout>
+    <template #top>
+      <ProfileHeader :user="data.user" />
+    </template>
     <post-form v-if="$auth.loggedIn" @create="data.posts.unshift($event)" class="mb-4"></post-form>
 
     <div v-if="data.posts.length">
       <post v-for="(post, index) in data.posts" @delete="data.posts.splice(index, 1)" :key="post.id" :content="post"></post>
     </div>
     <div v-else class="text-gray p-3 bg-gray-50 border border-solid border-gray-100 rounded-lg">Ничего не найдено</div>
-  </the-layout>
+  </TheLayout>
 </template>
 
 <script setup>

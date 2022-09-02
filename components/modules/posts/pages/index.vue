@@ -1,9 +1,6 @@
 <template>
   <TheLayout>
-    <div class="posts">
-      <post-form></post-form>
-      <post v-for="post in data.posts" :key="post.id" :content="post" />
-    </div>
+    <post v-for="post in data.posts" :key="post.id" :content="post" />
   </TheLayout>
 </template>
 
@@ -34,9 +31,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.posts .post + .post {
-  border-top: 1px solid #f1f1f1;
-}
-</style>
