@@ -1,7 +1,7 @@
 <template>
   <div @click="onClick" :class="classes" :title="like.isLiked ? 'Вам понравилось' : 'Мне нравится'">
-    <heart-icon class="h-5 w-5" :class="{'text-red-500': like.isLiked}"></heart-icon>
-    <!--      <div class="v-like__count help">{{ like.count }}</div>-->
+    <heart-icon class="h-4 w-4" :class="{'text-red-500': like.isLiked}"></heart-icon>
+    <div class="v-like__count help">{{ like.count }}</div>
   </div>
 </template>
 
@@ -106,7 +106,7 @@ export default {
   align-items: center;
 
   .v-like__count {
-    margin-left: 8px;
+    margin-left: 4px;
   }
 }
 </style>

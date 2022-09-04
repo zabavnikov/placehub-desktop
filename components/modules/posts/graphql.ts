@@ -7,7 +7,7 @@ export const POST = `
     place_id
     text
     can
-    likesCount
+    likes_count
     created_at(relative: true)
     hashtags
     images(sizes: "default@resize:auto:640:480") {
@@ -29,8 +29,9 @@ export const POST_CARD_FRAGMENT = `
   user_id
   place_id
   text(words: 24)
-  likesCount
+  likes_count
   hashtags
+  comments_count
   can
   created_at(relative: true)
   images(sizes: "default@resize:auto:640:480") {
@@ -51,8 +52,9 @@ export const POST_FRAGMENT = `
   user_id
   place_id
   text
-  likesCount
+  likes_count
   hashtags
+  comments_count
   can
   created_at(relative: true)
   images(sizes: "default@resize:auto:640:480") {

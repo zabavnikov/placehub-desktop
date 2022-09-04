@@ -39,6 +39,7 @@
         <v-like
             :model-type="`${comment.model_type}_comments`"
             :model-id="comment.id"
+            :count="comment.likes_count"
             :is-liked="comment.like.is_liked"
         />
       </footer>
@@ -78,7 +79,7 @@ export default {
 
   computed: {
     isEditCurrent() {
-      return this.store.form.reply.id === this.comment.id;
+      return this.store.activeForm === this.comment.id && this.isEdit;
     },
     isOwner() {
       return this.$auth.loggedIn && parseInt(this.$auth.user.id) === parseInt(this.comment.user_id)
@@ -100,23 +101,13 @@ export default {
     const isReply = computed(() => mode.value === 'reply')
 
     const onEdit = () => {
-      if (isEdit.value || isReply.value) {
-        mode.value = null;
-        store.activeForm = null
-      } else {
-        mode.value = 'edit'
-        store.activeForm = comment.id
-      }
+      mode.value = 'edit'
+      store.activeForm = comment.id
     }
 
     const onReply = () => {
-      store.activeForm = null
-      if (isEdit.value || isReply.value) {
-        mode.value = null;
-      } else {
-        mode.value = 'reply'
-        store.activeForm = comment.id
-      }
+      mode.value = 'reply'
+      store.activeForm = comment.id
     }
 
     const showForm = computed(() => store.activeForm === comment.id && (isEdit.value || isReply.value))
@@ -138,7 +129,6 @@ export default {
       isEdit,
       isReply,
       showForm,
-      mode,
       onEdit,
       onReply,
       onCreated,

@@ -29,7 +29,7 @@
             <div class="font-bold">{{ form.place.name }}</div>
             <div class="help">{{ form.place.parent_names }}</div>
           </div>
-          <span @click="form.place = {}" class="cursor-pointer"><v-icon name="x" stroke="red"></v-icon></span>
+          <span @click="form.place = {}" class="cursor-pointer">x</span>
         </div>
 
         <VUrl v-if="form.url" :url="form.url" @delete="form.url = null; form.url_id = null" editable class="mt-2"/>
@@ -48,7 +48,7 @@
               @click="$refs.upload.$el.click()"
               type="button"
               class="post-form-tool">
-            <v-icon name="camera" stroke="#b0bec5"></v-icon>
+            img
           </button>
           <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
           <!-- / Загрузка изображений. -->
@@ -59,13 +59,13 @@
               type="button"
               class="post-form-tool"
               :style="{backgroundColor: errors.first('place_id') ? 'red' : undefined}">
-            <v-icon name="location-marker" stroke="#b0bec5"></v-icon>
+            place
           </button>
           <!-- / Выбор места. -->
         </div>
 
         <div class="ml-auto space-x-2 flex items-center">
-          <button :class="{loading}" class="button">Отправить</button>
+          <VButton type="submit" :class="{loading}" class="button">Отправить</VButton>
         </div>
       </div>
     </form>
@@ -83,9 +83,9 @@ import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages";
 import VTextarea from "~/components/library/VTextarea";
 import VUpload from '~/components/form/VUpload';
-import VIcon from '~/components/common/VIcon';
 import VUrl from "~/components/modules/urls/components/VUrl";
 import {CREATE_POST, UPDATE_POST, POST_FORM} from '../graphql';
+import VButton from '../../../library/VButton/Component';
 
 const formInitialState = {
   place_id: null,
@@ -112,7 +112,7 @@ export default {
   },
 
   components: {
-    VIcon,
+    VButton,
     PostFormImages,
     VTextarea,
     VUpload,

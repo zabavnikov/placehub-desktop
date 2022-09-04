@@ -7,20 +7,20 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^5.3.0",
-    "@vueuse/nuxt": "^8.9.4",
+    "@nuxtjs/tailwindcss": "^5.3.2",
+    "@vueuse/nuxt": "^9.1.1",
     "lodash": "^4.17.21",
-    "nuxt": "^3.0.0-rc.6",
-    "sass": "^1.54.0"
+    "nuxt": "^3.0.0-rc.9",
+    "sass": "^1.54.8"
   },
   "dependencies": {
     "@headlessui/vue": "^1.6.7",
-    "@heroicons/vue": "^2.0.8",
-    "@nuxtjs-alt/auth": "^1.2.5",
+    "@heroicons/vue": "^2.0.10",
+    "@nuxtjs-alt/auth": "^2.0.6",
     "@nuxtjs-alt/axios": "^1.0.15",
-    "@pinia/nuxt": "^0.3.0",
-    "pinia": "^2.0.16",
-    "vue-final-modal": "^3.5.0-beta.38",
+    "@pinia/nuxt": "^0.4.1",
+    "pinia": "^2.0.21",
+    "vue-final-modal": "^3.5.0-beta.48",
     "vuedraggable": "^2.24.3"
   }
 }

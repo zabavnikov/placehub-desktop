@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs-alt/auth',
     '@nuxtjs-alt/axios',
+    '@nuxtjs-alt/http',
     '@pinia/nuxt',
     '~/modules/routes'
   ],

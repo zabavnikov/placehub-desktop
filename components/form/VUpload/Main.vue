@@ -10,6 +10,7 @@
 
 <script>
 import { $fetch } from 'ohmyfetch'
+import {useNuxtApp} from 'nuxt/app';
 
 export default {
   emits: ['update:modelValue', 'progress'],
@@ -67,7 +68,12 @@ export default {
         formData.append('images[]', file);
       }
 
-      this.$axios.$post(`http://localhost/api/images/${this.to}`, formData)
+      this.$axios.$post(`http://localhost/api/images/${this.to}`, formData, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: useNuxtApp().$auth.strategy.token.get()
+        },
+      })
           /*.$post(`/api/images/${this.to}`, formData, {
             onUploadProgress: progressEvent => {
               this.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);

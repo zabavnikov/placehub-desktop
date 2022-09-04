@@ -1,27 +1,27 @@
 <template>
   <the-layout heading="Регистрация">
-    <form @submit.prevent="onSubmit" autocomplete="off" class="space-y-4">
+    <form @submit.prevent="onSubmit" autocomplete="off" :class="{loading}" class="space-y-4">
       <div :class="{'is-invalid': errors.has('email')}">
         <label for="email" class="label">Электронная почта: <span class="asterisk"></span></label>
-        <input v-model="form.email" @input="errors.clear('email')" class="input" type="email" id="email" maxlength="50">
+        <VInput v-model="form.email" @input="errors.clear('email')" type="email" id="email" maxlength="50" />
         <div v-show="errors.has('email')" class="help mt-1">{{ errors.first('email') }}</div>
       </div>
 
       <div :class="{'is-invalid': errors.has('name')}">
         <label for="name" class="label">Имя пользователя: <span class="asterisk"></span></label>
-        <input v-model="form.name" @input="errors.clear('name')" class="input" type="text" id="name" maxlength="25" placeholder="Разрешены цифры и символы латинского алфавита">
+        <VInput v-model="form.name" @input="errors.clear('name')" type="text" id="name" maxlength="25" placeholder="Разрешены цифры и символы латинского алфавита" />
         <div v-if="errors.has('name')" class="help mt-1">{{ errors.first('name') }}</div>
       </div>
 
       <div :class="{'is-invalid': errors.has('password')}">
         <label for="password" class="label">Придумайте пароль: <span class="asterisk"></span></label>
-        <input v-model="form.password" @input="errors.clear('password')" class="input" type="password" id="password" placeholder="Не менее 6 символов">
+        <VInput v-model="form.password" @input="errors.clear('password')" type="password" id="password" placeholder="Не менее 6 символов" />
         <div v-if="errors.has('password')" class="help mt-1">{{ errors.first('password') }}</div>
       </div>
 
       <div>
         <label for="password-confirmation" class="label">Повторие пароль: <span class="asterisk"></span></label>
-        <input v-model="form.passwordConfirmation" class="input" type="password" id="password-confirmation">
+        <VInput v-model="form.passwordConfirmation" type="password" id="password-confirmation" />
       </div>
 
       <div>
@@ -29,16 +29,18 @@
       </div>
 
       <div class="mt-6">
-        <button class="button button-success">Зарегистрироватся</button>
+        <VButton type="submit" class="button button-success">Зарегистрироватся</VButton>
       </div>
     </form>
   </the-layout>
 </template>
 
 <script>
-import Errors from '~/utils/validation';
+import Validation from '~/utils/validation';
 import { REGISTER_USER } from '~/components/modules/users/graphql';
-import { useGql } from '~/uses'
+import { useAsyncGql } from '~/uses'
+import VInput from '../../../library/VInput/Component';
+import VButton from '../../../library/VButton/Component';
 
 const formInitialState = {
   name: '',
@@ -49,13 +51,14 @@ const formInitialState = {
 
 
 export default {
+  components: {VButton, VInput},
   middleware: 'auth',
   auth: 'guest',
 
   data() {
     return {
       form: {...formInitialState},
-      errors: new Errors,
+      errors: new Validation,
       loading: false,
     }
   },
@@ -79,10 +82,12 @@ export default {
         }
       `;
 
-      const { registerUser } = await useGql(mutation, this.form)
+      const { data } = await useAsyncGql(mutation, this.form)
+
+      console.log(data.value.registerUser)
 
       try {
-        this.$auth.setUserToken(registerUser)
+        await this.$auth.setUserToken(data.value.registerUser)
 
         this.form = {...formInitialState}
 

@@ -1,8 +1,9 @@
 <template>
   <TheLayout>
     <post :content="post" full />
-    <hr>
-    <comment-list model-type="posts" :model-id="post.id" />
+    <h2 class="mt-4 text-2xl">Комментарии</h2>
+    <hr class="my-4">
+    <comment-list id="comments" model-type="posts" :model-id="post.id" />
   </TheLayout>
 </template>
 

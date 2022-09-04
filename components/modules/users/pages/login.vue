@@ -65,7 +65,7 @@ export default {
 
       this.loading = true;
 
-      this.$auth.loginWith('local', {data: this.form})
+      this.$auth.loginWith('local', {body: this.form})
           .then(response => {
             console.log(response)
           })
