@@ -12,14 +12,19 @@
     </div>
 
     <PostForm v-if="isEdit" :post="content" @updated="onUpdated" />
-    <component v-else
-        class="mt-4"
-        :is="full
+    <div v-else class="mt-4">
+      <component :is="full
       ? PostBodyFull
       : PostBody"
         :post="content"
-    >
-    </component>
+      >
+      </component>
+    </div>
+
+    <div v-if="content.images.length > 0" class="mt-4">
+      <PostGallery :images="content.images" />
+    </div>
+
     <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2">
       <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>
     </div>
@@ -38,6 +43,7 @@
 import { ref } from 'vue'
 import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
+import PostGallery from './PostGallery.vue'
 import PostForm from './PostForm'
 import { ChatBubbleBottomCenterIcon } from '@heroicons/vue/24/outline'
 import VLike from '~/components/library/VLike';

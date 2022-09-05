@@ -14,6 +14,7 @@ export const POST = `
       id
       url
       sizes
+      aspect_ratio
     }
     like {
       is_liked
@@ -38,6 +39,11 @@ export const POST_CARD_FRAGMENT = `
     id
     url
     sizes
+    aspect_ratio
+    x
+    y
+    newWidth
+    newHeight
   }
   like {
     is_liked
@@ -61,6 +67,11 @@ export const POST_FRAGMENT = `
     id
     url
     sizes
+    aspect_ratio
+    x
+    y
+    newWidth
+    newHeight
   }
   like {
     is_liked
@@ -81,6 +92,10 @@ export const POST_FORM = `
       id
       url
       sizes
+      x
+      y
+      newWidth
+      newHeight
     }
   }
 `;

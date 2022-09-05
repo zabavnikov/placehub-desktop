@@ -16,7 +16,7 @@ export default async (query, variables) => await $fetch(
     },
     initialCache: false,
     method: 'POST',
-    async onResponse({ response}) {
+    async onResponse({ response }) {
       if (response?._data?.errors) {
         return new Promise((resolve, reject) => reject(response._data.errors))
       }

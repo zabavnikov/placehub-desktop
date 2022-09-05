@@ -89,8 +89,6 @@ export default {
       try {
         await this.$auth.setUserToken(data.value.registerUser)
 
-        this.form = {...formInitialState}
-
         this.$router.push({
           name: 'users.show',
           params: {

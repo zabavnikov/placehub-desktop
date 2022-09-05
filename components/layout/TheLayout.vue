@@ -5,7 +5,7 @@
       <slot name="top"></slot>
     </div>
     <div class="flex-auto flex gap-4" :class="{'flex-row-reverse': reverse}">
-      <div class="flex-shrink-0 flex-auto w-full max-w-[540px]">
+      <div class="flex-shrink-0 flex-auto w-full max-w-[600px]">
         <slot></slot>
       </div>
       <div v-if="!!$slots.sidebar" class="flex-shrink-0 flex-auto">
