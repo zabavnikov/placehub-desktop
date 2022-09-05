@@ -1,4 +1,13 @@
+@import '@/node_modules/@placehub/ui/dist/style.css';;
+
 body {
   @apply text-base;
   font-family: 'Montserrat', sans-serif;
+  background-color: #fafbfc;
+}
+
+html,
+body,
+#__nuxt {
+  height: 100%;
 }

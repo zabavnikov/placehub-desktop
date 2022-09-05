@@ -635,6 +635,14 @@
     "@nuxt/kit" "3.0.0-rc.6"
     pinia ">=2.0.19"
 
+"@placehub/ui@https://github.com/placehub/ui.git":
+  version "0.0.0"
+  resolved "https://github.com/placehub/ui.git#c7f441e09256dc59dcc277becc3d7ecb0c346796"
+  dependencies:
+    "@headlessui/vue" "^1.6.7"
+    "@heroicons/vue" "^2.0.10"
+    vue "^3.2.37"
+
 "@refactorjs/ofetch@^0.1.6":
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@refactorjs/ofetch/-/ofetch-0.1.6.tgz#b5ea71d320538f1a2790c8421bf360eae738ec8c"
@@ -5284,7 +5292,7 @@ vue-router@^4.1.5:
   dependencies:
     "@vue/devtools-api" "^6.1.4"
 
-vue@^3.2.38:
+vue@^3.2.37, vue@^3.2.38:
   version "3.2.38"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.38.tgz#cda3a414631745b194971219318a792dbbccdec0"
   integrity sha512-hHrScEFSmDAWL0cwO4B6WO7D3sALZPbfuThDsGBebthrNlDxdJZpGR3WB87VbjpPh96mep1+KzukYEhpHDFa8Q==

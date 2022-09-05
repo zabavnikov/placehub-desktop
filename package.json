@@ -19,6 +19,7 @@
     "@nuxtjs-alt/auth": "^2.0.6",
     "@nuxtjs-alt/axios": "^1.0.15",
     "@pinia/nuxt": "^0.4.1",
+    "@placehub/ui": "https://github.com/placehub/ui.git",
     "diorama": "^1.0.1",
     "pinia": "^2.0.21",
     "vue-final-modal": "^3.5.0-beta.48",

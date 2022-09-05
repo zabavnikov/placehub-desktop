@@ -81,6 +81,8 @@ export default {
         })
 
        if (! error.value) {
+         form.value = {...formInitialState}
+
          if (isEdit) {
            emit('updated', form.value)
          } else {

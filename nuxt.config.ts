@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     '~/modules/routes'
   ],
   build: {
-    transpile: ['@heroicons/vue']
+    transpile: ['@heroicons/vue', '@placehub/ui']
   },
   auth: {
     strategies: {

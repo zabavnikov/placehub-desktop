@@ -1,5 +1,6 @@
 <template>
   <TheLayout>
+    <template #sidebar>1</template>
     <post :content="post" full />
     <h2 class="mt-4 text-2xl">Комментарии</h2>
     <hr class="my-4">

@@ -21,9 +21,9 @@
       </component>
     </div>
 
-    <div v-if="content.images.length > 0" class="mt-4">
+<!--    <div v-if="content.images.length > 0" class="mt-4">
       <PostGallery :images="content.images" />
-    </div>
+    </div>-->
 
     <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2">
       <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>

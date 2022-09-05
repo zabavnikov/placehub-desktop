@@ -1,7 +1,9 @@
 <template>
   <header class="header px-6">
     <div class="header-container mx-auto flex items-center h-full">
-      <NuxtLink to="/" class="mr-6 font-bold uppercase">PlaceHub</NuxtLink>
+      <NuxtLink to="/" class="mr-6 font-bold uppercase">
+        <img src="/images/logotype.png" alt="PlaceHub" class="block h-6">
+      </NuxtLink>
 
 <!--      <nuxt-link v-if="$auth.loggedIn" to="/places/create" class="ml-3 text-base uppercase">Добавить место</nuxt-link>
 

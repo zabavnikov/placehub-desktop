@@ -1,5 +1,6 @@
 <template>
   <TheLayout>
+    <template #sidebar>1</template>
     <post v-for="post in data.posts" :key="post.id" :content="post" />
   </TheLayout>
 </template>
