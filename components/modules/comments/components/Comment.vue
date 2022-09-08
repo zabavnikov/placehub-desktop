@@ -27,7 +27,7 @@
     </header>
 
     <section v-show="!isEditCurrent" class="mt-2">
-      <p class="whitespace-pre-line leading-relaxed font-semibold text-gray-900 overflow-hidden">
+      <p class="whitespace-pre-line leading-relaxed text-gray-900 overflow-hidden">
         {{ comment.text }}
       </p>
 

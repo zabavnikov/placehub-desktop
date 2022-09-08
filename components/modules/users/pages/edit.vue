@@ -11,7 +11,7 @@
           <span class="asterisk"></span>
         </label>
 
-        <VInput v-model="user.name" type="text" id="name" />
+        <Input v-model="user.name" type="text" id="name" />
         <div v-if="errors.has('name')" class="help mt-1" style="color: red;">{{ errors.first('name') }}</div>
         <div
             v-else
@@ -21,12 +21,12 @@
 
       <div class="mt-4">
         <label for="description">О себе</label>
-        <VTextarea v-model="user.description" id="description" />
+        <Textarea v-model="user.description" id="description" />
         <div v-if="errors.has('description')" class="help mt-1" style="color: red;">{{ errors.first('description') }}</div>
       </div>
 
       <div class="mt-4">
-        <button @click="onSubmit" :class="{loading}" class="button button-success">Сохранить</button>
+        <Button @click="onSubmit" :class="{loading}" class="button button-success">Сохранить</Button>
       </div>
   </the-layout>
 </template>
@@ -34,8 +34,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute } from '#app'
-import VTextarea from '~/components/library/VTextarea';
-import VInput from '~/components/library/VInput';
+import { Textarea, Input } from '@placehub/ui';
 import Errors from '~/utils/validation'
 import { GET_USER } from '~/components/modules/users/graphql'
 import { useAsyncGql } from '~/uses'

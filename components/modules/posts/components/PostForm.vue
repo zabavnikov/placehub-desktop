@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden">
+  <div>
     <div v-if="isReply">
       <div class="flex">
         <nuxt-link to="/">
@@ -13,12 +13,9 @@
     </div>
 
     <form @submit.prevent="onSubmit" class="sticky bottom-0 z-10">
-
-      <v-textarea
-          v-model="form.text"
-          placeholder="Привет, что нового?"
-          @url="form.url_id = $event.id; form.url = $event"
-      />
+      <FormField name="text" label="Текст">
+        <Textarea v-model="form.text" placeholder="Привет, что нового?" rows="1" />
+      </FormField>
 
       <div class="bg-white">
         <post-form-images v-if="form.images.length > 0" class="mt-2" v-model="form.images"></post-form-images>
@@ -65,7 +62,7 @@
         </div>
 
         <div class="ml-auto space-x-2 flex items-center">
-          <VButton type="submit" :class="{loading}" class="button">Отправить</VButton>
+          <Button type="submit" :class="{loading}" class="button">Отправить</Button>
         </div>
       </div>
     </form>
@@ -75,17 +72,16 @@
 
 <script>
 import { ref } from 'vue'
+import { FormField, Textarea, Button } from '@placehub/ui'
 import { useRouter } from 'nuxt/app';
 import cloneDeep from 'lodash/cloneDeep.js';
 import pick from 'lodash/pick.js';
 import { useAsyncGql, useGql } from '~/uses'
 import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages";
-import VTextarea from "~/components/library/VTextarea";
 import VUpload from '~/components/form/VUpload';
 import VUrl from "~/components/modules/urls/components/VUrl";
 import {CREATE_POST, UPDATE_POST, POST_FORM} from '../graphql';
-import VButton from '../../../library/VButton/Component';
 
 const formInitialState = {
   place_id: null,
@@ -112,9 +108,10 @@ export default {
   },
 
   components: {
-    VButton,
+    Button,
     PostFormImages,
-    VTextarea,
+    FormField,
+    Textarea,
     VUpload,
     VUrl
   },

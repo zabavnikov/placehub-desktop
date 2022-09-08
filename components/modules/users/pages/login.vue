@@ -14,7 +14,7 @@
         <label for="email" class="label">Электронная почта: <span class="asterisk"></span></label>
         <input v-model="form.email" class="input" type="email" id="email">
         <div v-if="errors.has('email')" class="help mt-1">{{ errors.first('email') }}</div>
-        <VInput />
+        <Input />
       </div>
 
       <div class="mt-2" :class="{'is-invalid': errors.has('password')}">
@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { VInput } from '@placehub/ui'
+import { Input } from '@placehub/ui'
 </script>
 
 <script>

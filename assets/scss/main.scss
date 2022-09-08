@@ -1,7 +1,7 @@
 @import '@/node_modules/@placehub/ui/dist/style.css';;
 
 body {
-  @apply text-base;
+  @apply text-sm font-medium;
   font-family: 'Montserrat', sans-serif;
   background-color: #fafbfc;
 }

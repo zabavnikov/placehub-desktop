@@ -1,2 +1,2 @@
-import VInput from './Component'
-export default VInput
+import Input from './Component'
+export default Input

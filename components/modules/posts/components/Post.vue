@@ -29,7 +29,7 @@
       <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>
     </div>
 
-    <footer class="flex items-center text-xs font-semibold space-x-4 mt-4">
+    <footer class="flex items-center space-x-4 mt-4">
       <NuxtLink :to="{name: 'posts.show', params: {postId: content.id}, hash: '#comments'}" class="flex items-center space-x-1">
         <ChatBubbleBottomCenterIcon class="w-4 h-4" />
         <span>{{ content.comments_count }}</span>

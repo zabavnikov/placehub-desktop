@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <div>
-      <v-textarea :autofocus="form.parent_id > 0" rows="1" :placeholder="form.parent_id > 0 ? 'Текст ответа' : 'Текст комментария'" v-model="form.text" />
-    </div>
+    <FormField name="text">
+      <Textarea :autofocus="form.parent_id > 0" rows="1" :placeholder="form.parent_id > 0 ? 'Текст ответа' : 'Текст комментария'" v-model="form.text" />
+    </FormField>
     <div class="flex items-center justify-end mt-2 space-x-2">
-      <v-button variant="secondary" @click="onCancel">Отмена</v-button>
-      <v-button type="submit" :loading="loading">Отправить</v-button>
+      <Button variant="secondary" @click="onCancel">Отмена</Button>
+      <Button type="submit" :loading="loading">Отправить</Button>
     </div>
   </form>
 </template>
@@ -13,10 +13,10 @@
 <script>
 import { useFetch, useNuxtApp } from 'nuxt/app'
 import { ref } from 'vue'
-import VTextarea from '~/components/library/VTextarea'
-import VButton from '~/components/library/VButton'
+import { FormField, Textarea, Button } from '@placehub/ui'
 import { useCommentsStore } from '../stores/comments'
 import pick from 'lodash.pick'
+import { useForm } from 'vee-validate'
 
 export default {
   name: 'CommentForm',
@@ -33,8 +33,9 @@ export default {
   },
 
   components: {
-    VTextarea,
-    VButton
+    Textarea,
+    Button,
+    FormField
   },
 
   setup({ comment, parentId }, { $pinia, emit }) {
@@ -62,7 +63,9 @@ export default {
       form.value = {...formInitialState}
     }
 
-    const onSubmit = async () => {
+    const { handleSubmit } = useForm()
+
+    const onSubmit = handleSubmit(async (values, actions) => {
       if (loading.value) {
         return
       }
@@ -78,23 +81,25 @@ export default {
           },
           body: form.value,
           initialCache: false,
+          onResponseError({ response }) {
+            actions.setErrors(response._data.errors)
+          }
         })
 
        if (! error.value) {
-         form.value = {...formInitialState}
-
          if (isEdit) {
            emit('updated', form.value)
          } else {
            emit('created', data.value)
          }
+         form.value = {...formInitialState}
        }
       } catch (error) {
-        console.log(error)
+        console.log(error.response)
       } finally {
         loading.value = false
       }
-    }
+    })
 
     return {
       form,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="whitespace-pre-line">{{ post.text }}</div>
+    <div class="whitespace-pre-line leading-relaxed">{{ post.text }}</div>
   </div>
 </template>
 
