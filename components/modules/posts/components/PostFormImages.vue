@@ -1,58 +1,37 @@
 <template>
-  <div class="grid grid-cols-4 gap-2">
-    <div v-for="(image, index) in modelValue" :key="image.id" class="handle relative aspect-square cursor-pointer">
-      <img :src="image.url" alt="" class="rounded-lg object-cover object-center w-full h-full">
-      <div @click="onDelete(index)" class="absolute top-0 right-0 m-1 p cursor-pointer rounded-full bg-black bg-opacity-75">
-        x
+  <draggable v-model="modelValue" @update:modelValue="$emit('update:modelValue', $event)"  handle=".handle" item-key="id" class="relative grid gap-0.5 grid-cols-4 overflow-hidden rounded-lg">
+    <template #item="{ element, index }">
+      <div class="handle relative">
+        {{ index }}
+        <img :src="element.url" alt="" class="block aspect-square object-cover">
+        <div @click="onDelete(index)" class="absolute top-0 right-0 p-0.5 m-1 p cursor-pointer rounded-lg bg-black bg-opacity-75">
+          <XMarkIcon class="w-5 h-5 text-white" />
+        </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </draggable>
 </template>
 
-<script>
-import draggable from 'vuedraggable';
+<script setup>
+import Draggable from 'vuedraggable'
+import { XMarkIcon } from '@heroicons/vue/24/solid'
+import { ref } from 'vue'
 
-export default {
-  emits: ['update:modelValue'],
+const emit = defineEmits(['update:modelValue'])
 
-  components: {
-    draggable
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    required: true,
   },
+})
 
-  props: {
-    modelValue: {
-      type: Array,
-      required: true,
-    },
-  },
-
-  watch: {
-    value(newValue) {
-      if (this.skipWatchIfDragged === false) {
-        this.images = newValue;
-      } else {
-        this.skipWatchIfDragged = false;
-      }
-    }
-  },
-
-  data() {
-    return {
-      images: [...this.modelValue],
-      skipWatchIfDragged: false,
-    }
-  },
-
-  methods: {
-    onDragEnd() {
-      this.skipWatchIfDragged = true;
-      this.$emit('update:modelValue', this.modelValue);
-    },
-    onDelete(index) {
-      this.modelValue.splice(index, 1);
-      this.skipWatchIfDragged = true;
-      this.$emit('update:modelValue', this.modelValue);
-    },
+const onDelete = (index) => {
+  console.log(props.modelValue.length)
+  if (props.modelValue.length <= 1) {
+    emit('update:modelValue', [])
+  } else {
+    emit('update:modelValue', props.modelValue.splice(index, 1))
   }
 }
 </script>

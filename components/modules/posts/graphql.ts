@@ -110,7 +110,7 @@ export const GET_POSTS = `
 export const CREATE_POST = `
   mutation($input: PostInput!) {
     post: createPost(input: $input) {
-    ${POST_FRAGMENT}
+      ${POST_FRAGMENT}
     }
   }
 `;
@@ -120,6 +120,11 @@ export const UPDATE_POST = `
     post: updatePost(id: $id, input: $input) {
       text
       hashtags
+      images(sizes: "default@resize:auto:120:120") {
+        id
+        url
+        sizes
+      }
     }
   }
 `;

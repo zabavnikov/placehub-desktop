@@ -1,10 +1,10 @@
 <template>
-  <the-layout>
+  <TheLayout>
     <template #sidebar>1</template>
-    <div class="posts">
-      <post v-for="post in data.posts" :key="post.id" :content="post"/>
+    <div class="space-y-6">
+      <Post v-for="post in data.posts" :key="post.id" :content="post" />
     </div>
-  </the-layout>
+  </TheLayout>
 </template>
 
 <script>
@@ -36,9 +36,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.posts .post + .post {
-  border-top: 1px solid #f1f1f1;
-}
-</style>

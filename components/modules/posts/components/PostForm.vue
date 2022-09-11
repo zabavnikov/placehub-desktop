@@ -12,13 +12,17 @@
       </div>
     </div>
 
-    <form @submit.prevent="onSubmit" class="sticky bottom-0 z-10">
-      <FormField name="text" label="Текст">
+    <form @submit.prevent="onSubmit">
+      <FormField name="text">
         <Textarea v-model="form.text" placeholder="Привет, что нового?" rows="1" />
       </FormField>
 
       <div class="bg-white">
-        <post-form-images v-if="form.images.length > 0" class="mt-2" v-model="form.images"></post-form-images>
+        <post-form-images
+            v-if="form.images.length > 0"
+            class="mt-2"
+            v-model="form.images"></post-form-images>
+        {{ form.images }}
 
         <div v-if="form.place && Object.keys(form.place).length > 0"
              class="mt-2 flex justify-between shadow-sm p-2 border rounded">
@@ -38,7 +42,7 @@
         </div>
       </div>
 
-      <div class="flex items-center ">
+      <div class="flex items-center mt-4">
         <div class="flex items-center space-x-2">
           <!-- Загрузка изображений. -->
           <button
@@ -62,7 +66,7 @@
         </div>
 
         <div class="ml-auto space-x-2 flex items-center">
-          <Button type="submit" :class="{loading}" class="button">Отправить</Button>
+          <Button type="submit" :loading="loading" class="button">Отправить</Button>
         </div>
       </div>
     </form>

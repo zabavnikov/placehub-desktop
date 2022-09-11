@@ -1,7 +1,9 @@
 <template>
   <TheLayout>
-    <template #sidebar>1</template>
-    <post v-for="post in data.posts" :key="post.id" :content="post" />
+    <template #sidebar>12</template>
+    <div class="space-y-6">
+      <post v-for="post in data.posts" :key="post.id" :content="post" />
+    </div>
   </TheLayout>
 </template>
 
