@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     transpile: ['@heroicons/vue', '@placehub/ui']
   },
   auth: {
+    globalMiddleware: true,
     strategies: {
       local: {
         endpoints: {

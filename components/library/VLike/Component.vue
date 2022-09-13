@@ -1,12 +1,12 @@
 <template>
   <div @click="onClick" :class="classes" :title="like.isLiked ? 'Вам понравилось' : 'Мне нравится'">
-    <heart-icon class="h-4 w-4" :class="{'text-red-500': like.isLiked}"></heart-icon>
-    <div class="v-like__count help">{{ like.count }}</div>
+    <heart-icon class="h-4 w-4" :class="{[like.isLiked ? 'text-red-500' : 'text-gray-300']:true}"></heart-icon>
+    <div>{{ like.count }}</div>
   </div>
 </template>
 
 <script>
-import { HeartIcon } from '@heroicons/vue/24/outline'
+import { HeartIcon } from '@heroicons/vue/24/solid'
 import { useGql } from '~/uses';
 import { CREATE_LIKE, DELETE_LIKE } from './graphql'
 
@@ -61,6 +61,7 @@ export default {
   computed: {
     classes() {
       return {
+        'space-x-1': true,
         'v-like': true,
         'v-like--loading': this.loading,
       }

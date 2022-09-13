@@ -1,7 +1,8 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <FormField name="text">
-      <Textarea :autofocus="form.parent_id > 0" rows="1" :placeholder="form.parent_id > 0 ? 'Текст ответа' : 'Текст комментария'" v-model="form.text" />
+    <FormField name="input.text">
+      <Textarea :autofocus="form.parent_id > 0" rows="1"
+                :placeholder="form.parent_id > 0 ? 'Текст ответа' : 'Текст комментария'" v-model="form.text"/>
     </FormField>
     <div class="flex items-center justify-end mt-2 space-x-2">
       <Button variant="secondary" @click="onCancel">Отмена</Button>
@@ -11,12 +12,14 @@
 </template>
 
 <script>
-import { useFetch, useNuxtApp } from 'nuxt/app'
-import { ref } from 'vue'
-import { FormField, Textarea, Button } from '@placehub/ui'
-import { useCommentsStore } from '../stores/comments'
+import {useFetch, useNuxtApp} from 'nuxt/app'
+import {ref} from 'vue'
+import {FormField, Textarea, Button} from '@placehub/ui'
+import {useCommentsStore} from '../stores/comments'
 import pick from 'lodash.pick'
-import { useForm } from 'vee-validate'
+import {useForm} from 'vee-validate'
+import {useGql} from '~/uses'
+import {CREATE_COMMENT, UPDATE_COMMENT} from '../graphql';
 
 export default {
   name: 'CommentForm',
@@ -38,18 +41,18 @@ export default {
     FormField
   },
 
-  setup({ comment, parentId }, { $pinia, emit }) {
+  setup({ comment, parentId }, {$pinia, emit}) {
     const loading = ref(false)
 
     const store = useCommentsStore($pinia)
     const isEdit = comment?.id > 0
 
     const formInitialState = {
-      id:         null,
-      parent_id:  parentId,
+      id: null,
+      parent_id: parentId,
       model_type: store.model_type,
-      model_id:   store.model_id,
-      text:       '',
+      model_id: store.model_id,
+      text: '',
     }
 
     const form = ref({...formInitialState})
@@ -73,29 +76,28 @@ export default {
       loading.value = true
 
       try {
-        const { data, error } = await useFetch(`http://localhost/api/comments/${isEdit ? comment.id : ''}`, {
-          method: isEdit ? 'PUT' : 'POST',
-          headers: {
-            Accept: 'application/json',
-            Authorization: useNuxtApp().$auth.strategy.token.get()
-          },
-          body: form.value,
-          initialCache: false,
-          onResponseError({ response }) {
-            actions.setErrors(response._data.errors)
-          }
+        const input = pick(form.value, ['parent_id', 'model_type', 'model_id', 'text'])
+
+        const mu = isEdit ? UPDATE_COMMENT : CREATE_COMMENT;
+
+        const { data: { commentData }, error } = await useGql(mu, {
+          id: comment.id,
+          input
         })
 
-       if (! error.value) {
-         if (isEdit) {
-           emit('updated', form.value)
-         } else {
-           emit('created', data.value)
-         }
-         form.value = {...formInitialState}
-       }
+        if (! error) {
+          if (isEdit) {
+            emit('updated', commentData)
+          } else {
+            emit('created', commentData)
+          }
+
+          form.value = {...formInitialState}
+        }
       } catch (error) {
-        console.log(error.response)
+        if (error[0]) {
+          actions.setErrors(error[0]['extensions']['validation']);
+        }
       } finally {
         loading.value = false
       }

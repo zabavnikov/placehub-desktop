@@ -84,3 +84,19 @@ export const REPLY = `
     avatar
   }
 `;
+
+export const CREATE_COMMENT = `
+  mutation($input: CommentInput!) {
+    commentData: createComment(input: $input) {
+      ${COMMENT}
+    }
+  }
+`
+
+export const UPDATE_COMMENT = `
+  mutation($id: Int!, $input: CommentInput!) {
+    commentData: updateComment(id: $id, input: $input) {
+      ${COMMENT}
+    }
+  }
+`

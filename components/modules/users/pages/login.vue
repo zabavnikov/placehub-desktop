@@ -1,44 +1,43 @@
 <template>
-  <the-layout>
+  <TheLayout>
     <div v-if="attemptToConfirmMail" class="p-4 mb-4 bg-red-300">
       Для подтверждения адреса электронной почты,
       войдите в свой профиль, используя адреса электронной почты и пароль указнные при регистрации.
     </div>
 
-    <form @submit.prevent="onSubmit" autocomplete="off" :class="{loading}">
+    <form @submit.prevent="onSubmit" autocomplete="off" :class="{loading}" class="space-y-4">
       <div class="mb-2 bg-red-300 p-4 ronded" v-if="isBanned">
         Пользователь заблокирован
       </div>
 
-      <div :class="{'is-invalid': errors.has('email')}">
-        <label for="email" class="label">Электронная почта: <span class="asterisk"></span></label>
-        <input v-model="form.email" class="input" type="email" id="email">
-        <div v-if="errors.has('email')" class="help mt-1">{{ errors.first('email') }}</div>
-        <Input />
-      </div>
-
-      <div class="mt-2" :class="{'is-invalid': errors.has('password')}">
-        <div class="flex justify-between">
-          <label for="password" class="label">Пароль: <span class="asterisk"></span></label>
-<!--          <nuxt-link :to="{name: 'users.password.email'}">Забыли пароль?</nuxt-link>-->
-        </div>
-        <input v-model="form.password" class="input" type="password" id="password">
-        <div v-if="errors.has('password')" class="help mt-1">{{ errors.first('password') }}</div>
-      </div>
+      <FormField name="email" label="Электронная почта" required>
+        <Input v-model="form.email" type="email" id="email" />
+      </FormField>
+      <FormField name="password" label="Пароль" required>
+        <Input v-model="form.password" type="password" id="password" />
+      </FormField>
 
       <div class="mt-4">
         Авторизуясь, вы соглашаетесь с <nuxt-link to="/terms" class="underline">правилами пользования сайтом</nuxt-link> и даете согласие на <nuxt-link class="underline" to="/privacy">обработку персональных данных</nuxt-link>.
       </div>
 
       <div class="mt-4">
-        <button type="submit" class="button button-success">Войти</button>
+        <Button type="submit">Войти</Button>
       </div>
     </form>
-  </the-layout>
+  </TheLayout>
 </template>
 
 <script setup>
-import { Input } from '@placehub/ui'
+import {
+  Button,
+  FormField,
+  Input,
+} from '@placehub/ui'
+
+definePageMeta({
+  auth: 'guest',
+})
 </script>
 
 <script>
@@ -50,9 +49,6 @@ const formInitialState = {
 };
 
 export default {
-  middleware: 'auth',
-  auth: 'guest',
-
   data() {
     return {
       form: {...formInitialState},
