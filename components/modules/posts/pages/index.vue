@@ -9,7 +9,7 @@
 
 <script>
 import { useAsyncGql } from '~/uses'
-import { POST_CARD_FRAGMENT } from '../graphql'
+import { POST_CARD } from '../graphql'
 import Post from '~/components/modules/posts/components/Post'
 import PostForm from '~/components/modules/posts/components/PostForm'
 
@@ -23,7 +23,7 @@ export default {
     const { data, pending, error } = await useAsyncGql(`
       query {
         posts {
-          ${POST_CARD_FRAGMENT}
+          ${POST_CARD}
         }
       }
     `)

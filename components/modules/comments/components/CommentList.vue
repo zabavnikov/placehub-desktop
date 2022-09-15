@@ -1,34 +1,37 @@
 <template>
-  <section>
-    <CommentForm
-        :model-type="modelType"
-        :model-id="modelId"
-        @created="comments.unshift($event) "/>
+  <section class="bg-white rounded-lg shadow ring-1 ring-offset-1 ring-gray-100">
+    <header class="p-6 border-b border-gray-200">
+      <h2 class="text-xl mb-4">Комментарии<span v-if="count > 0"> ({{ count }})</span></h2>
+      <CommentForm
+          :model-type="modelType"
+          :model-id="modelId"
+          @created="comments.unshift($event) "/>
+    </header>
 
-    <div class="divide-y">
-      <div v-for="(comment, index) in comments" :key="comment.id">
+    <div class="divide-y divide-dashed divide-gray-200">
+      <div v-for="(comment, index) in comments" :key="comment.id" class="p-6">
         <Comment :comment="comment"
           @toggle-replies="toggleReplies[index] = !toggleReplies[index]"
-          class="m-4"
         />
 
         <!-- Replies -->
-        <div v-if="comment.replies" v-show="!toggleReplies[index]" class="ml-8 divide-y">
-          <div v-for="reply in comment.replies" :key="reply.id">
-            <Comment :comment="reply" class="m-4" />
+        <div v-if="comment.replies" v-show="!toggleReplies[index]" class="replies divide-y divide-dashed divide-gray-200 ml-8">
+          <div v-for="reply in comment.replies" :key="reply.id" class="py-6 last:pb-0">
+            <Comment :comment="reply" />
           </div>
         </div>
-        <div
-            v-if="comment.branch_replies_count > comment.replies.length"
-            @click="onMore(comment)"
-            class="p-2 mx-4 mb-4 bg-gray-300/50 font-semibold text-xs rounded-lg text-center cursor-pointer"
-        >
-          Показать еще {{ comment.branch_replies_count - comment.replies.length }}
-        </div>
+        <Button
+          v-if="comment.branch_replies_count > comment.replies.length"
+          variant="secondary"
+          class="w-full mt-6"
+          :disabled="loading"
+          @click="onMore(comment)"
+        >Показать еще {{ comment.branch_replies_count - comment.replies.length }}</Button>
       </div>
     </div>
   </section>
 </template>
+
 <script>
 import Comment from './Comment'
 import CommentForm from './CommentForm'
@@ -36,6 +39,7 @@ import { ref } from 'vue';
 import { REPLY } from '../graphql';
 import { useGQL } from '~/uses'
 import { useCommentsStore } from '~/components/modules/comments/stores/comments'
+import { Button } from '@placehub/ui'
 
 export default {
   props: {
@@ -46,10 +50,14 @@ export default {
     modelId: {
       type: Number,
       required: true,
+    },
+    count: {
+      type: Number,
     }
   },
 
   components: {
+    Button,
     Comment,
     CommentForm
   },
@@ -87,7 +95,6 @@ export default {
           comment.replies.forEach((oldComment, index) => {
             if (parseInt(oldComment.id) === parseInt(newComment.id)) {
               comment.replies.splice(index, 1)
-              comment.branch_replies_count--
             }
           })
 
@@ -104,7 +111,8 @@ export default {
     return {
       onMore,
       toggleReplies,
-      comments: comments.list
+      comments: comments.list,
+      loading
     }
   }
 }

@@ -14,7 +14,7 @@ export const REGISTER_USER = `
   )
 `;
 
-export const GET_USER = `
+export const USER = `
   user(id: $userId) {
     ${USER_FIELDS}
   }

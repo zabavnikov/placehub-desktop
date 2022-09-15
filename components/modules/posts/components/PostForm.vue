@@ -83,7 +83,7 @@ import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages";
 import VUpload from '~/components/form/VUpload';
 import VUrl from "~/components/modules/urls/components/VUrl";
-import {CREATE_POST, UPDATE_POST, POST_FORM} from '../graphql';
+import { CREATE_POST, UPDATE_POST, POST_FORM } from '../graphql';
 
 const formInitialState = {
   place_id: null,

@@ -36,7 +36,7 @@ import { ref } from 'vue'
 import { useRoute } from '#app'
 import { Textarea, Input } from '@placehub/ui';
 import Errors from '~/utils/validation'
-import { GET_USER } from '~/components/modules/users/graphql'
+import { USER } from '~/components/modules/users/graphql'
 import { useAsyncGql } from '~/uses'
 
 const route = useRoute()
@@ -45,7 +45,7 @@ const loading = ref(false)
 
 const { data } = await useAsyncGql(`
   query($userId: ID!) {
-    ${GET_USER}
+    ${USER}
   }
 `, {
   userId: route.params.userId

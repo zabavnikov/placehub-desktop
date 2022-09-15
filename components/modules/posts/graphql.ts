@@ -25,7 +25,7 @@ export const POST = `
   }
 `;
 
-export const POST_CARD_FRAGMENT = `
+export const POST_CARD = `
   id
   user_id
   place_id
@@ -92,17 +92,13 @@ export const POST_FORM = `
       id
       url
       sizes
-      x
-      y
-      newWidth
-      newHeight
     }
   }
 `;
 
 export const GET_POSTS = `
   posts(userId: $userId) {
-    ${POST_CARD_FRAGMENT}
+    ${POST_CARD}
   }
 `;
 

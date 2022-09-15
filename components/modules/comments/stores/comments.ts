@@ -30,6 +30,7 @@ export const useCommentsStore = defineStore('comments', {
 
             branch.replies.push(comment)
             branch.branch_replies_count++
+            // Нужно для подгрузки новых комменатриев в ветке.
             branch.new_replies_count++
             break
           }

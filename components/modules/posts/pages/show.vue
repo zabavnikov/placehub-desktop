@@ -1,10 +1,8 @@
 <template>
   <TheLayout>
     <template #sidebar>1</template>
-    <post :content="post" full />
-    <h2 class="mt-4 text-2xl">Комментарии</h2>
-    <hr class="my-4">
-    <comment-list id="comments" model-type="posts" :model-id="post.id" />
+    <post :content="post" full class="mb-6" />
+    <comment-list id="comments" model-type="posts" :count="post.comments_count" :model-id="post.id" />
   </TheLayout>
 </template>
 

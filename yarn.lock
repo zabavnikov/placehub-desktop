@@ -651,7 +651,7 @@
 
 "@placehub/ui@https://github.com/placehub/ui.git":
   version "0.0.0"
-  resolved "https://github.com/placehub/ui.git#4b33e9cce3a0d4b05dda0f678104c83bc74b36e8"
+  resolved "https://github.com/placehub/ui.git#173744e84b52ffe4fa0a76fd900850ed6c4af5ac"
   dependencies:
     "@headlessui/vue" "^1.6.7"
     "@heroicons/vue" "^2.0.10"

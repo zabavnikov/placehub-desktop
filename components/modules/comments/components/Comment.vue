@@ -31,7 +31,7 @@
         {{ comment.text }}
       </p>
 
-      <footer class="flex space-x-4 mt-2">
+      <footer class="flex space-x-4 mt-4">
         <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="cursor-pointer">
           в ветке {{ comment.branch_replies_count }} ответов
         </div>
@@ -51,7 +51,7 @@
       :parent-id="isReply ? comment.id : undefined"
       @created="onCreated"
       @updated="onUpdated"
-      class="m-4"
+      class="mt-4"
     />
   </article>
 </template>
