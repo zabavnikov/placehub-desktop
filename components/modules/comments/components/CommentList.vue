@@ -67,16 +67,18 @@ export default {
 
       try {
         const { data } = await useGQL(`
-        query ($model_type: String, $branch_id: Int, $offset: Int) {
-          replies: comments(model_type: $model_type, branch_id: $branch_id, offset: $offset) {
-            ${REPLY}
+          query ($model_type: String, $branch_id: Int, $offset: Int) {
+            replies: comments(model_type: $model_type, branch_id: $branch_id, offset: $offset) {
+              ${REPLY}
+            }
           }
-        }
-      `, {
+        `, {
           model_type: comment.model_type,
           branch_id:  comment.id,
-          offset:     comment.replies.length
+          offset:     comment.replies.length - comment.new_replies_count
         })
+
+        comment.new_replies_count = 0
 
         // После добавление овета он добавляется в конец ветки,
         // но он также будет подгружен после нажатия на Показать еще,

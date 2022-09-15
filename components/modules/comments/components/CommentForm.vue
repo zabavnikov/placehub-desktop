@@ -12,14 +12,13 @@
 </template>
 
 <script>
-import {useFetch, useNuxtApp} from 'nuxt/app'
-import {ref} from 'vue'
-import {FormField, Textarea, Button} from '@placehub/ui'
-import {useCommentsStore} from '../stores/comments'
 import pick from 'lodash.pick'
-import {useForm} from 'vee-validate'
-import {useGql} from '~/uses'
-import {CREATE_COMMENT, UPDATE_COMMENT} from '../graphql';
+import { CREATE_COMMENT, UPDATE_COMMENT } from '../graphql'
+import { FormField, Textarea, Button } from '@placehub/ui'
+import { ref } from 'vue'
+import { useCommentsStore } from '../stores/comments'
+import { useForm } from 'vee-validate'
+import { useGql } from '~/uses'
 
 export default {
   name: 'CommentForm',
@@ -78,10 +77,8 @@ export default {
       try {
         const input = pick(form.value, ['parent_id', 'model_type', 'model_id', 'text'])
 
-        const mu = isEdit ? UPDATE_COMMENT : CREATE_COMMENT;
-
-        const { data: { commentData }, error } = await useGql(mu, {
-          id: comment.id,
+        const { data: { commentData }, error } = await useGql(isEdit ? UPDATE_COMMENT : CREATE_COMMENT, {
+          id: comment?.id,
           input
         })
 
