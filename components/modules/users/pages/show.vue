@@ -1,8 +1,10 @@
 <template>
   <TheLayout>
     <template #top>
-      <ProfileHeader :user="data.user" />
+      <ProfileHeader :profile="data.user" />
     </template>
+
+    <div @click="onEdit">onEdit</div>
     <post-form v-if="$auth.loggedIn" @created="data.posts.unshift($event)" class="mb-4"></post-form>
 
     <div v-if="data.posts.length" class="space-y-6">
@@ -13,15 +15,17 @@
 </template>
 
 <script setup>
-import { useRoute } from '#app'
+import { useRoute, useNuxtApp } from 'nuxt/app'
 import Post from '~/components/modules/posts/components/Post'
 import PostForm from '~/components/modules/posts/components/PostForm'
 import ProfileHeader from '../components/ProfileHeader'
 import { USER } from '~/components/modules/users/graphql'
 import { POST_CARD } from '~/components/modules/posts/graphql'
 import { useAsyncGql } from '~/uses'
+import Dialog from '~/components/common/Dialog'
 
 const route = useRoute()
+const { $overlay } = useNuxtApp()
 
 const { data } = await useAsyncGql(`
   query($userId: ID!) {
@@ -33,5 +37,13 @@ const { data } = await useAsyncGql(`
 `, {
   userId: route.params.userId
 })
+
+const onEdit = () => {
+  $overlay.show(Dialog, {
+    props: {
+      title: 'Прикол!'
+    },
+  })
+}
 </script>
 

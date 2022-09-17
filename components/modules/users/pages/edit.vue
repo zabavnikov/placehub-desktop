@@ -1,5 +1,5 @@
 <template>
-  <the-layout reverse heading="Редактирование профиля">
+  <TheLayout reverse heading="Редактирование профиля">
     <template #sidebar>
       <img :src="$auth.user.avatar" :alt="user.name" class="rounded" width="100%" />
       <input type="file" @change="onUpload" class="mt-2" />
@@ -28,13 +28,13 @@
       <div class="mt-4">
         <Button @click="onSubmit" :class="{loading}" class="button button-success">Сохранить</Button>
       </div>
-  </the-layout>
+  </TheLayout>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRoute } from '#app'
-import { Textarea, Input } from '@placehub/ui';
+import { Textarea, Input, Button } from '@placehub/ui';
 import Errors from '~/utils/validation'
 import { USER } from '~/components/modules/users/graphql'
 import { useAsyncGql } from '~/uses'
