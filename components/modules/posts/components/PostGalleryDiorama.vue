@@ -1,12 +1,12 @@
 <template>
   <div>
     <div @click="calc" class="text-right cursor-pointer mb-1 underline">Нажмите, чтобы сгенерировать другой вариант раскладки</div>
-    <div v-if="imgs.length === images.length" class="relative diorama" style="height: 300px;">
+    <div class="relative diorama" style="height: 480px;">
       <div v-for="image in imgs" :style="{
-        top: (image.top / 300) * 100 + '%',
-        left: (image.left / 600) * 100 + '%',
-        width: (image.width / 600) * 100 + '%',
-        height: (image.height / 300) * 100 + '%',
+        top: (image.top / 480) * 100 + '%',
+        left: (image.left / 480) * 100 + '%',
+        width: (image.width / 480) * 100 + '%',
+        height: (image.height / 480) * 100 + '%',
     }">
         <div :style="{
         backgroundImage: `url(${image.src})`
@@ -27,12 +27,12 @@
   height: 100%;
 }
 .diorama {
-  margin: -1px;
   @apply rounded-lg;
   overflow: hidden;
 }
 .diorama > div {
-  padding: 1px;
+  border: 1px solid #fff;
+  border-collapse: collapse;
   position: absolute;
 }
 </style>
@@ -53,22 +53,22 @@ export default {
     }
   },
   watch: {
-    'images'() {
-      this.calc()
+    images: {
+      handler() {
+        this.calc()
+      },
+      deep: true,
+      immediate: true
     }
-  },
-  mounted() {
-    this.calc()
   },
   methods: {
     calc() {
-
-      const post = searchSolution(600, 300, this.images.map(image => {
+      this.imgs = searchSolution(480, 480, this.images.map(image => {
         return image.aspect_ratio
-      }), 100);
+      }), 250);
 
-      if (post) {
-        this.imgs = post.sort((a, b) => a.index - b.index)
+      if (Array.isArray(this.imgs)) {
+        this.imgs = this.imgs.sort((a, b) => a.index - b.index)
             .map(p => ({
               src: this.images[p.index].url,
               top: p.y,

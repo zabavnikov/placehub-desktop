@@ -44,11 +44,11 @@ const errors = new Errors
 const loading = ref(false)
 
 const { data } = await useAsyncGql(`
-  query($userId: ID!) {
+  query($userId: Int!) {
     ${USER}
   }
 `, {
-  userId: route.params.userId
+  userId: parseInt(route.params.userId)
 })
 
 const user = data.value.user;

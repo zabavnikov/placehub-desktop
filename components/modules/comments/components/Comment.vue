@@ -17,9 +17,10 @@
               </template>
             </comment-reply-popover>
           </span>
-          <div v-if="isOwner" class="ml-auto flex items-center space-x-1">
+<!--          <div v-if="isOwner" class="ml-auto flex items-center space-x-1">-->
+          <div class="ml-auto flex items-center space-x-1">
             <pencil-icon @click="onEdit" class="cursor-pointer w-4 h-4 text-gray-500"></pencil-icon>
-            <trash-icon class="cursor-pointer w-4 h-4 text-gray-500"></trash-icon>
+            <trash-icon @click="onDelete" class="cursor-pointer w-4 h-4 text-gray-500"></trash-icon>
           </div>
         </div>
         <div class="text-xs font-semibold text-gray-500">{{ comment.created_at }}</div>
@@ -63,11 +64,13 @@ import VLike from '~/components/library/VLike'
 import { useCommentsStore } from '../stores/comments'
 import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import { ref, computed } from 'vue'
+import { useGql } from '~/uses'
+import { DELETE_COMMENT } from '../graphql';
 
 export default {
   name: 'Comment',
 
-  emits: ['toggle-replies'],
+  emits: ['toggle-replies', 'deleted'],
 
   components: {
     CommentReplyPopover,
@@ -97,6 +100,7 @@ export default {
     const store = useCommentsStore($pinia)
 
     const mode = ref(null)
+    const loading = ref(false)
     const isEdit  = computed(() => mode.value === 'edit')
     const isReply = computed(() => mode.value === 'reply')
 
@@ -124,6 +128,29 @@ export default {
       store.activeForm = null
     }
 
+    /*
+      Удаление
+     */
+    const onDelete = async () => {
+      if (loading.value) {
+        return
+      }
+
+      loading.value = true
+
+      try {
+        const { data: { commentData } } = await useGql(DELETE_COMMENT, {
+          id: parseInt(comment.id)
+        })
+
+        Object.assign(comment, commentData)
+      } catch (error) {
+
+      } finally {
+        loading.value = false
+      }
+    }
+
     return {
       store,
       isEdit,
@@ -133,6 +160,7 @@ export default {
       onReply,
       onCreated,
       onUpdated,
+      onDelete,
     }
   }
 }

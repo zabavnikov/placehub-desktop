@@ -28,14 +28,14 @@ const route = useRoute()
 const { $overlay } = useNuxtApp()
 
 const { data } = await useAsyncGql(`
-  query($userId: ID!) {
-    posts {
+  query($userId: Int!) {
+    posts(userId: $userId) {
       ${POST_CARD}
     }
     ${USER}
   }
 `, {
-  userId: route.params.userId
+  userId: parseInt(route.params.userId)
 })
 
 const onEdit = () => {

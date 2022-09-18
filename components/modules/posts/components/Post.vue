@@ -45,8 +45,7 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
-import {useRouter} from 'nuxt/app'
+import {ref} from 'vue' 
 import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
 import PostGallery from './PostGallery.vue'

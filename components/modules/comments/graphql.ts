@@ -100,3 +100,11 @@ export const UPDATE_COMMENT = `
     }
   }
 `
+
+export const DELETE_COMMENT = `
+  mutation($id: Int!) {
+    commentData: deleteComment(id: $id) {
+      ${COMMENT}
+    }
+  }
+`
