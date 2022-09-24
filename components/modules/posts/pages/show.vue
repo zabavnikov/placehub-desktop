@@ -33,10 +33,6 @@ export default {
         }
         comments(model_type: $modelType, model_id: $id, with_trashed: $withTrashed) {
           ${COMMENT}
-        },
-        tags {
-          mentions_count
-          name
         }
       }
     `, {

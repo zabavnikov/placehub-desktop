@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center relative">
-    <img :src="images[active].url" alt="" class="block object-cover h-[320px] w-full rounded-lg">
+  <div class="flex items-center relative -mx-6">
+    <img :src="images[active].url" alt="" class="block object-cover h-[320px] w-full">
     <div
       v-show="images.length && active > 0"
       class="cursor-pointer absolute z-10 bg-black bg-opacity-80 rounded-full p-1 ml-2"

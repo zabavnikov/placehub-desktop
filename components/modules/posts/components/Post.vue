@@ -13,6 +13,7 @@
           редактировать
         </div>
         <EllipsisHorizontalIcon
+            v-if="full"
             @click="isEdit = !isEdit"
             class="w-6 h-6 cursor-pointer text-indigo-800 hover:text-indigo-500 hover:bg-indigo-50 rounded-full"/>
       </div>
@@ -22,11 +23,11 @@
       <PostForm v-if="isEdit" :post="content" @updated="onUpdated"/>
       <div v-else>
         <Component :is="full ? PostBodyFull : PostBody" :post="content"/>
-        <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
-
-        <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2">
+        <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2 text-gray-500 text-xs">
           <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>
         </div>
+
+        <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
 
         <footer class="flex items-center space-x-4 mt-4">
           <NuxtLink :to="{name: 'posts.show', params: {postId: content.id}, hash: '#comments'}"
@@ -68,7 +69,7 @@ const props = defineProps({
 const isEdit = ref(false)
 
 const onUpdated = (newContent) => {
-  Object.assign({}, props.content, newContent)
+  Object.assign(props.content, newContent)
   isEdit.value = false
 }
 </script>
