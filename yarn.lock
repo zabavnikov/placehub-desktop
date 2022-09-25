@@ -425,7 +425,7 @@
   resolved "https://registry.yarnpkg.com/@nuxt/devalue/-/devalue-2.0.0.tgz#c7bd7e9a516514e612d5d2e511ffc399e0eac322"
   integrity sha512-YBI/6o2EBz02tdEJRBK8xkt3zvOFOWlLBf7WKYGBsSYSRtjjgrqPe2skp6VLLmKx5WbHHDNcW+6oACaurxGzeA==
 
-"@nuxt/kit@3.0.0-rc.11", "@nuxt/kit@^3.0.0-rc.9":
+"@nuxt/kit@3.0.0-rc.11", "@nuxt/kit@^3.0.0-rc.11", "@nuxt/kit@^3.0.0-rc.9":
   version "3.0.0-rc.11"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.0.0-rc.11.tgz#d147ef65509c073f1101fa1a19071e309bcf634f"
   integrity sha512-o0E/k635Lzcxp4K5t0ToHC6WwQ1wyN0EIqMAQEzgiUexoAhzdURr21QI0D6e6U461u4KP7x92wYM87VxhMFXmQ==
@@ -551,19 +551,19 @@
     vue-bundle-renderer "^0.4.3"
 
 "@nuxtjs-alt/auth@^2.0.6":
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/auth/-/auth-2.0.12.tgz#148433d458c65459d20e9bbf077a1af7b2c54f7c"
-  integrity sha512-nmAMTsgPKoY/LeWhduT78Pkb9xYdDvGeD/fryelXgGxU4ohDHHfaOUW4fJyAGgoreZs1b4kVfFQV84dyaSYUhg==
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/auth/-/auth-2.0.13.tgz#37a24e001db0fc842aa461612231750dc5730d6e"
+  integrity sha512-ANKz1C6zI7GM9gQ/mAmkUYEWIXJwEG243Y2ufCvOyoKDnXzplkdFjA5pv2FYiUTpPbFzC5/p03IJ1jdMHJ2GSw==
   dependencies:
-    "@nuxt/kit" "^3.0.0-rc.9"
-    "@nuxtjs-alt/http" "^1.3.0"
+    "@nuxt/kit" "^3.0.0-rc.11"
+    "@nuxtjs-alt/http" "^1.3.2"
     "@pinia/nuxt" ">=0.4.2"
     body-parser "1.20.0"
     cookie-es "^0.5.0"
     defu "^6.1.0"
     jwt-decode "^3.1.2"
     ohash "^0.1.5"
-    pathe "^0.3.7"
+    pathe "^0.3.8"
     requrl "^3.0.2"
 
 "@nuxtjs-alt/axios@^1.0.15":
@@ -576,12 +576,12 @@
     axios-retry "^3.3.1"
     defu "^6.1.0"
 
-"@nuxtjs-alt/http@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/http/-/http-1.3.0.tgz#9df0ba512fd84ceaaa7ff3cc11532a6ed1aaac0a"
-  integrity sha512-PvdYoEZUWC9BzpTje9w1FfV8fi/CUM1xE2qAPHi0V9o5LZ6BH4wW2ogMj6V/KWckvEgsG39XSngiMp9F7kaKcA==
+"@nuxtjs-alt/http@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/http/-/http-1.3.2.tgz#59e8c50d94ce69ec22c6c171c2c731047b1d59f4"
+  integrity sha512-e4mFTeRPn8miZlA8P87LEUuY6MpGPkfoSg1yjI0400xpsMvMEff6AEN8dh6iuPZpo2ReEQ02HutKJl8iBjZQFA==
   dependencies:
-    "@nuxt/kit" "^3.0.0-rc.9"
+    "@nuxt/kit" "^3.0.0-rc.11"
     "@refactorjs/ofetch" "^0.1.8"
     defu "^6.1.0"
     ohash "^0.1.5"
@@ -615,10 +615,11 @@
 
 "@placehub/ui@https://github.com/placehub/ui.git":
   version "0.0.0"
-  resolved "https://github.com/placehub/ui.git#518c886e91e77b80f08e7764c2e360ad4733877f"
+  resolved "https://github.com/placehub/ui.git#6f5d339e7773335509310dc91ca861268023cc18"
   dependencies:
     "@headlessui/vue" "^1.6.7"
     "@heroicons/vue" "^2.0.10"
+    axios "^0.27.2"
     vee-validate "^4.6.7"
     vue "^3.2.37"
 
@@ -731,9 +732,9 @@
   integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
 
 "@types/node@*":
-  version "18.7.19"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.19.tgz#ad83aa9b7af470fab7e0f562be87e97dc8ffe08e"
-  integrity sha512-Sq1itGUKUX1ap7GgZlrzdBydjbsJL/NSQt/4wkAxUJ7/OS5c2WkoN6WSpWc2Yc5wtKMZOUA0VCs/j2XJadN3HA==
+  version "18.7.20"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.20.tgz#d9442de7b5cb166476340b4271b15300fe058a39"
+  integrity sha512-adzY4vLLr5Uivmx8+zfSJ5fbdgKxX8UMtjtl+17n0B1q1Nz8JEmE151vefMdpD+1gyh+77weN4qEhej/O7budQ==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -847,9 +848,9 @@
     "@vue/shared" "3.2.39"
 
 "@vue/devtools-api@^6.1.4", "@vue/devtools-api@^6.2.1":
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.2.1.tgz#6f2948ff002ec46df01420dfeff91de16c5b4092"
-  integrity sha512-OEgAMeQXvCoJ+1x8WyQuVZzFo0wcyCmUR3baRVLmKBo1LmYZWMlRiXlux5jd0fqVJu6PfDbOrZItVqUEzLobeQ==
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.3.0.tgz#2cb4cbf012e704f467f5ba7e4092f09fc141edac"
+  integrity sha512-OfjtreoF3LtHmte3TrWSoZcyL4XWBL5+dTnCARuJZzTCYuaaO29PGMKCKdmXi4CZ0SiN0Exz1IGSo2S5BgDwEQ==
 
 "@vue/reactivity-transform@3.2.39":
   version "3.2.39"
@@ -1361,9 +1362,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001407:
-  version "1.0.30001410"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001410.tgz#b5a86366fbbf439d75dd3db1d21137a73e829f44"
-  integrity sha512-QoblBnuE+rG0lc3Ur9ltP5q47lbguipa/ncNMyyGuqPk44FxbScWAeEO+k5fSQ8WekdAK4mWqNs1rADDAiN5xQ==
+  version "1.0.30001412"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001412.tgz#30f67d55a865da43e0aeec003f073ea8764d5d7c"
+  integrity sha512-+TeEIee1gS5bYOiuf+PS/kp2mrXic37Hl66VY6EAfxasIk5fELTktK2oOezYed12H8w7jt3s512PpulQidPjwA==
 
 chalk@^2.0.0:
   version "2.4.2"
@@ -1962,9 +1963,9 @@ ee-first@1.1.1:
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
 electron-to-chromium@^1.4.251:
-  version "1.4.260"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.260.tgz#9aa3348d037686b47ccc5d3b48fe417b1f20017a"
-  integrity sha512-1GxPM2Bdz1AjuNjho9/TqJfxM7KZ7R8s4vA5cbbIoVacQXfvZlV+d7Y1lu4BhGzEBfjjhakr3NXKqN0PxPXIsg==
+  version "1.4.261"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.261.tgz#31f14ad60c6f95bec404a77a2fd5e1962248e112"
+  integrity sha512-fVXliNUGJ7XUVJSAasPseBbVgJIeyw5M1xIkgXdTSRjlmCqBbiSTsEdLOCJS31Fc8B7CaloQ/BFAg8By3ODLdg==
 
 emoji-regex@^8.0.0:
   version "8.0.0"

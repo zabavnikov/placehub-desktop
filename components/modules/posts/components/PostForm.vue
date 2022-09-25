@@ -54,7 +54,7 @@
 
           <!-- Выбор места. -->
           <button
-              @click="$overlay.show(() => import('~/modules/places/components/VChoosePlaceOverlay'), mapOverlay)"
+              @click="onSelectPlace"
               type="button"
               class="post-form-tool"
               :style="{backgroundColor: errors.first('place_id') ? 'red' : undefined}">
@@ -62,6 +62,7 @@
           </button>
           <!-- / Выбор места. -->
         </div>
+        {{ form.place_id }}
 
         <div class="ml-auto space-x-2 flex items-center">
           <Button type="submit" :loading="loading" class="button">Отправить</Button>
@@ -72,7 +73,11 @@
   </div>
 </template>
 
+
 <script>
+import { useNuxtApp } from 'nuxt/app'
+import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
+
 import { ref } from 'vue'
 import { FormField, Textarea, Button } from '@placehub/ui'
 import { useRouter } from 'nuxt/app';
@@ -123,6 +128,22 @@ export default {
     const loading = ref(false)
     const router = useRouter()
 
+    const { $overlay } = useNuxtApp()
+
+    const onSelectPlace = () => {
+      $overlay.show(PlaceSearchDialog, {
+        props: {
+          modelValue: form.value.place,
+        },
+        on: {
+          selected(place) {
+            Object.assign(form.value.place, place)
+            form.value.place_id = place.id
+          }
+        }
+      })
+    }
+
     const isEdit = props.post.id > 0
 
     if (isEdit) {
@@ -141,7 +162,8 @@ export default {
       form,
       loading,
       router,
-      isEdit
+      isEdit,
+      onSelectPlace
     }
   },
 
@@ -149,36 +171,6 @@ export default {
     return {
       errors: new Validation
     }
-  },
-
-  computed: {
-    mapOverlay() {
-      return {
-        props: {
-          value: this.form.place
-        },
-        on: {
-          input: selectedPlace => this.form.place = selectedPlace,
-        }
-      }
-    },
-  },
-
-  watch: {
-    'form.place.id'(newValue) {
-      // Если прилетел undefined, то axios его пропустит и на сервер place_id не улетит,
-      // а значит сервер тоже пропустит это поле и не обновит его, по этому если undefined, то заменим его на null.
-      this.form.place_id = newValue || null;
-
-      if (newValue) {
-        this.errors.clear('place_id');
-      }
-    },
-    'form.images'(newValue) {
-      if (newValue.length > 0) {
-        this.errors.clear('images');
-      }
-    },
   },
 
   methods: {

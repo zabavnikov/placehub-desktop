@@ -78,6 +78,11 @@ export const POST_FORM = `
     id
     user_id
     place_id
+    place {
+      id
+      name
+      full_name
+    }
     text(raw: true)
     can
     images(sizes: "default@resize:auto:120:120") {
