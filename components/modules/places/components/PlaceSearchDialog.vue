@@ -6,6 +6,7 @@
         :callback="callback"
         @update:modelValue="onSelect"
       />
+      <div @click="onCreate">Создать</div>
     </div>
   </Dialog>
 </template>
@@ -16,6 +17,8 @@ import Dialog from '~/components/common/Dialog.vue'
 import { SearchPlace } from '@placehub/ui'
 import { useGql } from '~/uses'
 import { ref } from 'vue'
+import { useNuxtApp } from 'nuxt/app'
+import PlaceFormDialog from './PlaceFormDialog'
 
 const emit = defineEmits(['selected'])
 const props = defineProps({
@@ -23,11 +26,15 @@ const props = defineProps({
     type: Object
   }
 })
-
+const { $overlay } = useNuxtApp()
 const selectedPlace = ref(props.modelValue)
 
 const onSelect = (place) => {
   emit('selected', place)
+}
+
+const onCreate = () => {
+  $overlay.show(PlaceFormDialog)
 }
 
 const callback = async (query) => {

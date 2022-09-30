@@ -9,9 +9,9 @@ export const COMMENT = `
   created_at(relative: true)
   branch_replies_count
   likes_count
-  like {
-    is_liked
-  }
+  votes_count
+  votes_up_count
+  votes_down_count
   parent(with_trashed: true) {
     user_id
     created_at(relative: true)
@@ -45,9 +45,6 @@ export const COMMENT = `
         avatar
       }
     }
-    like {
-      is_liked
-    }
     user {
       id
       name
@@ -66,9 +63,6 @@ export const REPLY = `
   text
   likes_count
   created_at(relative: true)
-  like {
-    is_liked
-  }
   parent(with_trashed: true) {
     user_id
     created_at(relative: true)

@@ -37,11 +37,16 @@
           в ветке {{ comment.branch_replies_count }} ответов
         </div>
         <p @click="onReply" class="cursor-pointer">ответить</p>
-        <v-like
+<!--        <v-like
             :model-type="`${comment.model_type}_comments`"
             :model-id="comment.id"
             :count="comment.likes_count"
             :is-liked="comment.like.is_liked"
+        />-->
+        <CommentVoteButtons
+          model-type="posts"
+          :model-id="comment.id"
+          :votes-count="comment.votes_count"
         />
       </footer>
     </section>
@@ -59,8 +64,8 @@
 
 <script>
 import CommentReplyPopover from './CommentReplyPopover'
+import CommentVoteButtons from './CommentVoteButtons'
 import CommentForm from './CommentForm'
-import VLike from '~/components/library/VLike'
 import { useCommentsStore } from '../stores/comments'
 import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import { ref, computed } from 'vue'
@@ -73,9 +78,9 @@ export default {
   emits: ['toggle-replies', 'deleted'],
 
   components: {
+    CommentVoteButtons,
     CommentReplyPopover,
     CommentForm,
-    VLike,
     PencilIcon,
     TrashIcon,
   },
