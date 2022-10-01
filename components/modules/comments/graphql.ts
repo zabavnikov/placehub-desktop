@@ -8,8 +8,7 @@ export const COMMENT = `
   text
   created_at(relative: true)
   branch_replies_count
-  likes_count
-  votes_count
+  rating
   votes_up_count
   votes_down_count
   parent(with_trashed: true) {
@@ -34,7 +33,6 @@ export const COMMENT = `
     model_id
     model_type
     text
-    likes_count
     created_at(relative: true)
     parent(with_trashed: true) {
       user_id
@@ -61,7 +59,6 @@ export const REPLY = `
   branch_id
   parent_id
   text
-  likes_count
   created_at(relative: true)
   parent(with_trashed: true) {
     user_id

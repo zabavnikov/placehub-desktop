@@ -46,7 +46,7 @@
         <CommentVoteButtons
           model-type="posts"
           :model-id="comment.id"
-          :votes-count="comment.votes_count"
+          :rating="comment.rating"
         />
       </footer>
     </section>
