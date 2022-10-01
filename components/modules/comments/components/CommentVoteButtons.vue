@@ -1,17 +1,21 @@
 <template>
   <div class="flex items-center space-x-2">
-    <HandThumbUpIcon @click="onVote('up')" class="w-4 h-4 text-gray-800 cursor-pointer" />
+    <div :title="`За ${votesUpCount}`">
+      <ChevronUpIcon @click="onVote('up')" :class="{'text-green': typeR==='up'}" class="w-5 h-5 text-gray-800 cursor-pointer" />
+    </div>
     <div class="text-xs font-medium">{{ count }}</div>
-    <HandThumbDownIcon @click="onVote('down')" class="w-4 h-4 text-gray-800 cursor-pointer" />
+    <div :title="`Против ${votesDownCount}`">
+      <ChevronDownIcon @click="onVote('down')" :class="{'text-red': typeR==='down'}" class="w-5 h-5 text-gray-800 cursor-pointer" />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/vue/24/outline'
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 import { useGql } from '~/uses'
 
-const { modelId, rating } = defineProps({
+const { modelId, rating, vote } = defineProps({
   modelId: {
     type:     Number,
     required: true,
@@ -19,10 +23,23 @@ const { modelId, rating } = defineProps({
   rating: {
     type:     Number,
     required: true,
+  },
+  vote: {
+    type: Object,
+    required: true
+  },
+  votesUpCount: {
+    type: Number,
+    default: 0,
+  },
+  votesDownCount: {
+    type: Number,
+    default: 0,
   }
 })
 
 const count = ref(rating)
+const typeR = ref(vote?.type)
 
 const onVote = async (type) => {
   const { data: { commentVote }, error } = await useGql(`
@@ -35,6 +52,10 @@ const onVote = async (type) => {
   })
 
 
-  count.value = commentVote
+  const [countNew, typeNew] = commentVote
+
+  count.value = countNew
+  typeR.value = typeNew
+
 }
 </script>

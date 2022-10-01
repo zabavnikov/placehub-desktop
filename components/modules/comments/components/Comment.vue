@@ -47,6 +47,9 @@
           model-type="posts"
           :model-id="comment.id"
           :rating="comment.rating"
+          :vote="comment.vote"
+          :votes-up-count="comment.votes_up_count"
+          :votes-down-count="comment.votes_down_count"
         />
       </footer>
     </section>
