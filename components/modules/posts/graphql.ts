@@ -78,6 +78,7 @@ export const POST_FORM = `
     id
     user_id
     place_id
+    who_can_comment
     place {
       id
       name

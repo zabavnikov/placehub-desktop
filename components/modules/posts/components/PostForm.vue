@@ -41,22 +41,20 @@
       <div class="flex items-center mt-2">
         <div class="flex items-center space-x-1">
           <!-- Загрузка изображений. -->
-          <button class="rounded-full p-2 border border-indigo-200" @click="$refs.upload.$el.click()">
+          <button type="button" class="rounded-full p-2 border border-indigo-200" @click="$refs.upload.$el.click()">
             <PhotoIcon class="w-5 h-5 text-indigo-500" />
           </button>
           <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
           <!-- / Загрузка изображений. -->
 
           <!-- Выбор места. -->
-          <button class="rounded-full p-2 border border-indigo-200" @click="onSelectPlace">
+          <button type="button" class="rounded-full p-2 border border-indigo-200" @click="onSelectPlace">
             <MapPinIcon class="w-5 h-5 text-indigo-500" />
           </button>
           <!-- / Выбор места. -->
 
           <!-- Настройка поста. -->
-          <button class="rounded-full p-2 border border-indigo-200">
-            <Cog6ToothIcon class="w-5 h-5 text-indigo-500" />
-          </button>
+          <PostFormSettings v-model:who-can-comment="form.who_can_comment" />
           <!-- / Настройка поста. -->
         </div>
         {{ form.place_id }}
@@ -82,17 +80,18 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import pick from 'lodash/pick.js';
 import { useAsyncGql, useGql } from '~/uses'
 import Validation from "~/utils/validation"
-import PostFormImages from "./PostFormImages";
-import VUpload from '~/components/form/VUpload';
+import PostFormImages from "./PostFormImages"
+import PostFormSettings from "./PostFormSettings"
+import VUpload from '~/components/form/VUpload'
 import { CREATE_POST, UPDATE_POST, POST_FORM } from '../graphql';
-import { Cog6ToothIcon, PhotoIcon, MapPinIcon } from '@heroicons/vue/24/outline'
+import { PhotoIcon, MapPinIcon } from '@heroicons/vue/24/outline'
 
 const formInitialState = {
   place_id: null,
   text: '',
   place: {},
   images: [],
-  url: null,
+  who_can_comment: 'all',
 };
 
 export default {
@@ -117,7 +116,7 @@ export default {
     FormField,
     Textarea,
     VUpload,
-    Cog6ToothIcon,
+    PostFormSettings,
     PhotoIcon,
     MapPinIcon
   },
@@ -178,7 +177,7 @@ export default {
 
       this.loading = true
 
-      const input = pick(this.form, ['place_id', 'link_id', 'text', 'images'])
+      const input = pick(this.form, ['place_id', 'who_can_comment', 'text', 'images'])
 
       input.images = input.images.map(image => image.id)
 
