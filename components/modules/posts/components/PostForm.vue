@@ -31,8 +31,6 @@
           <span @click="form.place = {}" class="cursor-pointer">x</span>
         </div>
 
-        <VUrl v-if="form.url" :url="form.url" @delete="form.url = null; form.url_id = null" editable class="mt-2"/>
-
         <div v-if="errors.any()" class="text-red-500 text-sm mt-4">
           <div v-for="error in errors.all()" class="help">
             {{ error[0] }}
@@ -40,27 +38,26 @@
         </div>
       </div>
 
-      <div class="flex items-center mt-4">
-        <div class="flex items-center space-x-2">
+      <div class="flex items-center mt-2">
+        <div class="flex items-center space-x-1">
           <!-- Загрузка изображений. -->
-          <button
-              @click="$refs.upload.$el.click()"
-              type="button"
-              class="post-form-tool">
-            img
+          <button class="rounded-full p-2 border border-indigo-200" @click="$refs.upload.$el.click()">
+            <PhotoIcon class="w-5 h-5 text-indigo-500" />
           </button>
           <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
           <!-- / Загрузка изображений. -->
 
           <!-- Выбор места. -->
-          <button
-              @click="onSelectPlace"
-              type="button"
-              class="post-form-tool"
-              :style="{backgroundColor: errors.first('place_id') ? 'red' : undefined}">
-            place
+          <button class="rounded-full p-2 border border-indigo-200" @click="onSelectPlace">
+            <MapPinIcon class="w-5 h-5 text-indigo-500" />
           </button>
           <!-- / Выбор места. -->
+
+          <!-- Настройка поста. -->
+          <button class="rounded-full p-2 border border-indigo-200">
+            <Cog6ToothIcon class="w-5 h-5 text-indigo-500" />
+          </button>
+          <!-- / Настройка поста. -->
         </div>
         {{ form.place_id }}
 
@@ -87,8 +84,8 @@ import { useAsyncGql, useGql } from '~/uses'
 import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages";
 import VUpload from '~/components/form/VUpload';
-import VUrl from "~/components/modules/urls/components/VUrl";
 import { CREATE_POST, UPDATE_POST, POST_FORM } from '../graphql';
+import { Cog6ToothIcon, PhotoIcon, MapPinIcon } from '@heroicons/vue/24/outline'
 
 const formInitialState = {
   place_id: null,
@@ -120,7 +117,9 @@ export default {
     FormField,
     Textarea,
     VUpload,
-    VUrl
+    Cog6ToothIcon,
+    PhotoIcon,
+    MapPinIcon
   },
 
   async setup(props) {
