@@ -14,7 +14,7 @@
         </div>
         <EllipsisHorizontalIcon
             v-if="full"
-            @click="isEdit = !isEdit"
+            @click="onDelete"
             class="w-6 h-6 cursor-pointer text-indigo-800 hover:text-indigo-500 hover:bg-indigo-50 rounded-full"/>
       </div>
     </div>
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
 import PostGallery from './PostGallery.vue'
@@ -54,6 +54,7 @@ import PostForm from './PostForm'
 import {ChatBubbleBottomCenterIcon, EllipsisHorizontalIcon} from '@heroicons/vue/24/outline'
 import VLike from '~/components/library/VLike';
 import Profile from '~/components/modules/users/components/Profile'
+import { useNuxtApp, useRouter } from 'nuxt/app'
 
 const props = defineProps({
   content: {
@@ -66,10 +67,37 @@ const props = defineProps({
   }
 })
 
+const { $overlay } = useNuxtApp()
+const router = useRouter()
+
 const isEdit = ref(false)
 
 const onUpdated = (newContent) => {
   Object.assign(props.content, newContent)
   isEdit.value = false
+}
+
+const onDelete = () => {
+  $overlay.show(defineAsyncComponent(() => import('~/components/common/DeleteConfirmDialog.vue')), {
+    props: {
+      title:  'Удалить публикацию?',
+      text:   'После удаления публикацию нельзя будет восстановить.',
+      mutation: `
+        mutation($id: Int!) {
+          deletePost(id: $id)
+        }
+      `,
+      mutationName: 'deletePost',
+      variables: {
+        id: props.content.id
+      }
+    },
+    on: {
+      deleted() {
+        $overlay.hide()
+        router.push({name: 'users.show', params: {userId: props.content.user_id}})
+      }
+    }
+  })
 }
 </script>

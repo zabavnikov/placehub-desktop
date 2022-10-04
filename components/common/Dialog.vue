@@ -4,7 +4,7 @@
       <div class="relative min-w-[320px] max-w-2xl bg-white rounded-lg shadow dark:bg-gray-700">
         <!-- Modal header -->
         <header class="p-4 flex justify-between items-center p-4 rounded-t border-b border-gray-200">
-          <h3 class="text-xl font-semibold text-gray-900 leading-none">
+          <h3 class="text-lg font-semibold text-gray-900 leading-none">
             {{ title }}
           </h3>
           <button @click="$overlay.hide" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">

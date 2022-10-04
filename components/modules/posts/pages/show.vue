@@ -1,6 +1,5 @@
 <template>
   <TheLayout>
-    <template #sidebar>1</template>
     <post :content="post" full class="mb-6" />
     <comment-list id="comments" model-type="posts" :count="post.comments_count" :model-id="post.id" />
   </TheLayout>
@@ -26,30 +25,32 @@ export default {
     const route = useRoute()
     const commentsStore = useCommentsStore($pinia)
 
-    const { data } = await useAsyncGql(`
-      query ($id: Int!, $modelType: String, $withTrashed: Boolean) {
-        post(id: $id) {
-          ${POST_FRAGMENT}
+    try {
+      const { data } = await useAsyncGql(`
+        query ($id: Int!, $modelType: String, $withTrashed: Boolean) {
+          post(id: $id) {
+            ${POST_FRAGMENT}
+          }
+          comments(model_type: $modelType, model_id: $id, with_trashed: $withTrashed) {
+            ${COMMENT}
+          }
         }
-        comments(model_type: $modelType, model_id: $id, with_trashed: $withTrashed) {
-          ${COMMENT}
-        }
+      `, {
+        id: parseInt(route.params.postId),
+        modelType: 'posts',
+        withTrashed: true
+      })
+
+      commentsStore.$patch(state => {
+        state.model_type  = 'posts'
+        state.model_id    = parseInt(route.params.postId)
+        state.list        = data.value.comments
+      })
+
+      return {
+        post: data.value.post,
       }
-    `, {
-      id: parseInt(route.params.postId),
-      modelType: 'posts',
-      withTrashed: true
-    })
-
-    commentsStore.$patch(state => {
-      state.model_type  = 'posts'
-      state.model_id    = parseInt(route.params.postId)
-      state.list        = data.value.comments
-    })
-
-    return {
-      post: data.value.post,
-    }
+    } catch (error) {}
   }
 }
 </script>
