@@ -18,10 +18,8 @@
       </FormField>
 
       <div class="bg-white">
-        <post-form-images
-            v-if="form.images.length > 0"
-            class="mt-2"
-            v-model="form.images"></post-form-images>
+        <PostFormImages v-if="form.images.length > 0" v-model="form.images" class="mt-2" />
+
         <div v-if="form.place && Object.keys(form.place).length > 0"
              class="mt-2 flex justify-between shadow-sm p-2 border rounded">
           <div>

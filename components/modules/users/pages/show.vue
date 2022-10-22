@@ -1,8 +1,6 @@
 <template>
   <TheLayout>
-    <template #top>
-      <ProfileHeader :profile="data.user" />
-    </template>
+    <ProfileHeader slot="top" :profile="data.user" />
 
     <div @click="onEdit">onEdit</div>
     <post-form v-if="$auth.loggedIn" @created="data.posts.unshift($event)" class="mb-4"></post-form>

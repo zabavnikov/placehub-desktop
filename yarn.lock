@@ -564,9 +564,9 @@
     vue-bundle-renderer "^0.4.4"
 
 "@nuxtjs-alt/auth@^2.0.6":
-  version "2.0.21"
-  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/auth/-/auth-2.0.21.tgz#b47a645b3685ca4dcc0f71b44faacba5da0542c2"
-  integrity sha512-7MNicFrUVlJL/FhBHFrEWhLPvnYn/HmuTtt1EJ39Od4C8yipuA8l0kgor36M4a2DxYoZODQDJtdGlTdNA8id7w==
+  version "2.0.23"
+  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/auth/-/auth-2.0.23.tgz#6a77c802d8eb8cf65fbe75487f340e2869bfabf9"
+  integrity sha512-0PuFfjBsxWbTT62S7JqchNUxtDekIloF1ZIHwQF6I0heEFA971s2FeudMJLuh8cYuJ5MtxCOhLz4tntbG/MypA==
   dependencies:
     "@nuxt/kit" "^3.0.0-rc.12"
     "@nuxtjs-alt/http" "^1.3.15"
@@ -590,9 +590,9 @@
     defu "^6.1.0"
 
 "@nuxtjs-alt/http@^1.3.15":
-  version "1.3.19"
-  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/http/-/http-1.3.19.tgz#748b3366e9e4d1ea4a2d1a3095b993024e8ba264"
-  integrity sha512-nLwM2MJoYFCdcXbBy8voVAvHvmBoyug7xYrW4HqguqZPGiooXrMiT8JHBFJqP4XfH+3yukHlyg0VoMBO/8B1LQ==
+  version "1.3.20"
+  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/http/-/http-1.3.20.tgz#a39348128c51adf0985ddc912c8356c858107d7d"
+  integrity sha512-2ovjnpF+2LUctKLohJFHQeKgUqAOvZjFMyTmC0Bypg0pZQXqPvFzQpx61+W4vGrKUVH9FjS/WzFox+vm5jpTAw==
   dependencies:
     "@nuxt/kit" "^3.0.0-rc.12"
     "@refactorjs/ofetch" "^0.1.8"
@@ -601,9 +601,9 @@
     pathe "^0.3.9"
 
 "@nuxtjs/tailwindcss@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/tailwindcss/-/tailwindcss-6.0.1.tgz#420654f3ec5bc15f293b0315586706b007b0f98e"
-  integrity sha512-C6wdGq6CJDfHWGpDf5PNon1elJMFzMbb/x5mA2Zr9854Xq8e6DgfTMMM7H5x5RpqFV61CfFDMKNPyFrNXdAj0g==
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/tailwindcss/-/tailwindcss-6.1.0.tgz#729cbac79b51129b3d8e51bb4fa690cbdc21962c"
+  integrity sha512-B5CkSVLb5w7KeJLB2U+TW3MrKAfWIBykrCq+pnhymQhrNp1aLCBzZLYP2glyqwWETq9AS9UlCigKZ1bcUIvXCA==
   dependencies:
     "@nuxt/kit" "^3.0.0-rc.12"
     "@nuxt/postcss8" "^1.1.3"
@@ -651,16 +651,16 @@
     ohmyfetch "^0.4.18"
 
 "@rollup/plugin-alias@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-4.0.0.tgz#efac7a052098872030592ff3655238d56f70f1a3"
-  integrity sha512-fGRWzM2F6wXnzAqn4Db8SdB/2Ree0u2XOQaaTy9mhqA35NmUzJXevMBUcpZywPF2MIUUAw+SKfWogKxFSPh+Qw==
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-4.0.2.tgz#fec6c6aff8dd6fce580ae6bc5345084cd702bb62"
+  integrity sha512-1hv7dBOZZwo3SEupxn4UA2N0EDThqSSS+wI1St1TNTBtOZvUchyIClyHcnDcjjrReTPZ47Faedrhblv4n+T5UQ==
   dependencies:
     slash "^4.0.0"
 
 "@rollup/plugin-commonjs@^23.0.0":
-  version "23.0.1"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-23.0.1.tgz#b867a0ea412b7e06c4b7357fb1052872c7402061"
-  integrity sha512-hIMCvNrYmW5G0VRmitlkKQPk9R7lTnQ138pzyWOWBmihwRKI1HNrZspwdzDGL98SQAG5T2aDRcuTeD166Kk+sw==
+  version "23.0.2"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-23.0.2.tgz#3a3a5b7b1b1cb29037eb4992edcaae997d7ebd92"
+  integrity sha512-e9ThuiRf93YlVxc4qNIurvv+Hp9dnD+4PjOqQs5vAYfcZ3+AXSrcdzXnVjWxcGQOa6KGJFcRZyUI3ktWLavFjg==
   dependencies:
     "@rollup/pluginutils" "^5.0.1"
     commondir "^1.0.1"
@@ -670,27 +670,27 @@
     magic-string "^0.26.4"
 
 "@rollup/plugin-inject@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-inject/-/plugin-inject-5.0.1.tgz#035ce080d6d43abd405f6cfe79822290637eebf8"
-  integrity sha512-LaW/BS4smieaEfITX5EfRMTVyr8fFRv/fa+Vn6vOBsed6OFPmtuZ0qobwjs8gncjxsmWJe048DZJ590x8b64nw==
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-inject/-/plugin-inject-5.0.2.tgz#b26c0e6e73f39c118ffc1cf07cfbfd93459b93a6"
+  integrity sha512-zRthPC/sZ2OaQwPh2LvFn0A+3SyMAZR1Vqsp89mWkIuGXKswT8ty1JWj1pf7xdZvft4gHZaCuhdopuiCwjclWg==
   dependencies:
-    "@rollup/pluginutils" "^4.2.1"
+    "@rollup/pluginutils" "^5.0.1"
     estree-walker "^2.0.2"
     magic-string "^0.26.4"
 
 "@rollup/plugin-json@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-json/-/plugin-json-5.0.0.tgz#1e3e18302637760353c83a41d1f3c4e760afb20d"
-  integrity sha512-LsWDA5wJs/ggzakVuKQhZo7HPRcQZgBa3jWIVxQSFxaRToUGNi8ZBh3+k/gQ+1eInVYJgn4WBRCUkmoDrmmGzw==
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-json/-/plugin-json-5.0.1.tgz#d5cd67cc83ede42967447dfabbe1be45a091f5b7"
+  integrity sha512-QCwhZZLvM8nRcTHyR1vOgyTMiAnjiNj1ebD/BMRvbO1oc/z14lZH6PfxXeegee2B6mky/u9fia4fxRM4TqrUaw==
   dependencies:
-    "@rollup/pluginutils" "^4.2.1"
+    "@rollup/pluginutils" "^5.0.1"
 
 "@rollup/plugin-node-resolve@^15.0.0":
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-15.0.0.tgz#44ded58b36702de27bf36bbf19ca420bbd1d0c27"
-  integrity sha512-iwJbzfTzlzDDQcGmkS7EkCKwe2kSkdBrjX87Fy/KrNjr6UNnLpod0t6X66e502LRe5JJCA4FFqrEscWPnZAkig==
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-15.0.1.tgz#72be449b8e06f6367168d5b3cd5e2802e0248971"
+  integrity sha512-ReY88T7JhJjeRVbfCyNj+NXAG3IIsVMsX9b5/9jC98dRP8/yxlZdz7mHZbHk5zHr24wZZICS5AcXsFZAXYUQEg==
   dependencies:
-    "@rollup/pluginutils" "^4.2.1"
+    "@rollup/pluginutils" "^5.0.1"
     "@types/resolve" "1.20.2"
     deepmerge "^4.2.2"
     is-builtin-module "^3.2.0"
@@ -698,17 +698,17 @@
     resolve "^1.22.1"
 
 "@rollup/plugin-replace@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-replace/-/plugin-replace-5.0.0.tgz#5c0384f3a5dc6016c8fb6884d1c68036e6af2a6b"
-  integrity sha512-TiPmjMuBjQM+KLWK16O5TAM/eW4yXBYyQ17FbfeNzBC1t2kzX2aXoa8AlS9XTSmg6/2TNvkER1lMEEeN4Lhavw==
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-replace/-/plugin-replace-5.0.1.tgz#49a57af3e6df111a9e75dea3f3572741f4c5c83e"
+  integrity sha512-Z3MfsJ4CK17BfGrZgvrcp/l6WXoKb0kokULO+zt/7bmcyayokDaQ2K3eDJcRLCTAlp5FPI4/gz9MHAsosz4Rag==
   dependencies:
-    "@rollup/pluginutils" "^4.2.1"
+    "@rollup/pluginutils" "^5.0.1"
     magic-string "^0.26.4"
 
 "@rollup/plugin-wasm@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-wasm/-/plugin-wasm-6.0.0.tgz#6d0937a6604eb3c9103cb22c7bff785e2110ec63"
-  integrity sha512-pIwyNMMcyEoLpiWiMgKVh7YPbe/6N9ifEUvn1jfzwx7U66YuG7cVAniZK+OzPSc3kyfJ/EF9J8rsg4/drBz+NA==
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-wasm/-/plugin-wasm-6.0.1.tgz#3dc69aac67b6e8e44c17d0a6d8d86d5699031c3a"
+  integrity sha512-a5yRknFQG/QGhb1xGkazWXgjpsv0hhWlx34irsf5adMEo55NdpzhZLg+jx49u+bzH6ekktuFg2WKA1RAF+WEDQ==
 
 "@rollup/pluginutils@^4.2.1":
   version "4.2.1"
@@ -719,9 +719,9 @@
     picomatch "^2.2.2"
 
 "@rollup/pluginutils@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-5.0.1.tgz#63def51f5a76dadd984689d33c7f000164152a97"
-  integrity sha512-4HaCVEXXuObvcPUaUlLt4faHYHCeQOOWNj8NKFGaRSrw3ZLD0TWeAFZicV9vXjnE2nkNuaVTfTuwAnjR+6uc9A==
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-5.0.2.tgz#012b8f53c71e4f6f9cb317e311df1404f56e7a33"
+  integrity sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==
   dependencies:
     "@types/estree" "^1.0.0"
     estree-walker "^2.0.2"
@@ -3221,7 +3221,7 @@ methods@^1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==
 
-micromatch@^4.0.2, micromatch@^4.0.4:
+micromatch@^4.0.2, micromatch@^4.0.4, micromatch@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.5.tgz#bc8999a7cbbf77cdc89f132f6e467051b49090c6"
   integrity sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==
@@ -4751,9 +4751,9 @@ tailwind-config-viewer@^1.7.2:
     replace-in-file "^6.1.0"
 
 tailwindcss@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.2.0.tgz#0164a930645e7e1df301df1e9d434a52602c918d"
-  integrity sha512-ARh/W0uH5UlWIC2nn02V0+5fyF0k6qZliyt4QYic2upOhPUE/Spu1EURNc9txJ3+4j8OEmdigqfDpw4d2tA4vA==
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.2.1.tgz#1bd828fff3172489962357f8d531c184080a6786"
+  integrity sha512-Uw+GVSxp5CM48krnjHObqoOwlCt5Qo6nw1jlCRwfGy68dSYb/LwS9ZFidYGRiM+w6rMawkZiu1mEMAsHYAfoLg==
   dependencies:
     arg "^5.0.2"
     chokidar "^3.5.3"
@@ -4765,6 +4765,7 @@ tailwindcss@^3.2.0:
     glob-parent "^6.0.2"
     is-glob "^4.0.3"
     lilconfig "^2.0.6"
+    micromatch "^4.0.5"
     normalize-path "^3.0.0"
     object-hash "^3.0.0"
     picocolors "^1.0.0"

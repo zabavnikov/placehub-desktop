@@ -50,7 +50,9 @@ export default {
       return {
         post: data.value.post,
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 </script>
