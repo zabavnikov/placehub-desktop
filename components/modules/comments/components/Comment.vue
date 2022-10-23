@@ -32,10 +32,7 @@
         {{ comment.text }}
       </p>
 
-      <footer class="flex space-x-4 mt-4">
-        <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="cursor-pointer">
-          в ветке {{ comment.branch_replies_count }} ответов
-        </div>
+      <footer class="flex space-x-4 mt-2">
         <p @click="onReply" class="cursor-pointer">ответить</p>
 <!--        <v-like
             :model-type="`${comment.model_type}_comments`"
@@ -51,6 +48,10 @@
           :votes-up-count="comment.votes_up_count"
           :votes-down-count="comment.votes_down_count"
         />
+        <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="ml-auto flex items-center space-x-1 cursor-pointer">
+          <ChatBubbleLeftIcon class="w-4 h-4 text-gray-500" />
+          <span>{{ comment.branch_replies_count }} ответов</span>
+        </div>
       </footer>
     </section>
 
@@ -70,7 +71,7 @@ import CommentReplyPopover from './CommentReplyPopover'
 import CommentVoteButtons from './CommentVoteButtons'
 import CommentForm from './CommentForm'
 import { useCommentsStore } from '../stores/comments'
-import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { PencilIcon, TrashIcon, ChatBubbleLeftIcon } from '@heroicons/vue/24/solid'
 import { ref, computed } from 'vue'
 import { useGql } from '~/uses'
 import { DELETE_COMMENT } from '../graphql';
@@ -86,6 +87,7 @@ export default {
     CommentForm,
     PencilIcon,
     TrashIcon,
+    ChatBubbleLeftIcon
   },
 
   computed: {

@@ -1,6 +1,6 @@
 <template>
   <section class="bg-white rounded-lg shadow ring-1 ring-offset-1 ring-gray-100">
-    <header class="p-6 border-b border-gray-200">
+    <header class="p-4 border-b border-gray-200">
       <h2 class="text-xl mb-4">Комментарии<span v-if="count > 0"> ({{ count }})</span></h2>
       <CommentForm
           :model-type="modelType"
@@ -9,14 +9,14 @@
     </header>
 
     <div class="divide-y divide-dashed divide-gray-200">
-      <div v-for="(comment, index) in comments" :key="comment.id" class="p-6">
+      <div v-for="(comment, index) in comments" :key="comment.id" class="p-4">
         <Comment :comment="comment"
-          @toggle-replies="onMore(comment)"
+          @toggle-replies="onMoreReplies(comment)"
         />
 
         <!-- Replies -->
         <div v-if="comment.replies" class="replies divide-y divide-dashed divide-gray-200 ml-8">
-          <div v-for="reply in comment.replies" :key="reply.id" class="py-6 last:pb-0">
+          <div v-for="reply in comment.replies" :key="reply.id" class="py-4 last:pb-0">
             <Comment :comment="reply" />
           </div>
         </div>
@@ -25,10 +25,12 @@
           variant="secondary"
           class="w-full mt-6"
           :disabled="loading"
-          @click="onMore(comment)"
+          @click="onMoreReplies(comment)"
         >Показать еще {{ comment.branch_replies_count - comment.replies.length }}</Button>
       </div>
     </div>
+
+    <Button variant="secondary" @click="onMore">Показать еще</Button>
   </section>
 </template>
 
@@ -40,6 +42,7 @@ import { REPLY } from '../graphql';
 import { useGQL } from '~/uses'
 import { useCommentsStore } from '~/components/modules/comments/stores/comments'
 import { Button } from '@placehub/ui'
+import { useOnMore } from '../uses/useOnMore'
 
 export default {
   props: {
@@ -61,11 +64,19 @@ export default {
     Comment,
     CommentForm
   },
-  setup(_, { $pinia }) {
+  setup(props, { $pinia }) {
     const loading = ref(false)
     const comments = useCommentsStore($pinia)
 
-    const onMore = async (comment) => {
+    const onMore = async () => {
+      const newComments = await useOnMore(props.modelType, props.modelId, comments.list.length)
+
+      newComments.forEach(comment => {
+        comments.list.push(comment)
+      })
+    }
+
+    const onMoreReplies = async (comment) => {
       if (loading.value) {
         return
       }
@@ -110,6 +121,7 @@ export default {
     }
 
     return {
+      onMoreReplies,
       onMore,
       comments: comments.list,
       loading

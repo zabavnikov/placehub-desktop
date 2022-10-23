@@ -1,5 +1,5 @@
 <template>
-  <article class="post p-6 bg-white rounded-lg shadow ring-1 ring-offset-1 ring-gray-100">
+  <article class="post p-4 bg-white rounded-lg shadow ring-1 ring-offset-1 ring-gray-100">
     <div class="flex items-center justify-between">
       <Profile :profile="content.user">
         <template #footer>
