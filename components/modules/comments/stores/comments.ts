@@ -24,14 +24,8 @@ export const useCommentsStore = defineStore('comments', {
       if (comment.branch_id > 0) {
         for (let branch of this.list) {
           if (parseInt(branch.id) === comment.branch_id) {
-            if (Object.hasOwn(branch, 'new_replies_count')) {
-              branch.new_replies_count = 0
-            }
-
             branch.replies.push(comment)
             branch.branch_replies_count++
-            // Нужно для подгрузки новых комменатриев в ветке.
-            branch.new_replies_count++
             break
           }
         }

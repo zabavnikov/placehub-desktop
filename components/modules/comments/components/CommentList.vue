@@ -11,17 +11,17 @@
     <div class="divide-y divide-dashed divide-gray-200">
       <div v-for="(comment, index) in comments" :key="comment.id" class="p-6">
         <Comment :comment="comment"
-          @toggle-replies="toggleReplies[index] = !toggleReplies[index]"
+          @toggle-replies="onMore(comment)"
         />
 
         <!-- Replies -->
-        <div v-if="comment.replies" v-show="!toggleReplies[index]" class="replies divide-y divide-dashed divide-gray-200 ml-8">
+        <div v-if="comment.replies" class="replies divide-y divide-dashed divide-gray-200 ml-8">
           <div v-for="reply in comment.replies" :key="reply.id" class="py-6 last:pb-0">
             <Comment :comment="reply" />
           </div>
         </div>
         <Button
-          v-if="comment.branch_replies_count > comment.replies.length"
+          v-if="comment.replies.length && comment.branch_replies_count > comment.replies.length"
           variant="secondary"
           class="w-full mt-6"
           :disabled="loading"
@@ -63,7 +63,6 @@ export default {
   },
   setup(_, { $pinia }) {
     const loading = ref(false)
-    const toggleReplies = ref([]);
     const comments = useCommentsStore($pinia)
 
     const onMore = async (comment) => {
@@ -74,6 +73,10 @@ export default {
       loading.value = true
 
       try {
+        if (! Object.hasOwn(comment, 'replies')) {
+          comment.replies = []
+        }
+
         const { data } = await useGQL(`
           query ($model_type: String, $branch_id: Int, $offset: Int) {
             replies: comments(model_type: $model_type, branch_id: $branch_id, offset: $offset) {
@@ -83,13 +86,11 @@ export default {
         `, {
           model_type: comment.model_type,
           branch_id:  comment.id,
-          offset:     comment.replies.length - comment.new_replies_count
+          offset:     comment.replies.length
         })
 
-        comment.new_replies_count = 0
-
-        // После добавление овета он добавляется в конец ветки,
-        // но он также будет подгружен после нажатия на Показать еще,
+        // После добавление ответа он добавляется в конец ветки,
+        // но он также будет подгружен после нажатия на: показать еще,
         // для этого нужно удалить дубликаты и пересчитать branch_replies_count
         data.replies.forEach((newComment) => {
           comment.replies.forEach((oldComment, index) => {
@@ -110,7 +111,6 @@ export default {
 
     return {
       onMore,
-      toggleReplies,
       comments: comments.list,
       loading
     }

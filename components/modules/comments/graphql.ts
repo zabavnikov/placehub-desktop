@@ -9,6 +9,7 @@ export const COMMENT = `
   created_at(relative: true)
   branch_replies_count
   rating
+  replies
   vote {
     type
   }
@@ -27,36 +28,6 @@ export const COMMENT = `
     id
     name
     avatar
-  }
-  replies(with_trashed: true) {
-    id
-    user_id
-    branch_id
-    parent_id
-    model_id
-    model_type
-    text
-    rating
-    vote {
-      type
-    }
-    votes_up_count
-    votes_down_count
-    created_at(relative: true)
-    parent(with_trashed: true) {
-      user_id
-      created_at(relative: true)
-      text
-      user {
-        name
-        avatar
-      }
-    }
-    user {
-      id
-      name
-      avatar
-    }
   }
 `;
 
