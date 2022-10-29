@@ -9,16 +9,18 @@
     </header>
 
     <div class="divide-y divide-dashed divide-gray-200">
-      <div v-for="(comment, index) in comments" :key="comment.id" class="p-4">
-        <Comment :comment="comment"
-          @toggle-replies="onMoreReplies(comment)"
-        />
+      <div v-for="comment in comments" :key="comment.id">
+        <div class="p-4" :id="`comment-${comment.id}`">
+          <Comment :comment="comment" @toggle-replies="onMoreReplies(comment)" />
+        </div>
 
         <!-- Replies -->
-        <div v-if="comment.replies" class="replies divide-y divide-dashed divide-gray-200 ml-8">
-          <div v-for="reply in comment.replies" :key="reply.id" class="py-4 last:pb-0">
-            <Comment :comment="reply" />
-          </div>
+        <div v-if="comment.replies" class="replies divide-y divide-dashed divide-gray-200">
+          <TransitionGroup name="list">
+            <div v-for="reply in comment.replies" :key="reply.id" class="py-4 pr-4 pl-12" :id="`comment-${reply.id}`">
+              <Comment :comment="reply" />
+            </div>
+          </TransitionGroup>
         </div>
         <Button
           v-if="Object.keys(comment.replies).length && comment.branch_replies_count > Object.keys(comment.replies).length"
@@ -33,6 +35,17 @@
     <Button variant="secondary" @click="onMore">Показать еще</Button>
   </section>
 </template>
+
+<style>
+.list-enter-active,
+.list-leave-active {
+  transition: background-color 2s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  @apply bg-amber-100;
+}
+</style>
 
 <script>
 import Comment from './Comment'

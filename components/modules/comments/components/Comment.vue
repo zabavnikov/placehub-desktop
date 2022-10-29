@@ -1,5 +1,5 @@
 <template>
-  <article :id="`comment-${comment.id}`">
+  <article>
     <header class="flex items-center">
       <nuxt-link :to="{name: 'users.show', params: {userId: comment.user_id}}" class="mr-3 flex-shrink-0">
         <img :src="comment.user.avatar" :alt="comment.user.name" class="w-8 h-8 bg-gray-300/50 rounded-full block">

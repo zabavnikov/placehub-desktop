@@ -15,7 +15,7 @@
             <div class="text-xs text-gray-500">{{ comment.created_at }}</div>
           </div>
         </header>
-        <p class="leading-relaxed font-semibold text-gray-900 mt-2">
+        <p class="leading-relaxed font-semibold text-gray-900 mt-2" @click="onScroll">
           {{ comment.text }}
         </p>
       </div>
@@ -30,10 +30,23 @@ import {
   PopoverPanel,
 } from '@headlessui/vue'
 
-defineProps({
+const { comment } = defineProps({
   comment: {
-    type: Object,
+    type:     Object,
     required: true,
   }
 })
+
+const onScroll = () => {
+  const target = document.querySelector(`#comment-${comment.id}`)
+
+  window.scrollTo({
+    top:      target.offsetTop,
+    behavior: 'smooth',
+  })
+
+  target.classList.add('bg-amber-100')
+
+  setTimeout(() => target.classList.remove('bg-amber-100'), 2000)
+}
 </script>

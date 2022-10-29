@@ -16,6 +16,7 @@ export const COMMENT = `
   votes_up_count
   votes_down_count
   parent(with_trashed: true) {
+    id
     user_id
     created_at(relative: true)
     text
@@ -47,6 +48,7 @@ export const REPLY = `
   votes_down_count
   created_at(relative: true)
   parent(with_trashed: true) {
+    id
     user_id
     created_at(relative: true)
     text
