@@ -2,7 +2,7 @@ import { $fetch } from 'ohmyfetch'
 import { useNuxtApp } from 'nuxt/app'
 
 export default async (query, variables) => await $fetch(
-  'http://api.localhost/graphql',
+  'http://127.0.0.1:8080/graphql',
   {
     body: {
       query: query

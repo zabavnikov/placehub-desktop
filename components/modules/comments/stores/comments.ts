@@ -23,15 +23,15 @@ export const useCommentsStore = defineStore('comments', {
     async addComment(comment: object) {
       if (comment.branch_id > 0) {
         for (let branch of this.list) {
-          if (parseInt(branch.id) === comment.branch_id) {
-            branch.replies.push(comment)
+          if (parseInt(branch.id) === parseInt(comment.branch_id)) {
+            branch.replies[comment.id] = comment
             branch.branch_replies_count++
             break
           }
         }
       } else {
         if (! comment.hasOwnProperty('replies')) {
-          comment.replies = []
+          comment.replies = {}
         }
         this.list.unshift(comment)
       }

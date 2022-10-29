@@ -21,12 +21,12 @@
           </div>
         </div>
         <Button
-          v-if="comment.replies.length && comment.branch_replies_count > comment.replies.length"
+          v-if="Object.keys(comment.replies).length && comment.branch_replies_count > Object.keys(comment.replies).length"
           variant="secondary"
           class="w-full mt-6"
           :disabled="loading"
           @click="onMoreReplies(comment)"
-        >Показать еще {{ comment.branch_replies_count - comment.replies.length }}</Button>
+        >Показать еще {{ comment.branch_replies_count - Object.keys(comment.replies).length }}</Button>
       </div>
     </div>
 
@@ -67,6 +67,7 @@ export default {
   setup(props, { $pinia }) {
     const loading = ref(false)
     const comments = useCommentsStore($pinia)
+    const page = ref(0)
 
     const onMore = async () => {
       const newComments = await useOnMore(props.modelType, props.modelId, comments.list.length)
@@ -84,33 +85,29 @@ export default {
       loading.value = true
 
       try {
-        if (! Object.hasOwn(comment, 'replies')) {
-          comment.replies = []
+        if (comment.replies.length === 0) {
+          comment.replies = {}
         }
 
         const { data } = await useGQL(`
-          query ($model_type: String, $branch_id: Int, $offset: Int) {
-            replies: comments(model_type: $model_type, branch_id: $branch_id, offset: $offset) {
+          query ($model_type: String, $branch_id: Int, $page: Int) {
+            replies: comments(model_type: $model_type, branch_id: $branch_id, page: $page) {
               ${REPLY}
             }
           }
         `, {
           model_type: comment.model_type,
           branch_id:  comment.id,
-          offset:     comment.replies.length
+          page:       page.value++
         })
 
         // После добавление ответа он добавляется в конец ветки,
         // но он также будет подгружен после нажатия на: показать еще,
         // для этого нужно удалить дубликаты и пересчитать branch_replies_count
         data.replies.forEach((newComment) => {
-          comment.replies.forEach((oldComment, index) => {
-            if (parseInt(oldComment.id) === parseInt(newComment.id)) {
-              comment.replies.splice(index, 1)
-            }
-          })
-
-          comment.replies.push(newComment)
+          if (! Object.hasOwn(comment.replies, newComment.id)) {
+            comment.replies[newComment.id] = newComment
+          }
         })
 
       } catch (error) {
