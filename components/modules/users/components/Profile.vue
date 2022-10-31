@@ -9,7 +9,10 @@
       </div>
     </div>
     <div v-if="!!$slots['footer']" class="ml-2 text-sm">
-      <nuxt-link :to="{name: 'users.show', params: {userId: profile.id }}" class="font-semibold inline-block">{{ profile.name }}</nuxt-link>
+      <div class="flex items-center space-x-1">
+        <nuxt-link :to="{name: 'users.show', params: {userId: profile.id }}" class="font-semibold inline-block">{{ profile.name }}</nuxt-link>
+        <slot name="after-name"></slot>
+      </div>
       <div class="text-gray-600">
         <slot name="footer"></slot>
       </div>

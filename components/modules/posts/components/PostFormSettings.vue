@@ -1,7 +1,7 @@
 <template>
   <Dropdown>
-    <button type="button" class="rounded-full p-2 border border-indigo-200">
-      <Cog6ToothIcon class="w-5 h-5 text-indigo-500" />
+    <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500">
+      <Cog6ToothIcon class="w-5 h-5" />
     </button>
     <template v-slot:popper="{ hide }">
       <FormField name="comments" label="Кто может писать комментарии?">

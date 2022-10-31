@@ -3,7 +3,6 @@
 <!--    <ProfileHeader slot="top" :profile="data.user" />-->
 
     <div @click="onEdit">onEdit</div>
-    <post-form v-if="$auth.loggedIn" @created="posts.unshift($event)" class="mb-4"></post-form>
 
     <div v-if="posts.length" class="space-y-6">
       <post v-for="(post, index) in posts" @delete="posts.splice(index, 1)" :key="post.id" :content="post"></post>
@@ -16,7 +15,6 @@
 import { useRoute, useNuxtApp } from 'nuxt/app'
 import { ref } from 'vue'
 import Post from '~/components/modules/posts/components/Post'
-import PostForm from '~/components/modules/posts/components/PostForm'
 import ProfileHeader from '../components/ProfileHeader'
 import { USER } from '~/components/modules/users/graphql'
 import { POST_CARD } from '~/components/modules/posts/graphql'

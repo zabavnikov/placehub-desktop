@@ -13,9 +13,39 @@
     </div>
 
     <form @submit.prevent="onSubmit">
-      <FormField name="text">
-        <Textarea v-model="form.text" placeholder="Привет, что нового?" rows="1" />
-      </FormField>
+      <div class="relative">
+        <FormField name="text">
+          <Textarea v-model="form.text" class="post-form-textarea" placeholder="Привет, что нового?" rows="1" />
+        </FormField>
+
+        <div class="absolute bottom-0 p-2 w-full flex items-end">
+          <div class="flex items-center space-x-2">
+            <!-- Загрузка изображений. -->
+            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500" @click="$refs.upload.$el.click()">
+              <PhotoIcon class="w-5 h-5" />
+            </button>
+            <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
+            <!-- / Загрузка изображений. -->
+
+            <!-- Выбор места. -->
+            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500" @click="onSelectPlace">
+              <MapPinIcon class="w-5 h-5" />
+            </button>
+            <!-- / Выбор места. -->
+
+            <!-- Настройка поста. -->
+            <PostFormSettings v-model:who-can-comment="form.who_can_comment" />
+            <!-- / Настройка поста. -->
+          </div>
+          {{ form.place_id }}
+
+          <div class="ml-auto space-x-2 flex items-center">
+            <button type="submit" :loading="loading" class="w-8 h-8 flex items-center justify-center bg-indigo-500 rounded-full">
+              <PaperAirplaneIcon class="w-5 h-5 -mr-0.5 -mt-0.5 text-white rotate-[-45deg]" />
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div class="bg-white">
         <PostFormImages v-if="form.images.length > 0" v-model="form.images" class="mt-2" />
@@ -36,31 +66,7 @@
         </div>
       </div>
 
-      <div class="flex items-center mt-2">
-        <div class="flex items-center space-x-1">
-          <!-- Загрузка изображений. -->
-          <button type="button" class="rounded-full p-2 border border-indigo-200" @click="$refs.upload.$el.click()">
-            <PhotoIcon class="w-5 h-5 text-indigo-500" />
-          </button>
-          <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
-          <!-- / Загрузка изображений. -->
 
-          <!-- Выбор места. -->
-          <button type="button" class="rounded-full p-2 border border-indigo-200" @click="onSelectPlace">
-            <MapPinIcon class="w-5 h-5 text-indigo-500" />
-          </button>
-          <!-- / Выбор места. -->
-
-          <!-- Настройка поста. -->
-          <PostFormSettings v-model:who-can-comment="form.who_can_comment" />
-          <!-- / Настройка поста. -->
-        </div>
-        {{ form.place_id }}
-
-        <div class="ml-auto space-x-2 flex items-center">
-          <Button type="submit" :loading="loading" class="button">Отправить</Button>
-        </div>
-      </div>
     </form>
 
   </div>
@@ -82,7 +88,7 @@ import PostFormImages from "./PostFormImages"
 import PostFormSettings from "./PostFormSettings"
 import VUpload from '~/components/form/VUpload'
 import { CREATE_POST, UPDATE_POST, POST_FORM } from '../graphql';
-import { PhotoIcon, MapPinIcon } from '@heroicons/vue/24/outline'
+import { PhotoIcon, MapPinIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 
 const formInitialState = {
   place_id: null,
@@ -116,7 +122,8 @@ export default {
     VUpload,
     PostFormSettings,
     PhotoIcon,
-    MapPinIcon
+    MapPinIcon,
+    PaperAirplaneIcon
   },
 
   async setup(props) {
@@ -226,6 +233,13 @@ export default {
     svg {
       stroke: #111;
     }
+  }
+}
+
+.post-form-textarea {
+  textarea,
+  &.textarea::after {
+    @apply pb-14;
   }
 }
 </style>

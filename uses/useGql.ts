@@ -18,6 +18,9 @@ export default async (query, variables) => await $fetch(
     method: 'POST',
     async onResponse({ response }) {
       if (response?._data?.errors) {
+        if (response._data.errors[0]) {
+          alert(response._data.errors[0]['message'])
+        }
         return new Promise((resolve, reject) => reject(response._data.errors))
       }
     }

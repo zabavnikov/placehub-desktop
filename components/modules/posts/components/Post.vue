@@ -10,6 +10,12 @@
             <img :src="content.repost.user.avatar" :alt="content.repost.user.name" class="w-full h-full">
           </NuxtLink>
         </template>
+        <template v-if="content.repost" #after-name>
+          <span class="text-gray-500 text-xs">репостнул(а)</span>
+          <NuxtLink :to="{name: 'users.show', params: {userId: content.repost.user.id }}" class="text-xs">
+            {{ content.repost.user.name }}
+          </NuxtLink>
+        </template>
       </Profile>
       <div class="flex items-center space-x-2">
         <div
