@@ -1,5 +1,5 @@
 <template>
-  <nav class="relative">
+  <nav class="sidebar relative">
     <div class="sticky top-14">
       <NuxtLink v-if="$auth.loggedIn"
                 class="block bg-gray-300/50 text-center py-1 px-2 rounded" to="/">Написать</NuxtLink>

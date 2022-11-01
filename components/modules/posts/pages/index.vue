@@ -1,7 +1,7 @@
 <template>
   <TheLayout>
     <template #sidebar>12</template>
-    <div class="space-y-6">
+    <div class="divide-y divide-slate-200">
       <post v-for="post in data.posts" :key="post.id" :content="post" />
     </div>
   </TheLayout>

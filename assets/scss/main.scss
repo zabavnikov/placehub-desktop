@@ -1,5 +1,25 @@
 @import '@/node_modules/@placehub/ui/dist/style.css';
 
+:root {
+  --sidebar-column-width: 200px;
+  --content-column-width: 540px;
+  --main-column-width:    calc(var(--sidebar-column-width) + var(--content-column-width));
+  --container-width:      calc(var(--sidebar-column-width) + var(--main-column-width))
+}
+
+.sidebar {
+  width: var(--sidebar-column-width);
+}
+.content {
+  width: var(--content-column-width);
+}
+.main {
+  width: var(--main-column-width);
+}
+.container {
+  width: var(--container-width);
+}
+
 body {
   @apply text-sm font-medium;
   font-family: 'Montserrat', sans-serif;

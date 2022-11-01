@@ -4,8 +4,8 @@
 
     <div @click="onEdit">onEdit</div>
 
-    <div v-if="posts.length" class="space-y-6">
-      <post v-for="(post, index) in posts" @delete="posts.splice(index, 1)" :key="post.id" :content="post"></post>
+    <div v-if="data.posts.length" class="space-y-6">
+      <post v-for="(post, index) in data.posts" @delete="data.posts.splice(index, 1)" :key="post.id" :content="post"></post>
     </div>
     <div v-else class="text-gray p-3 bg-gray-50 border border-solid border-gray-100 rounded-lg">Ничего не найдено</div>
   </TheLayout>
@@ -13,7 +13,6 @@
 
 <script setup>
 import { useRoute, useNuxtApp } from 'nuxt/app'
-import { ref } from 'vue'
 import Post from '~/components/modules/posts/components/Post'
 import ProfileHeader from '../components/ProfileHeader'
 import { USER } from '~/components/modules/users/graphql'
@@ -23,7 +22,6 @@ import Dialog from '~/components/common/Dialog'
 
 const route = useRoute()
 const { $overlay } = useNuxtApp()
-
 
 const { data } = await useAsyncGql(`
   query($userId: Int!) {
@@ -35,8 +33,6 @@ const { data } = await useAsyncGql(`
 `, {
   userId: parseInt(route.params.userId)
 })
-
-const posts = ref(data.value.posts)
 
 const onEdit = () => {
   $overlay.show(Dialog, {
