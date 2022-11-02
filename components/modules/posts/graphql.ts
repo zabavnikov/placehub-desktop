@@ -10,6 +10,7 @@ export const POST = `
     likes_count
     created_at(relative: true)
     hashtags
+    who_can_comment
     images(sizes: "default@resize:auto:640:480") {
       id
       url
@@ -82,6 +83,7 @@ export const POST_FRAGMENT = `
   reposts_count
   can
   created_at(relative: true)
+  who_can_comment
   images(sizes: "default@resize:auto:640:480") {
     id
     url

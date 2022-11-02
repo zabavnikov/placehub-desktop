@@ -8,7 +8,9 @@
     "ui": "yarn upgrade @placehub/ui"
   },
   "devDependencies": {
+    "@nuxtjs/apollo": "^5.0.0-alpha.3",
     "@nuxtjs/tailwindcss": "^6.0.1",
+    "@tailwindcss/typography": "^0.5.7",
     "@vueuse/nuxt": "^9.1.1",
     "lodash": "^4.17.21",
     "nuxt": "^3.0.0-rc.11",

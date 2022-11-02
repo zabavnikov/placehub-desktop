@@ -13,15 +13,23 @@ export default {
     '@/assets/scss/main.scss'
   ],
   modules: [
-    '@nuxtjs/tailwindcss',
     '@nuxtjs-alt/auth',
     '@nuxtjs-alt/axios',
     '@nuxtjs-alt/http',
+    '@nuxtjs/apollo',
+    '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '~/modules/routes'
   ],
   build: {
     transpile: ['@heroicons/vue', '@placehub/ui']
+  },
+  apollo: {
+    clients: {
+      default: {
+        httpEndpoint: process.env.GRAPHQL_URL
+      }
+    },
   },
   auth: {
     globalMiddleware: false,
@@ -38,7 +46,7 @@ export default {
           },
           user: {
             url: process.env.API_URL + '/api/users/me',
-            method: 'post',
+            method: 'get',
             propertyName: false
           }
         },

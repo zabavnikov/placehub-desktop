@@ -1,6 +1,9 @@
 <template>
   <TheLayout>
     <post :content="post" full class="mb-6" />
+
+    <div v-if="post.who_can_comment === 'subscribers'">Комментарии доступны только подписчикам</div>
+    <div v-if="post.who_can_comment === 'nobody'">Комментарии закрыты</div>
     <comment-list id="comments" model-type="posts" :count="post.comments_count" :model-id="post.id" />
   </TheLayout>
 </template>

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div class="whitespace-pre-line leading-relaxed">{{ post.text }}</div>
-  </div>
+  <div class="prose-sm" v-html="post.text"></div>
 </template>
 
 <script setup>

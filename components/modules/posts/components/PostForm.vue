@@ -15,10 +15,11 @@
     <form @submit.prevent="onSubmit">
       <div class="relative">
         <FormField name="text">
-          <Textarea v-model="form.text" class="post-form-textarea" placeholder="Привет, что нового?" rows="1" />
+          <TipTap v-model="form.text" placeholder="Привет, что ноasdasdasdвого?" />
+<!--          <Textarea v-model="form.text" class="post-form-textarea" placeholder="Привет, что нового?" rows="1" />-->
         </FormField>
 
-        <div class="absolute bottom-0 p-2 w-full flex items-end">
+        <div class="bottom-0 p-2 w-full flex items-end">
           <div class="flex items-center space-x-2">
             <!-- Загрузка изображений. -->
             <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500" @click="$refs.upload.$el.click()">
@@ -76,6 +77,7 @@
 <script>
 import { useNuxtApp } from 'nuxt/app'
 import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
+import TipTap from '../../../../../tiptap/src/TipTap'
 
 import { ref } from 'vue'
 import { FormField, Textarea, Button } from '@placehub/ui'
@@ -123,7 +125,8 @@ export default {
     PostFormSettings,
     PhotoIcon,
     MapPinIcon,
-    PaperAirplaneIcon
+    PaperAirplaneIcon,
+    TipTap
   },
 
   async setup(props) {

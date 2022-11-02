@@ -7,30 +7,20 @@
   </TheLayout>
 </template>
 
-<script>
-import { useAsyncGql } from '~/uses'
+
+
+<script lang="ts" setup>
 import { POST_CARD } from '../graphql'
 import Post from '~/components/modules/posts/components/Post'
-import PostForm from '~/components/modules/posts/components/PostForm'
+import { gql, useAsyncQuery } from '#imports'
 
-export default {
-  components: {
-    Post,
-    PostForm
-  },
-
-  async setup() {
-    const { data, pending, error } = await useAsyncGql(`
-      query {
-        posts {
-          ${POST_CARD}
-        }
-      }
-    `)
-
-    return {
-      data,
+const query = gql`
+  query {
+    posts {
+      ${POST_CARD}
     }
   }
-}
+`
+
+const { data } = await useAsyncQuery(query)
 </script>

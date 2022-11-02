@@ -1,5 +1,6 @@
 <template>
-  <nuxt-link :to="{name: 'posts.show', params: {postId: post.id}}" class="inline-block whitespace-pre-line leading-relaxed">{{ post.text }}</nuxt-link>
+  <NuxtLink :to="{name: 'posts.show', params: {postId: post.id}}"
+             class="prose-sm block">{{ post.text }}</NuxtLink>
 </template>
 
 <script setup>

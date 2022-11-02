@@ -12,21 +12,20 @@
   </TheLayout>
 </template>
 
-<script setup>
-import { useRoute } from 'nuxt/app'
-import { USER_FIELDS } from '~/components/modules/users/graphql'
-import { useAsyncGql } from '~/uses'
+<script lang="ts" setup>
 import Profile from '~/components/modules/users/components/Profile'
+import TheLayout from '~/components/layout/TheLayout'
+import { USER_FIELDS } from '~/components/modules/users/graphql'
+import { gql, useAsyncQuery } from '#imports'
 
-const route = useRoute()
-
-const { data } = await useAsyncGql(`
-  query {
+const query = gql`
+  query getUsers {
     users {
       ${USER_FIELDS}
     }
   }
-`, {
-})
+`
+
+const { data } = await useAsyncQuery(query)
 </script>
 
