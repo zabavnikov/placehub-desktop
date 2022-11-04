@@ -15,21 +15,20 @@
     <form @submit.prevent="onSubmit">
       <div class="relative">
         <FormField name="text">
-          <TipTap v-model="form.text" placeholder="Привет, что ноasdasdasdвого?" />
-<!--          <Textarea v-model="form.text" class="post-form-textarea" placeholder="Привет, что нового?" rows="1" />-->
+          <TipTap v-model="form.text" />
         </FormField>
 
-        <div class="bottom-0 p-2 w-full flex items-end">
+        <div class="absolute bottom-0 p-4 w-full flex items-end">
           <div class="flex items-center space-x-2">
             <!-- Загрузка изображений. -->
-            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500" @click="$refs.upload.$el.click()">
+            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
               <PhotoIcon class="w-5 h-5" />
             </button>
             <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
             <!-- / Загрузка изображений. -->
 
             <!-- Выбор места. -->
-            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500" @click="onSelectPlace">
+            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-gray-500" @click="onSelectPlace">
               <MapPinIcon class="w-5 h-5" />
             </button>
             <!-- / Выбор места. -->
@@ -41,7 +40,7 @@
           {{ form.place_id }}
 
           <div class="ml-auto space-x-2 flex items-center">
-            <button type="submit" :loading="loading" class="w-8 h-8 flex items-center justify-center bg-indigo-500 rounded-full">
+            <button type="submit" :loading="loading" class="w-8 h-8 flex items-center justify-center bg-indigo-500 rounded-lg">
               <PaperAirplaneIcon class="w-5 h-5 -mr-0.5 -mt-0.5 text-white rotate-[-45deg]" />
             </button>
           </div>
@@ -80,7 +79,7 @@ import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearc
 import TipTap from '../../../../../tiptap/src/TipTap'
 
 import { ref } from 'vue'
-import { FormField, Textarea, Button } from '@placehub/ui'
+import { FormField, Button } from '@placehub/ui'
 import { useRouter } from 'nuxt/app';
 import cloneDeep from 'lodash/cloneDeep.js';
 import pick from 'lodash/pick.js';
@@ -120,7 +119,6 @@ export default {
     Button,
     PostFormImages,
     FormField,
-    Textarea,
     VUpload,
     PostFormSettings,
     PhotoIcon,
@@ -239,10 +237,7 @@ export default {
   }
 }
 
-.post-form-textarea {
-  textarea,
-  &.textarea::after {
-    @apply pb-14;
-  }
+.ProseMirror {
+  @apply pb-12;
 }
 </style>

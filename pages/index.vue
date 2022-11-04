@@ -1,7 +1,7 @@
 <template>
   <TheLayout slot="default">
     <div class="divide-y divide-slate-200">
-      <PostForm v-if="$auth.loggedIn" @created="data.posts.unshift($event)" class="mb-4"></PostForm>
+      <PostForm v-if="$auth.loggedIn" @created="data.posts.unshift($event)"></PostForm>
       <Post v-for="post in data.posts" :key="post.id" :content="post" />
     </div>
   </TheLayout>

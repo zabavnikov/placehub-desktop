@@ -37,6 +37,7 @@ export const POST_CARD = `
   text(words: 24)
   likes_count
   hashtags
+  repost_id
   repost_type
   comments_count
   likes_count
@@ -77,6 +78,7 @@ export const POST_FRAGMENT = `
   place_id
   text
   hashtags
+  repost_id
   repost_type
   comments_count
   likes_count

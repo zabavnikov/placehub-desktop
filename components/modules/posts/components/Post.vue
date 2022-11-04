@@ -33,7 +33,8 @@
     <div class="mt-4">
       <PostForm v-if="isEdit" :post="content" @updated="onUpdated"/>
       <div v-else>
-        <PostRepost v-if="content.repost" :repost="content.repost" />
+        <PostRepost v-if="content.repost_type && content.repost_id" :repost="content.repost" />
+
         <div v-else>
           <Component v-if="content.text" :is="full ? PostBodyFull : PostBody" :post="content"/>
 
