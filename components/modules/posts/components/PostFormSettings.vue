@@ -1,6 +1,6 @@
 <template>
   <Dropdown>
-    <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500">
+    <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500">
       <Cog6ToothIcon class="w-5 h-5" />
     </button>
     <template v-slot:popper="{ hide }">

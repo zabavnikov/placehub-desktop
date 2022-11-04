@@ -1,4 +1,4 @@
-export default {
+export default defineNuxtConfig({
   app: {
     head: {
       meta: [
@@ -8,6 +8,13 @@ export default {
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap' }
       ],
     },
+  },
+  vite: {
+    server: {
+      fs: {
+        allow: ['..']
+      }
+    }
   },
   css: [
     '@/assets/scss/main.scss'
@@ -64,4 +71,4 @@ export default {
       home: false,
     }
   },
-}
+})

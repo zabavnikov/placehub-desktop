@@ -21,14 +21,14 @@
         <div class="absolute bottom-0 p-4 w-full flex items-end">
           <div class="flex items-center space-x-2">
             <!-- Загрузка изображений. -->
-            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
+            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
               <PhotoIcon class="w-5 h-5" />
             </button>
             <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
             <!-- / Загрузка изображений. -->
 
             <!-- Выбор места. -->
-            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-gray-500" @click="onSelectPlace">
+            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="onSelectPlace">
               <MapPinIcon class="w-5 h-5" />
             </button>
             <!-- / Выбор места. -->
