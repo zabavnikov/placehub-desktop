@@ -23,10 +23,6 @@ export const POST = `
     user {
       ${USER_FIELDS}
     }
-    repost {
-      id
-      user_id
-    }
   }
 `;
 
@@ -37,11 +33,9 @@ export const POST_CARD = `
   text(words: 24)
   likes_count
   hashtags
-  repost_id
-  repost_type
   comments_count
   likes_count
-  reposts_count
+  shares_count
   can
   created_at(relative: true)
   images(sizes: "default@resize:auto:640:480") {
@@ -56,20 +50,6 @@ export const POST_CARD = `
   user {
     ${USER_FIELDS}
   }
-  repost {
-    id
-    user_id
-    text(words: 24)
-    images(sizes: "default@resize:auto:640:480") {
-      id
-      url
-      sizes
-      aspect_ratio
-    }
-    user {
-      ${USER_FIELDS}
-    }
-  }
 `;
 
 export const POST_FRAGMENT = `
@@ -78,11 +58,9 @@ export const POST_FRAGMENT = `
   place_id
   text
   hashtags
-  repost_id
-  repost_type
   comments_count
   likes_count
-  reposts_count
+  shares_count
   can
   created_at(relative: true)
   who_can_comment
@@ -97,20 +75,6 @@ export const POST_FRAGMENT = `
   }
   user {
     ${USER_FIELDS}
-  }
-  repost {
-    id
-    user_id
-    text(words: 24)
-    images(sizes: "default@resize:auto:640:480") {
-      id
-      url
-      sizes
-      aspect_ratio
-    }
-    user {
-      ${USER_FIELDS}
-    }
   }
 `;
 

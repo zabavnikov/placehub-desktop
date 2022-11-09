@@ -5,17 +5,6 @@
         <template #footer>
           {{ content.created_at }}
         </template>
-        <template v-if="content.repost" #top-right>
-          <NuxtLink :to="{name: 'users.show', params: {userId: content.repost.user.id }}">
-            <img :src="content.repost.user.avatar" :alt="content.repost.user.name" class="w-full h-full">
-          </NuxtLink>
-        </template>
-        <template v-if="content.repost" #after-name>
-          <span class="text-gray-500 text-xs">репостнул(а)</span>
-          <NuxtLink :to="{name: 'users.show', params: {userId: content.repost.user.id }}" class="text-xs">
-            {{ content.repost.user.name }}
-          </NuxtLink>
-        </template>
       </Profile>
       <div class="flex items-center space-x-2">
         <div
@@ -33,9 +22,6 @@
     <div class="mt-4">
       <PostForm v-if="isEdit" :post="content" @updated="onUpdated"/>
       <div v-else>
-        <PostRepost v-if="content.repost_type && content.repost_id" :repost="content.repost" />
-
-        <div v-else>
           <Component v-if="content.text" :is="full ? PostBodyFull : PostBody" :post="content"/>
 
           <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2 text-gray-500 text-xs">
@@ -43,7 +29,7 @@
           </div>
 
           <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
-        </div>
+
 
         <footer class="flex items-center space-x-4 mt-4">
           <NuxtLink :to="{name: 'posts.show', params: {postId: content.id}, hash: '#comments'}"
@@ -56,7 +42,7 @@
           <div @click="onRepost" class="cursor-pointer flex items-center space-x-1">
             <ArrowUturnRightIcon class="w-4 h-4"/>
             <!-- В репостах не показываем счетчик, так как репост репоста, это репост оригинала. -->
-            <span v-if="content.repost_type === null">{{ content.reposts_count }}</span>
+            <span v-if="content.repost_type === null">{{ content.shares_count }}</span>
           </div>
         </footer>
       </div>
@@ -71,7 +57,6 @@ import { ref, defineAsyncComponent } from 'vue'
 import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
 import PostGallery from './PostGallery.vue'
-import PostRepost from './PostRepost.vue'
 import PostForm from './PostForm'
 import {ChatBubbleBottomCenterIcon, EllipsisHorizontalIcon, ArrowUturnRightIcon} from '@heroicons/vue/24/outline'
 import VLike from '~/components/library/VLike';
