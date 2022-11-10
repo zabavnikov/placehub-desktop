@@ -1,5 +1,8 @@
 <template>
-  <main class="main flex divide-x divide-gray-300" :class="{'flex-row-reverse': reverse}">
+
+  <div class="container flex flex-auto divide-x divide-neutral-800">
+    <TheNavigation class="sidebar" />
+  <main class="main flex divide-x divide-neutral-800" :class="{'flex-row-reverse': reverse}">
     <div class="content">
       <slot></slot>
     </div>
@@ -16,9 +19,11 @@
       </slot>
     </div>
   </main>
+  </div>
 </template>
 
 <script lang="ts" setup>
+import TheNavigation from '~/components/layout/TheNavigation'
 import { useMainStore } from '~/stores'
 
 const props = defineProps({

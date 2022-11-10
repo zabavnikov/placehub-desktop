@@ -1,5 +1,5 @@
 <template>
-  <TheLayout slot="default">
+  <TheLayout>
     <div class="divide-y divide-slate-200">
       <PostForm v-if="$auth.loggedIn" @created="data.posts.unshift($event)"></PostForm>
       <Post v-for="post in data.posts" :key="post.id" :content="post" />
