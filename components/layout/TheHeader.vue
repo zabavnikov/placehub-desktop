@@ -1,6 +1,6 @@
 <template>
-  <header class="sticky top-0 h-12 bg-neutral-800 flex justify-center w-full">
-    <div class="container flex divide-x divide-neutral-700">
+  <header class="sticky top-0 h-12 bg-neutral-200 flex justify-center w-full">
+    <div class="container flex divide-x divide-neutral-100">
       <div class="sidebar">
         <NuxtLink to="/">PLACEHUB</NuxtLink>
       </div>

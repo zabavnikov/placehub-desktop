@@ -1,4 +1,4 @@
-export default defineNuxtConfig({
+export default {
   app: {
     head: {
       meta: [
@@ -71,4 +71,4 @@ export default defineNuxtConfig({
       home: false,
     }
   },
-})
+}

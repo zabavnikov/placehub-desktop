@@ -1,5 +1,5 @@
 <template>
-  <article class="post p-4">
+  <article class="bg-white rounded-lg p-4">
     <div class="flex items-center justify-between">
       <Profile :profile="content.user">
         <template #footer>

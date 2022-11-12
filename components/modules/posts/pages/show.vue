@@ -30,18 +30,18 @@ export default {
 
     try {
       const { data } = await useAsyncGql(`
-        query ($id: Int!, $modelType: String, $withTrashed: Boolean) {
+        query ($id: Int!, $model_type: String, $with_trashed: Boolean) {
           post(id: $id) {
             ${POST_FRAGMENT}
           }
-          comments(model_type: $modelType, model_id: $id, with_trashed: $withTrashed) {
+          comments(model_type: $model_type, model_id: $id, with_trashed: $with_trashed) {
             ${COMMENT}
           }
         }
       `, {
         id: parseInt(route.params.postId),
-        modelType: 'posts',
-        withTrashed: true
+        model_type: 'posts',
+        with_trashed: true
       })
 
       commentsStore.$patch(state => {
