@@ -68,7 +68,7 @@ export default {
         formData.append('images[]', file);
       }
 
-      this.$axios.$post(`http://127.0.0.1:8080/api/images/${this.to}`, formData, {
+      this.$axios.$post(`http://localhost:8080/api/images/${this.to}`, formData, {
         headers: {
           Accept: 'application/json',
           Authorization: useNuxtApp().$auth.strategy.token.get()

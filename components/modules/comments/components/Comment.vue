@@ -48,11 +48,13 @@
           :votes-up-count="comment.votes_up_count"
           :votes-down-count="comment.votes_down_count"
         />
-        <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="ml-auto flex items-center space-x-1 cursor-pointer">
-          <ChatBubbleLeftIcon class="w-4 h-4 text-gray-500" />
-          <span>{{ comment.branch_replies_count }} ответов</span>
-        </div>
       </footer>
+      <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="flex items-center space-x-2 mt-2 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path d="m19.706 13.708-3 3a1 1 0 0 1-1.414-1.414L16.586 14H5a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0v4h10.586l-1.293-1.293a1 1 0 0 1 1.414-1.414l3 3a1 1 0 0 1-.001 1.415z" />
+        </svg>
+        <div class="font-semibold">{{ comment.branch_replies_count }} ответов</div>
+      </div>
     </section>
 
     <CommentForm
@@ -175,3 +177,19 @@ export default {
   }
 }
 </script>
+
+<style>
+.comment-branch::before {
+  content: '';
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  display: block;
+  width: 12px;
+  height: var(--content-offset-top);
+  padding-bottom: calc(var(--size-avatar)*.5 + var(--offset-avatar-top));
+  border: solid var(--color-branch);
+  border-width: 0 0 1px 1px;
+  border-bottom-left-radius: 8px;
+  margin-left: -1px;
+}
+</style>

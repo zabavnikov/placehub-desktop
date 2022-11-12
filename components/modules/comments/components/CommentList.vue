@@ -8,31 +8,30 @@
           @created="comments.unshift($event) "/>
     </header>
 
-    <div class="divide-y divide-dashed divide-gray-200">
+    <div class="divide-y divide-gray-100">
       <div v-for="comment in comments" :key="comment.id">
         <div class="p-4" :id="`comment-${comment.id}`">
           <Comment :comment="comment" @toggle-replies="onMoreReplies(comment)" />
         </div>
 
         <!-- Replies -->
-        <div v-if="comment.replies" class="replies divide-y divide-dashed divide-gray-200">
+        <div v-if="comment.replies" class="replies divide-y divide-gray-100">
           <TransitionGroup name="list">
-            <div v-for="reply in comment.replies" :key="reply.id" class="py-4 pr-4 pl-12" :id="`comment-${reply.id}`">
+            <div v-for="reply in comment.replies" :key="reply.id" class="py-4 pr-4 first:-mt-4 pl-12" :id="`comment-${reply.id}`">
               <Comment :comment="reply" />
             </div>
           </TransitionGroup>
         </div>
-        <Button
-          v-if="Object.keys(comment.replies).length && comment.branch_replies_count > Object.keys(comment.replies).length"
-          variant="secondary"
-          class="w-full mt-6"
-          :disabled="loading"
-          @click="onMoreReplies(comment)"
-        >Показать еще {{ comment.branch_replies_count - Object.keys(comment.replies).length }}</Button>
+        <div v-if="Object.keys(comment.replies).length && comment.branch_replies_count > Object.keys(comment.replies).length" class=" px-4 mb-4">
+          <Button
+            variant="secondary"
+            class="w-full"
+            :disabled="loading"
+            @click="onMoreReplies(comment)"
+          >Показать еще {{ comment.branch_replies_count - Object.keys(comment.replies).length }}</Button>
+        </div>
       </div>
     </div>
-
-    <Button variant="secondary" @click="onMore">Показать еще</Button>
   </section>
 </template>
 
