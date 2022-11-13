@@ -1,17 +1,4 @@
 <template>
-  <div>
-    <div v-if="isReply">
-      <div class="flex">
-        <nuxt-link to="/">
-          <img :src="parent.user.avatar" :alt="parent.user.name" class="block w-10 h-10 rounded-full">
-        </nuxt-link>
-        <div class="ml-2 text-sm">
-          <nuxt-link to="/" class="font-semibold inline-block">{{ parent.user.name }}</nuxt-link>
-          <div class="text-gray-600">{{ parent.created_at }}</div>
-        </div>
-      </div>
-    </div>
-
     <form @submit.prevent="onSubmit">
       <div class="relative p-4">
         <FormField name="text">
@@ -47,11 +34,7 @@
           </div>
         </div>
       </div>
-
-
     </form>
-
-  </div>
 </template>
 
 
@@ -91,10 +74,6 @@ export default {
         return cloneDeep(formInitialState)
       }
     },
-    isReply: {
-      type: Boolean,
-      default: false
-    }
   },
 
   components: {
@@ -116,6 +95,8 @@ export default {
 
     const { $overlay } = useNuxtApp()
 
+    const isEdit = props.post.id > 0
+
     const onSelectPlace = () => {
       $overlay.show(PlaceSearchDialog, {
         props: {
@@ -128,20 +109,6 @@ export default {
           }
         }
       })
-    }
-
-    const isEdit = props.post.id > 0
-
-    if (isEdit) {
-      const { data: { value: { post } } } = await useAsyncGql(`
-          query($postId: Int!) {
-            ${POST_FORM}
-          }
-        `, {
-        postId: props.post.id
-      })
-
-      form.value = post
     }
 
     return {
@@ -187,7 +154,7 @@ export default {
         if (! this.isEdit) {
           this.$emit('created', post)
         } else {
-          this.$emit('updated', post)
+          this.$router.push({name: 'posts.show', params: {postId: this.post.id}})
         }
 
         this.form = cloneDeep(formInitialState)

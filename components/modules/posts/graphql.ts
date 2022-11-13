@@ -79,24 +79,22 @@ export const POST_FRAGMENT = `
 `;
 
 export const POST_FORM = `
-  post(id: $postId) {
+  id
+  user_id
+  place_id
+  who_can_comment
+  place {
     id
-    user_id
-    place_id
-    who_can_comment
-    place {
-      id
-      name
-      full_name
-    }
-    text(raw: true)
-    can
-    images(sizes: "default@resize:auto:120:120") {
-      id
-      url
-      sizes
-      aspect_ratio
-    }
+    name
+    full_name
+  }
+  text(raw: true)
+  can
+  images(sizes: "default@resize:auto:120:120") {
+    id
+    url
+    sizes
+    aspect_ratio
   }
 `;
 

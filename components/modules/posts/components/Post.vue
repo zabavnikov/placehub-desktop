@@ -7,11 +7,9 @@
         </template>
       </Profile>
       <div class="flex items-center space-x-2">
-        <div
-            v-if="full"
-            @click="isEdit = !isEdit" class="cursor-pointer text-indigo-800 hover:text-indigo-500">
+        <NuxtLink :to="{name: 'posts.edit', params: {postId: content.id}}" class="cursor-pointer text-indigo-800 hover:text-indigo-500">
           редактировать
-        </div>
+        </NuxtLink>
         <EllipsisHorizontalIcon
             v-if="full"
             @click="onDelete"

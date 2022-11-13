@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="{name: 'posts.show', params: {postId: post.id}}" class="prose-sm block" v-html="post.text"></NuxtLink>
+  <NuxtLink :to="{name: 'posts.show', params: {postId: post.id}}" class="prose-sm block">{{ post.text }}</NuxtLink>
 </template>
 
 <script setup>
