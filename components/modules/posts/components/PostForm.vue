@@ -13,12 +13,14 @@
     </div>
 
     <form @submit.prevent="onSubmit">
-      <div class="relative">
+      <div class="relative p-4">
         <FormField name="text">
           <TipTap v-model="form.text" />
         </FormField>
 
-        <div class="absolute bottom-0 p-4 w-full flex items-end">
+        <PostFormImages v-if="form.images.length > 0" v-model="form.images" />
+
+        <div class="mt-4 w-full flex items-end">
           <div class="flex items-center space-x-2">
             <!-- Загрузка изображений. -->
             <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
@@ -37,31 +39,11 @@
             <PostFormSettings v-model:who-can-comment="form.who_can_comment" />
             <!-- / Настройка поста. -->
           </div>
-          {{ form.place_id }}
 
           <div class="ml-auto space-x-2 flex items-center">
             <button type="submit" :loading="loading" class="w-8 h-8 flex items-center justify-center bg-indigo-500 rounded-lg">
               <PaperAirplaneIcon class="w-5 h-5 -mr-0.5 -mt-0.5 text-white rotate-[-45deg]" />
             </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white">
-        <PostFormImages v-if="form.images.length > 0" v-model="form.images" class="mt-2" />
-
-        <div v-if="form.place && Object.keys(form.place).length > 0"
-             class="mt-2 flex justify-between shadow-sm p-2 border rounded">
-          <div>
-            <div class="font-bold">{{ form.place.name }}</div>
-            <div class="help">{{ form.place.parent_names }}</div>
-          </div>
-          <span @click="form.place = {}" class="cursor-pointer">x</span>
-        </div>
-
-        <div v-if="errors.any()" class="text-red-500 text-sm mt-4">
-          <div v-for="error in errors.all()" class="help">
-            {{ error[0] }}
           </div>
         </div>
       </div>
@@ -238,6 +220,6 @@ export default {
 }
 
 .ProseMirror {
-  @apply pb-12;
+  @apply p-0;
 }
 </style>

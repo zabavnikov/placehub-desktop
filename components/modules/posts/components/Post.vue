@@ -1,6 +1,6 @@
 <template>
-  <article class="bg-white rounded-lg p-4">
-    <div class="flex items-center justify-between">
+  <article class="bg-white rounded-lg" :class="{'is-edit': isEdit}">
+    <div v-if="isEdit === false" class="flex items-center justify-between p-4">
       <Profile :profile="content.user">
         <template #footer>
           {{ content.created_at }}
@@ -19,33 +19,31 @@
       </div>
     </div>
 
-    <div class="mt-4">
-      <PostForm v-if="isEdit" :post="content" @updated="onUpdated"/>
-      <div v-else>
-          <Component v-if="content.text" :is="full ? PostBodyFull : PostBody" :post="content"/>
+    <PostForm v-if="isEdit" :post="content" @updated="onUpdated" class="-mt-4"/>
+    <div v-else class="p-4 -mt-4">
+        <Component v-if="content.text" :is="full ? PostBodyFull : PostBody" :post="content"/>
 
-          <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2 text-gray-500 text-xs">
-            <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>
-          </div>
+        <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2 text-gray-500 text-xs">
+          <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>
+        </div>
 
-          <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
+        <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
 
 
-        <footer class="flex items-center space-x-4 mt-4">
-          <NuxtLink :to="{name: 'posts.show', params: {postId: content.id}, hash: '#comments'}"
-                    class="flex items-center space-x-1">
-            <ChatBubbleBottomCenterIcon class="w-4 h-4"/>
-            <span>{{ content.comments_count }}</span>
-          </NuxtLink>
-          <VLike model-type="posts" :model-id="content.id" :is-liked="content.like.is_liked"
-                 :count="content.likes_count"/>
-          <div @click="onRepost" class="cursor-pointer flex items-center space-x-1">
-            <ArrowUturnRightIcon class="w-4 h-4"/>
-            <!-- В репостах не показываем счетчик, так как репост репоста, это репост оригинала. -->
-            <span v-if="content.repost_type === null">{{ content.shares_count }}</span>
-          </div>
-        </footer>
-      </div>
+      <footer class="flex items-center space-x-4 mt-4">
+        <NuxtLink :to="{name: 'posts.show', params: {postId: content.id}, hash: '#comments'}"
+                  class="flex items-center space-x-1">
+          <ChatBubbleBottomCenterIcon class="w-4 h-4"/>
+          <span>{{ content.comments_count }}</span>
+        </NuxtLink>
+        <VLike model-type="posts" :model-id="content.id" :is-liked="content.like.is_liked"
+               :count="content.likes_count"/>
+        <div @click="onRepost" class="cursor-pointer flex items-center space-x-1">
+          <ArrowUturnRightIcon class="w-4 h-4"/>
+          <!-- В репостах не показываем счетчик, так как репост репоста, это репост оригинала. -->
+          <span v-if="content.repost_type === null">{{ content.shares_count }}</span>
+        </div>
+      </footer>
     </div>
 
 
@@ -124,3 +122,10 @@ const onRepost = async () => {
   } catch (error) {}
 }
 </script>
+
+<style>
+.is-edit {
+  background-color: #f1f1f1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%239C92AC' fill-opacity='0.07'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E");
+}
+</style>
