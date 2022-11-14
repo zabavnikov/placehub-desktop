@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <div class="hero bg-gray-300/50 p-4"></div>
-    <main class="main flex" :class="{'flex-row-reverse': reverse}">
+  <main class="flex flex-col">
+    <h3 v-if="heading"
+        class="my-4 font-medium text-lg">{{ heading }}</h3>
+
+    <div v-if="!!$slots['hero']" class="hero bg-gray-300/50 p-4 mb-4"></div>
+    <div class="main gap-4 flex flex-auto" :class="{'flex-row-reverse': reverse}">
       <div class="content">
         <slot></slot>
       </div>
@@ -17,12 +20,12 @@
           </ul>
         </slot>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </template>
 
 <script lang="ts" setup>
-import {useMainStore} from '~/stores'
+import { useMainStore } from '~/stores'
 
 const props = defineProps({
   reverse: {

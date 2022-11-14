@@ -1,40 +1,38 @@
 <template>
-    <form @submit.prevent="onSubmit">
-      <div class="relative p-4">
-        <FormField name="text">
-          <TipTap v-model="form.text" />
-        </FormField>
+  <form @submit.prevent="onSubmit" class="relative p-4">
+    <FormField name="text">
+      <TipTap v-model="form.text" />
+    </FormField>
 
-        <PostFormImages v-if="form.images.length > 0" v-model="form.images" />
+    <PostFormImages v-if="form.images.length > 0" v-model="form.images" />
 
-        <div class="mt-4 w-full flex items-end">
-          <div class="flex items-center space-x-2">
-            <!-- Загрузка изображений. -->
-            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
-              <PhotoIcon class="w-5 h-5" />
-            </button>
-            <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
-            <!-- / Загрузка изображений. -->
+    <div class="mt-4 w-full flex items-end">
+      <div class="flex items-center space-x-2">
+        <!-- Загрузка изображений. -->
+        <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
+          <PhotoIcon class="w-5 h-5" />
+        </button>
+        <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
+        <!-- / Загрузка изображений. -->
 
-            <!-- Выбор места. -->
-            <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="onSelectPlace">
-              <MapPinIcon class="w-5 h-5" />
-            </button>
-            <!-- / Выбор места. -->
+        <!-- Выбор места. -->
+        <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="onSelectPlace">
+          <MapPinIcon class="w-5 h-5" />
+        </button>
+        <!-- / Выбор места. -->
 
-            <!-- Настройка поста. -->
-            <PostFormSettings v-model:who-can-comment="form.who_can_comment" />
-            <!-- / Настройка поста. -->
-          </div>
-
-          <div class="ml-auto space-x-2 flex items-center">
-            <button type="submit" :loading="loading" class="w-8 h-8 flex items-center justify-center bg-indigo-500 rounded-lg">
-              <PaperAirplaneIcon class="w-5 h-5 -mr-0.5 -mt-0.5 text-white rotate-[-45deg]" />
-            </button>
-          </div>
-        </div>
+        <!-- Настройка поста. -->
+        <PostFormSettings v-model:who-can-comment="form.who_can_comment" />
+        <!-- / Настройка поста. -->
       </div>
-    </form>
+
+      <div class="ml-auto space-x-2 flex items-center">
+        <button type="submit" :loading="loading" class="w-8 h-8 flex items-center justify-center bg-indigo-500 rounded-lg">
+          <PaperAirplaneIcon class="w-5 h-5 -mr-0.5 -mt-0.5 text-white rotate-[-45deg]" />
+        </button>
+      </div>
+    </div>
+  </form>
 </template>
 
 
@@ -62,7 +60,7 @@ const formInitialState = {
   place: {},
   images: [],
   who_can_comment: 'all',
-};
+}
 
 export default {
   emits: ['created', 'updated'],
@@ -157,7 +155,7 @@ export default {
           this.$router.push({name: 'posts.show', params: {postId: this.post.id}})
         }
 
-        this.form = cloneDeep(formInitialState)
+        this.form.value = cloneDeep(formInitialState)
       } catch (errors) {
         this.errors.record(errors)
       } finally {

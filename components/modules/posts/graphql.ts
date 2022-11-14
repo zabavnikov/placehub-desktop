@@ -71,6 +71,7 @@ export const POST_FRAGMENT = `
     aspect_ratio
   }
   like {
+    model_id
     is_liked
   }
   user {

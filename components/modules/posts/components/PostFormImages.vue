@@ -47,7 +47,7 @@ const classes = computed(() => {
 })
 
 const onDelete = (index) => {
-  if (props.modelValue.length > 1) {
+  if (props.modelValue.length > 0) {
     props.modelValue.splice(index, 1)
   }
 }

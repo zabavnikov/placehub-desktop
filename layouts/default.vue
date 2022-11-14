@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center min-h-full">
     <TheHeader />
 
-    <div class="container flex flex-auto">
+    <div class="flex flex-auto gap-4 mb-4">
       <TheNavigation class="sidebar"/>
       <slot />
     </div>

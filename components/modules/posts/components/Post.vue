@@ -1,6 +1,6 @@
 <template>
-  <article class="bg-white rounded-lg" :class="{'is-edit': isEdit}">
-    <div v-if="isEdit === false" class="flex items-center justify-between p-4">
+  <Card>
+    <div class="flex items-center justify-between p-4">
       <Profile :profile="content.user">
         <template #footer>
           {{ content.created_at }}
@@ -45,11 +45,12 @@
     </div>
 
 
-  </article>
+  </Card>
 </template>
 
 <script setup>
 import { ref, defineAsyncComponent } from 'vue'
+import Card from '~/components/Card'
 import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
 import PostGallery from './PostGallery.vue'

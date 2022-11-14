@@ -1,7 +1,8 @@
 <template>
-  <TheLayout>
-    <template #sidebar>12</template>
-    <PostForm :post="form.post" />
+  <TheLayout heading="Редактирование поста">
+    <div class="bg-white rounded-lg border border-neutral-200 h-full">
+      <PostForm :post="form.post" />
+    </div>
   </TheLayout>
 </template>
 

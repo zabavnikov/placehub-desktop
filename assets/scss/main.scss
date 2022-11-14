@@ -4,20 +4,19 @@
   --sidebar-column-width: 200px;
   --content-column-width: 540px;
   --main-column-width:    calc(var(--sidebar-column-width) + var(--content-column-width));
-  --container-width:      calc(var(--sidebar-column-width) + var(--main-column-width))
 }
 
 .sidebar {
   width: var(--sidebar-column-width);
+  flex-shrink: 0;
 }
 .content {
   width: var(--content-column-width);
+  flex-shrink: 0;
 }
 .main {
   width: var(--main-column-width);
-}
-.container {
-  width: var(--container-width);
+  flex-shrink: 0;
 }
 
 body {
