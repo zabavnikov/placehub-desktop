@@ -42,10 +42,8 @@
     @apply grid-cols-2;
     max-height: none;
 
-    > div {
-      img {
-        @apply aspect-square;
-      }
+    > div img {
+      @apply aspect-square;
     }
   }
 
@@ -53,23 +51,19 @@
     @apply grid-cols-6;
     max-height: none;
 
+    > div img {
+      @apply aspect-square;
+    }
+
     > div:nth-child(1),
     > div:nth-child(2) {
       @apply col-span-3;
-
-      img {
-        @apply aspect-square;
-      }
     }
 
     > div:nth-child(3),
     > div:nth-child(4),
     > div:nth-child(5), {
       grid-column: 2 span / 2 span;
-
-      img {
-        @apply aspect-square;
-      }
     }
   }
 
@@ -77,13 +71,13 @@
     @apply grid-cols-8;
     max-height: none;
 
+    > div img {
+      @apply aspect-square;
+    }
+
     > div:nth-child(1),
     > div:nth-child(2) {
       @apply col-span-4;
-
-      img {
-        @apply aspect-square;
-      }
     }
 
     > div:nth-child(3),
@@ -91,10 +85,6 @@
     > div:nth-child(5),
     > div:nth-child(6), {
       grid-column: 2 span / 2 span;
-
-      img {
-        @apply aspect-square;
-      }
     }
   }
 
@@ -102,13 +92,13 @@
     @apply grid-cols-10;
     max-height: none;
 
+    > div img {
+      @apply aspect-square;
+    }
+
     > div:nth-child(1),
     > div:nth-child(2) {
       @apply col-span-5;
-
-      img {
-        @apply aspect-square;
-      }
     }
 
     > div:nth-child(3),
@@ -117,10 +107,60 @@
     > div:nth-child(6),
     > div:nth-child(7), {
       grid-column: 2 span / 2 span;
+    }
+  }
 
-      img {
-        @apply aspect-square;
-      }
+  &-grid-8 {
+    @apply grid-cols-12;
+    max-height: none;
+
+    > div img {
+      @apply aspect-square;
+    }
+
+    > div:nth-child(1),
+    > div:nth-child(2) {
+      @apply col-span-6;
+    }
+
+    > div:nth-child(3),
+    > div:nth-child(4),
+    > div:nth-child(5),
+    > div:nth-child(6),
+    > div:nth-child(7),
+    > div:nth-child(8), {
+      grid-column: 2 span / 2 span;
+    }
+  }
+
+  &-grid-9 {
+    @apply grid-cols-9;
+    max-height: none;
+
+    > div img {
+      @apply aspect-square;
+    }
+
+    > div {
+      @apply col-span-3;
+    }
+  }
+
+  &-grid-10 {
+    @apply grid-cols-12;
+    max-height: none;
+
+    > div img {
+      @apply aspect-square;
+    }
+
+    > div:nth-child(1),
+    > div:nth-child(2) {
+      @apply col-span-6;
+    }
+
+    > div:not(:nth-child(1)):not(:nth-child(2)) {
+      @apply col-span-3;
     }
   }
 }
