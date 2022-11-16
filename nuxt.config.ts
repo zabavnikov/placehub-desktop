@@ -21,7 +21,6 @@ export default {
   ],
   modules: [
     '@nuxtjs-alt/auth',
-    '@nuxtjs-alt/axios',
     '@nuxtjs-alt/http',
     '@nuxtjs/apollo',
     '@nuxtjs/tailwindcss',

@@ -11,6 +11,7 @@
 <script>
 import { $fetch } from 'ohmyfetch'
 import {useNuxtApp} from 'nuxt/app';
+import axios from 'axios'
 
 export default {
   emits: ['update:modelValue', 'progress'],
@@ -51,7 +52,7 @@ export default {
   },
 
   methods: {
-    onChange(event) {
+    async onChange(event) {
       const files = event.target.files, formData = new FormData();
 
       if (
@@ -68,7 +69,7 @@ export default {
         formData.append('images[]', file);
       }
 
-      this.$axios.$post(`http://localhost:8080/api/images/${this.to}`, formData, {
+      await axios.post(`http://localhost:8080/api/images/${this.to}`, formData, {
         headers: {
           Accept: 'application/json',
           Authorization: useNuxtApp().$auth.strategy.token.get()
@@ -80,9 +81,9 @@ export default {
               this.$emit('progress', this.progress);
             }
           })*/
-          .then(images => {
-            if (images.length > 0) {
-              this.$emit('update:modelValue', [...this.modelValue, ...images]);
+          .then(({ data }) => {
+            if (data.length > 0) {
+              this.$emit('update:modelValue', [...this.modelValue, ...data]);
             }
           })
           .finally(() => {

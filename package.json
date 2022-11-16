@@ -19,10 +19,10 @@
   "dependencies": {
     "@headlessui/vue": "^1.6.7",
     "@heroicons/vue": "^2.0.10",
-    "@nuxtjs-alt/auth": "^2.0.6",
-    "@nuxtjs-alt/axios": "^1.0.15",
+    "@nuxtjs-alt/auth": "^2.1.3",
     "@pinia/nuxt": "^0.4.1",
     "@placehub/ui": "https://github.com/placehub/ui.git",
+    "axios": "^1.1.3",
     "diorama": "^1.0.1",
     "pinia": "^2.0.21",
     "vue-final-modal": "^3.5.0-beta.48",
