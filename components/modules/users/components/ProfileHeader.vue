@@ -3,7 +3,7 @@
 
     <div class="flex items-center space-x-6">
       <img :src="profile.avatar" :alt="profile.name" class="rounded-full" />
-      <div>
+      <div class="truncate">
         <h1 class="text-2xl">{{ profile.name }}</h1>
         <nuxt-link
             v-if="$auth.loggedIn && parseInt(profile.id) === parseInt($auth.user.id)"

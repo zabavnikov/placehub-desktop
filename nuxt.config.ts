@@ -28,11 +28,15 @@ export default {
     '~/modules/routes'
   ],
   build: {
-    transpile: ['@heroicons/vue', '@placehub/ui']
+    transpile: ['@heroicons/vue']
   },
   apollo: {
     clients: {
       default: {
+        tokenStorage: 'cookie',
+        authType: 'Bearer',
+        tokenName: 'auth._token.local',
+        authHeader: 'Authorization',
         httpEndpoint: process.env.GRAPHQL_URL
       }
     },

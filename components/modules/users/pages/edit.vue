@@ -5,55 +5,87 @@
       <input type="file" @change="onUpload" class="mt-2" />
     </template>
 
-      <div>
-        <label for="name">
-          Имя пользователя
-          <span class="asterisk"></span>
-        </label>
+    <form @submit.prevent="onSubmit" class="space-y-4">
+      <FormField label="Имя" name="input.name" required>
+        <template v-slot="{ hasError }">
+          <Input v-model="user.name" type="text" id="input.name" :variant="hasError ? 'error' : undefined" />
+        </template>
+        <template #help>
+          Чтобы людям было проще находить ваш аккаунт, используйте имя, под которым вас знают: ваше имя и фамилию, никнейм или название компании.
+        </template>
+      </FormField>
 
-        <Input v-model="user.name" type="text" id="name" />
-        <div v-if="errors.has('name')" class="help mt-1" style="color: red;">{{ errors.first('name') }}</div>
-        <div
-            v-else
-            class="text-xs font-semibold text-gray-800 mt-1"
-        >Чтобы людям было проще находить ваш аккаунт, используйте имя, под которым вас знают: ваше имя и фамилию, никнейм или название компании.</div>
-      </div>
-
-      <div class="mt-4">
-        <label for="description">О себе</label>
+      <FormField label="О себе" name="input.description">
         <Textarea v-model="user.description" id="description" />
-        <div v-if="errors.has('description')" class="help mt-1" style="color: red;">{{ errors.first('description') }}</div>
-      </div>
+      </FormField>
 
-      <div class="mt-4">
-        <Button @click="onSubmit" :class="{loading}" class="button button-success">Сохранить</Button>
-      </div>
+      <Button type="submit" :loading="loading">Сохранить</Button>
+    </form>
   </TheLayout>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRoute } from '#app'
-import { Textarea, Input, Button } from '@placehub/ui';
-import Errors from '~/utils/validation'
+import { Textarea, Input, Button, FormField } from '@placehub/ui'
+import { UPDATE_USER } from '../graphql'
 import { USER } from '~/components/modules/users/graphql'
-import { useAsyncGql } from '~/uses'
+import { gql, useAsyncQuery, useMutation } from '#imports'
+import { ref } from 'vue'
+import { useForm } from 'vee-validate'
+import { useRoute } from 'nuxt/app'
 
 const route = useRoute()
-const errors = new Errors
 const loading = ref(false)
+const user = ref({})
+const userId = parseInt(route.params.userId)
 
-const { data } = await useAsyncGql(`
+const { data } = await useAsyncQuery(gql`
   query($userId: Int!) {
     ${USER}
   }
 `, {
-  userId: parseInt(route.params.userId)
+  userId
 })
 
-const user = data.value.user;
+user.value = data.value.user
+
+// Отправка формы
+const onSubmit = useForm().handleSubmit(async (values, actions) => {
+  if (loading.value) {
+    return
+  }
+
+  loading.value = true
+
+  const input = user.value
+
+  delete input.id
+  delete input.__typename
+  delete input.avatar
+
+  try {
+    const { mutate } = await useMutation(gql`
+      ${UPDATE_USER}
+    `, {
+      variables: {
+        id: userId,
+        input
+      }
+    })
+
+    await mutate()
+  } catch (error) {
+    if (error.graphQLErrors) {
+      actions.setErrors(error.graphQLErrors[0]['extensions']['validation']);
+    }
+  } finally {
+    loading.value = false
+  }
+})
+
+const onUpload = () => {}
 </script>
 
+<!--
 <script>
 
 export default {
@@ -103,4 +135,5 @@ export default {
   },
 };
 </script>
+-->
 

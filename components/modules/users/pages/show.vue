@@ -1,6 +1,6 @@
 <template>
   <TheLayout>
-<!--    <ProfileHeader slot="top" :profile="data.user" />-->
+    <ProfileHeader slot="top" :profile="data.user" />
 
     <div @click="onEdit">onEdit</div>
 

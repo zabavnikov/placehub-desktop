@@ -1,5 +1,5 @@
 <template>
-  <div class="prose-sm" v-html="post.text"></div>
+  <div class="prose prose-sm" v-html="post.text"></div>
 </template>
 
 <script setup>
