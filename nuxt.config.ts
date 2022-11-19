@@ -27,6 +27,9 @@ export default {
     '@pinia/nuxt',
     '~/modules/routes'
   ],
+  publicRuntimeConfig: {
+    GRAPHQL_URL: process.env.GRAPHQL_URL
+  },
   build: {
     transpile: ['@heroicons/vue']
   },

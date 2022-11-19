@@ -2,13 +2,16 @@
   <TheLayout reverse heading="Редактирование профиля">
     <template #sidebar>
       <img :src="$auth.user.avatar" :alt="user.name" class="rounded" width="100%" />
-      <input type="file" @change="onUpload" class="mt-2" />
+<!--      <input type="file" @change="onUpload" class="mt-2" />-->
+      <FormField name="avatar">
+        <Upload model-type="posts" />
+      </FormField>
     </template>
 
     <form @submit.prevent="onSubmit" class="space-y-4">
       <FormField label="Имя" name="input.name" required>
         <template v-slot="{ hasError }">
-          <Input v-model="user.name" type="text" id="input.name" :variant="hasError ? 'error' : undefined" />
+          <Input v-model="user.name" type="text" id="input.name" />
         </template>
         <template #help>
           Чтобы людям было проще находить ваш аккаунт, используйте имя, под которым вас знают: ваше имя и фамилию, никнейм или название компании.
@@ -32,6 +35,7 @@ import { gql, useAsyncQuery, useMutation } from '#imports'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
 import { useRoute } from 'nuxt/app'
+import Upload from '~/components/Upload'
 
 const route = useRoute()
 const loading = ref(false)

@@ -610,7 +610,7 @@
     defu latest
     ufo latest
 
-"@nuxtjs/apollo@^5.0.0-alpha.3":
+"@nuxtjs/apollo@^5.0.0-alpha.4":
   version "5.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/@nuxtjs/apollo/-/apollo-5.0.0-alpha.4.tgz#96afeab14215623f54dfbd62f9ffca1bdd2184ca"
   integrity sha512-gdUX0Tzri0vBp2DcHbO7NE9fDKC7JGXexlpNgrfl5ObBqZqYOapl8UkX5RITdvPdVvnBmTQRmztIY1MAwii/Vw==
@@ -658,13 +658,14 @@
 
 "@placehub/ui@https://github.com/placehub/ui.git":
   version "0.0.0"
-  resolved "https://github.com/placehub/ui.git#a4c93a2bf8444248eb712782a7cd1d42f80db7db"
+  resolved "https://github.com/placehub/ui.git#f3a111bff856c1d7a4b10742e43e4f3b735d719d"
   dependencies:
     "@floating-ui/dom" "^1.0.2"
     "@headlessui/vue" "^1.6.7"
     "@heroicons/vue" "^2.0.10"
     "@vueuse/core" "^9.3.0"
     axios "^0.27.2"
+    nuxt "^3.0.0"
     vee-validate "^4.6.7"
     vue "^3.2.37"
 
@@ -3715,7 +3716,7 @@ nuxi@3.0.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
-nuxt@^3.0.0-rc.11:
+nuxt@^3.0.0, nuxt@^3.0.0-rc.11:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.0.0.tgz#0909e6566d79805f3a4ed6229573817cbde12e89"
   integrity sha512-RNlD78uv04ZiXWmlx9f1tnJfrqsYAWHU+4gbgOTQpIBmQzHWPWiox+fm/1m93iKfEd5sJi9TJUoXX5yBObVZYw==
@@ -5176,9 +5177,9 @@ ufo@^1.0.0, ufo@latest:
   integrity sha512-DRty0ZBNlJ2R59y4mEupJRKLbkLQsc4qtxjpQv78AwEDuBkaUogMc2LkeqW3HddFlw6NwnXYfdThEZOiNgkmmQ==
 
 ultrahtml@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ultrahtml/-/ultrahtml-1.0.0.tgz#826f2f922bf99a20732608d21c4881b9952574cc"
-  integrity sha512-BOtReLegZ/OlSTVOSt4aH+wrUPwxoXvapUHXjwhDE4k4kMISWdfUR4PH5wvt/vgKjFcAcEUPFEZQiPiB87XO3Q==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ultrahtml/-/ultrahtml-1.0.1.tgz#ed7fd8c1046ae36d176e320772132dd48f73a864"
+  integrity sha512-VDt8gmBR5DPrsfdLS4GQqncojcsLTKMW6iHKVN9l6TohU5bdn/OPv8AmV/0/PBR7Z3qBmMpJHqxRdQFaFA8B9g==
 
 unbuild@^1.0.1:
   version "1.0.1"
