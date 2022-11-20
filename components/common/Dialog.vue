@@ -1,7 +1,7 @@
 <template>
   <div tabindex="-1" aria-hidden="true" class="absolute left-0 top-0 w-full h-full overflow-y-auto">
     <div class="flex items-center justify-start flex-col p-10 min-h-full">
-      <div class="relative min-w-[320px] max-w-2xl bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="relative min-w-[320px] max-w-[538px] w-full bg-white rounded-lg shadow dark:bg-gray-700">
         <!-- Modal header -->
         <header class="p-4 flex justify-between items-center p-4 rounded-t border-b border-gray-200">
           <h3 class="text-lg font-semibold text-gray-900 leading-none">

@@ -15,7 +15,7 @@
         <div class="p-4 text-center">
           <p class="mb-4">{{ text }}</p>
           <Button variant="danger" class="w-full" @click="onDelete">Удалить</Button>
-          <Button variant="gray" class="w-full" @click="$overlay.hide">Отмена</Button>
+          <Button variant="secondary" class="w-full mt-1" @click="$overlay.hide">Отмена</Button>
         </div>
       </div>
     </div>

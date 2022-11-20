@@ -68,128 +68,81 @@
   </article>
 </template>
 
-<script>
+<script setup>
+import CommentForm from './CommentForm'
 import CommentReplyPopover from './CommentReplyPopover'
 import CommentVoteButtons from './CommentVoteButtons'
-import CommentForm from './CommentForm'
-import { useCommentsStore } from '../stores/comments'
 import { PencilIcon, TrashIcon, ChatBubbleLeftIcon } from '@heroicons/vue/24/solid'
+import { defineAsyncComponent } from 'vue'
 import { ref, computed } from 'vue'
-import { useGql } from '~/uses'
-import { DELETE_COMMENT } from '../graphql';
+import { useCommentsStore } from '../stores/comments'
+import { useNuxtApp } from 'nuxt/app'
 
-export default {
-  name: 'Comment',
+const emit = defineEmits(['toggle-replies', 'deleted'])
 
-  emits: ['toggle-replies', 'deleted'],
-
-  components: {
-    CommentVoteButtons,
-    CommentReplyPopover,
-    CommentForm,
-    PencilIcon,
-    TrashIcon,
-    ChatBubbleLeftIcon
-  },
-
-  computed: {
-    isEditCurrent() {
-      return this.store.activeForm === this.comment.id && this.isEdit;
-    },
-    isOwner() {
-      return this.$auth.loggedIn && parseInt(this.$auth.user.id) === parseInt(this.comment.user_id)
-    }
-  },
-
-  props: {
-    comment: {
-      type:     Object,
-      required: true,
-    }
-  },
-
-  setup({ comment }, { $pinia }) {
-    const store = useCommentsStore($pinia)
-
-    const mode = ref(null)
-    const loading = ref(false)
-    const isEdit  = computed(() => mode.value === 'edit')
-    const isReply = computed(() => mode.value === 'reply')
-
-    const onEdit = () => {
-      mode.value = 'edit'
-      store.activeForm = comment.id
-    }
-
-    const onReply = () => {
-      mode.value = 'reply'
-      store.activeForm = comment.id
-    }
-
-    const showForm = computed(() => store.activeForm === comment.id && (isEdit.value || isReply.value))
-
-    const onCreated = async (newComment) => {
-      await store.addComment(newComment)
-      mode.value = null
-      store.activeForm = null
-    }
-
-    const onUpdated = (newComment) => {
-      Object.assign(comment, newComment)
-      mode.value = null
-      store.activeForm = null
-    }
-
-    /*
-      Удаление
-     */
-    const onDelete = async () => {
-      if (loading.value) {
-        return
-      }
-
-      loading.value = true
-
-      try {
-        const { data: { commentData } } = await useGql(DELETE_COMMENT, {
-          id: parseInt(comment.id)
-        })
-
-        Object.assign(comment, commentData)
-      } catch (error) {
-
-      } finally {
-        loading.value = false
-      }
-    }
-
-    return {
-      store,
-      isEdit,
-      isReply,
-      showForm,
-      onEdit,
-      onReply,
-      onCreated,
-      onUpdated,
-      onDelete,
-    }
+const { comment } = defineProps({
+  comment: {
+    type:     Object,
+    required: true,
   }
+})
+
+const { $overlay, $auth } = useNuxtApp()
+
+const store = useCommentsStore()
+
+const mode = ref(null)
+const loading = ref(false)
+const isEdit  = computed(() => mode.value === 'edit')
+const isReply = computed(() => mode.value === 'reply')
+const isOwner = computed(() => $auth.loggedIn && parseInt($auth.user.id) === parseInt(comment.user_id))
+const isEditCurrent = computed(() => store.activeForm === comment.id && isEdit.value)
+
+const onEdit = () => {
+  mode.value = 'edit'
+  store.activeForm = comment.id
+}
+
+const onReply = () => {
+  mode.value = 'reply'
+  store.activeForm = comment.id
+}
+
+const showForm = computed(() => store.activeForm === comment.id && (isEdit.value || isReply.value))
+
+const onCreated = async (newComment) => {
+  await store.addComment(newComment)
+  mode.value = null
+  store.activeForm = null
+}
+
+const onUpdated = (newComment) => {
+  Object.assign(comment, newComment)
+  mode.value = null
+  store.activeForm = null
+}
+
+const onDelete = () => {
+  $overlay.show(defineAsyncComponent(() => import('~/components/common/DeleteConfirmDialog.vue')), {
+    props: {
+      title:  'Удалить комментарий?',
+      text:   'После удаления комментарий нельзя будет восстановить.',
+      mutation: `
+        mutation($id: Int!) {
+          deleteComment(id: $id)
+        }
+      `,
+      mutationName: 'deleteComment',
+      variables: {
+        id: comment.id
+      }
+    },
+    on: {
+      deleted() {
+        comment.text = 'Комментарий удален'
+        $overlay.hide()
+      }
+    }
+  })
 }
 </script>
-
-<style>
-.comment-branch::before {
-  content: '';
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-  display: block;
-  width: 12px;
-  height: var(--content-offset-top);
-  padding-bottom: calc(var(--size-avatar)*.5 + var(--offset-avatar-top));
-  border: solid var(--color-branch);
-  border-width: 0 0 1px 1px;
-  border-bottom-left-radius: 8px;
-  margin-left: -1px;
-}
-</style>
