@@ -1,5 +1,10 @@
 <template>
-  <input type="file" @change="onChange" multiple>
+  <div>
+    <input type="file" ref="file" @change="onChange" multiple v-show="false">
+    <div @click="$refs.file.click()">
+      <slot></slot>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -18,10 +23,6 @@ const props = defineProps({
   }
 })
 
-const mutationName = props.type === 'avatar'
-    ? 'uploadUserAvatar'
-    : 'uploadUserCover';
-
 const onChange = async (event) => {
   const image = event.target.files[0]
 
@@ -34,8 +35,9 @@ const onChange = async (event) => {
   formData.append('image', image)
 
   formData.set('operations', JSON.stringify({
-    query: `mutation ($image: Upload!) { upload: ${mutationName}(image: $image) }`,
+    query: `mutation ($image: Upload!, $type: String!) { upload: userUpload(image: $image, type: $type) }`,
     variables: {
+      type: props.type,
       image: [null],
     }
   }))
@@ -44,6 +46,7 @@ const onChange = async (event) => {
 
   formData.set('map', JSON.stringify({
     image: ['variables.image'],
+    type: ['variables.$type'],
   }))
 
   try {
