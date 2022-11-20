@@ -1,9 +1,10 @@
 <template>
   <main class="flex flex-col">
-    <h3 v-if="heading"
-        class="my-4 font-medium text-lg">{{ heading }}</h3>
+    <div class="mt-4 space-y-4 main" :class="{'mb-4': heading || !!$slots['hero']}">
+      <h3 v-if="heading" class="font-medium text-lg">{{ heading }}</h3>
+      <div v-if="!!$slots['hero']"><slot name="hero"></slot></div>
+    </div>
 
-    <div v-if="!!$slots['hero']" class="hero bg-gray-300/50 p-4 mb-4"></div>
     <div class="main gap-4 flex flex-auto" :class="{'flex-row-reverse': reverse}">
       <div class="content">
         <slot></slot>

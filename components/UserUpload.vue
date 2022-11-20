@@ -12,54 +12,42 @@ const emit = defineEmits([
 ])
 
 const props = defineProps({
-  modelType: {
+  type: {
     type: String,
     required: true,
-  },
-  fields: {
-    type: Array,
-    default: () => ['id', 'url']
   }
 })
 
-console.log(config)
+const mutationName = props.type === 'avatar'
+    ? 'uploadUserAvatar'
+    : 'uploadUserCover';
 
 const onChange = async (event) => {
-  const images = event.target.files
+  const image = event.target.files[0]
 
-  if (! images) {
+  if (! image) {
     return
   }
 
   const formData = new FormData()
 
-  for (let image of images) {
-    formData.append('images[]', image)
-  }
+  formData.append('image', image)
 
   formData.set('operations', JSON.stringify({
-    query: `
-      mutation ($model_type: String!, $images: [Upload!]!) {
-        upload(model_type: $model_type, images: $images) {
-          ${props.fields.join(' ')}
-        }
-      }
-    `,
+    query: `mutation ($image: Upload!) { upload: ${mutationName}(image: $image) }`,
     variables: {
-      model_type: props.modelType,
-      images: new Array(images.length),
+      image: [null],
     }
   }))
 
   formData.set('operationName', null)
 
   formData.set('map', JSON.stringify({
-    model_type: ['variables.$model_type'],
-    images: ['variables.images'],
+    image: ['variables.image'],
   }))
 
   try {
-    const { data: { upload }} = await useFetch(
+    const { data } = await useFetch(
       config.GRAPHQL_URL,
       {
         body: formData,
@@ -77,7 +65,7 @@ const onChange = async (event) => {
       }
     )
 
-    emit('uploaded', upload)
+    emit('uploaded', data.value.upload)
   } catch (error) {
     console.log(error)
   } finally {

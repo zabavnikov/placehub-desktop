@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 h-12 bg-neutral-200 flex justify-center w-full">
+  <header class="sticky top-0 z-10 h-12 bg-neutral-200 flex justify-center w-full">
     <div class="flex gap-4">
       <div class="sidebar">
         <NuxtLink to="/">PLACEHUB</NuxtLink>

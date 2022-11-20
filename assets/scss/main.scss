@@ -1,9 +1,10 @@
 @import '@/node_modules/@placehub/ui/dist/style.css';
 
 :root {
-  --sidebar-column-width: 200px;
-  --content-column-width: 540px;
-  --main-column-width:    calc(var(--sidebar-column-width) + var(--content-column-width));
+  --sidebar-column-width:   200px;
+  --content-column-width:   540px;
+  --main-column-width:      calc(var(--sidebar-column-width) + var(--content-column-width));
+  --container-column-width: calc(var(--sidebar-column-width) + var(--sidebar-column-width) + var(--content-column-width) + 2rem);
 }
 
 .sidebar {
@@ -17,6 +18,9 @@
 .main {
   width: var(--main-column-width);
   flex-shrink: 0;
+}
+.container {
+  width: var(--container-column-width);
 }
 
 body {

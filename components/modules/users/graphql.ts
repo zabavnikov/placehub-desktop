@@ -3,6 +3,13 @@ export const USER_FIELDS = `
   name
   description
   avatar
+  cover
+`;
+
+export const USER_FORM_FIELD = `
+  id
+  name
+  description
 `;
 
 export const REGISTER_USER = `

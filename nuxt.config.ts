@@ -27,11 +27,10 @@ export default {
     '@pinia/nuxt',
     '~/modules/routes'
   ],
-  publicRuntimeConfig: {
-    GRAPHQL_URL: process.env.GRAPHQL_URL
-  },
-  build: {
-    transpile: ['@heroicons/vue']
+  runtimeConfig: {
+    public: {
+      GRAPHQL_URL: process.env.GRAPHQL_URL
+    }
   },
   apollo: {
     clients: {

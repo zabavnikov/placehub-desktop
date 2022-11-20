@@ -1,6 +1,8 @@
 <template>
   <TheLayout>
-    <ProfileHeader slot="top" :profile="data.user" />
+    <template #hero>
+      <ProfileHero :user="data.user" />
+    </template>
 
     <div @click="onEdit">onEdit</div>
 
@@ -14,7 +16,7 @@
 <script setup>
 import { useRoute, useNuxtApp } from 'nuxt/app'
 import Post from '~/components/modules/posts/components/Post'
-import ProfileHeader from '../components/ProfileHeader'
+import ProfileHero from '../components/ProfileHero'
 import { USER } from '~/components/modules/users/graphql'
 import { POST_CARD } from '~/components/modules/posts/graphql'
 import { useAsyncGql } from '~/uses'

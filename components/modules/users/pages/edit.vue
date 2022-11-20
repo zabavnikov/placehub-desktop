@@ -1,13 +1,5 @@
 <template>
-  <TheLayout reverse heading="Редактирование профиля">
-    <template #sidebar>
-      <img :src="$auth.user.avatar" :alt="user.name" class="rounded" width="100%" />
-<!--      <input type="file" @change="onUpload" class="mt-2" />-->
-      <FormField name="avatar">
-        <Upload model-type="posts" />
-      </FormField>
-    </template>
-
+  <TheLayout heading="Редактирование профиля">
     <form @submit.prevent="onSubmit" class="space-y-4">
       <FormField label="Имя" name="input.name" required>
         <template v-slot="{ hasError }">
@@ -30,12 +22,11 @@
 <script setup>
 import { Textarea, Input, Button, FormField } from '@placehub/ui'
 import { UPDATE_USER } from '../graphql'
-import { USER } from '~/components/modules/users/graphql'
+import { USER_FORM_FIELD } from '~/components/modules/users/graphql'
 import { gql, useAsyncQuery, useMutation } from '#imports'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
 import { useRoute } from 'nuxt/app'
-import Upload from '~/components/Upload'
 
 const route = useRoute()
 const loading = ref(false)
@@ -44,7 +35,9 @@ const userId = parseInt(route.params.userId)
 
 const { data } = await useAsyncQuery(gql`
   query($userId: Int!) {
-    ${USER}
+    user(id: $userId) {
+      ${USER_FORM_FIELD}
+    }
   }
 `, {
   userId
@@ -64,7 +57,6 @@ const onSubmit = useForm().handleSubmit(async (values, actions) => {
 
   delete input.id
   delete input.__typename
-  delete input.avatar
 
   try {
     const { mutate } = await useMutation(gql`
