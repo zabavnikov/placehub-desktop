@@ -39,7 +39,7 @@
 <script>
 import { useNuxtApp } from 'nuxt/app'
 import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
-import TipTap from '../../../../../tiptap/src/TipTap'
+import TipTap from '../../../../../ui/src/components/TipTap/TipTap.vue'
 
 import { ref } from 'vue'
 import { FormField, Button } from '@placehub/ui'
