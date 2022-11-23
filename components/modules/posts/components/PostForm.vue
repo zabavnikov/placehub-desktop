@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="onSubmit" class="relative p-4">
     <FormField name="text">
-      <TipTap v-model="form.text" />
+      <TipTap v-model="form.text" class="prose-sm" />
     </FormField>
 
     <PostFormImages v-if="form.images.length > 0" v-model="form.images" />
@@ -12,7 +12,7 @@
         <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
           <PhotoIcon class="w-5 h-5" />
         </button>
-        <v-upload ref="upload" to="posts" multiple v-model="form.images" class="hidden"></v-upload>
+        <Upload ref="upload" model-type="posts" :fields="['id', 'url']" :presets="['default@width:640,height:480']" v-model="form.images" />
         <!-- / Загрузка изображений. -->
 
         <!-- Выбор места. -->
@@ -39,19 +39,18 @@
 <script>
 import { useNuxtApp } from 'nuxt/app'
 import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
-import TipTap from '../../../../../ui/src/components/TipTap/TipTap.vue'
 
 import { ref } from 'vue'
-import { FormField, Button } from '@placehub/ui'
+import { FormField, Button, TipTap } from '@placehub/ui'
+import Upload from '../../../../../ui/src/components/Upload/Upload.vue'
 import { useRouter } from 'nuxt/app';
 import cloneDeep from 'lodash/cloneDeep.js';
 import pick from 'lodash/pick.js';
-import { useAsyncGql, useGql } from '~/uses'
+import { useGql } from '~/uses'
 import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages"
 import PostFormSettings from "./PostFormSettings"
-import VUpload from '~/components/form/VUpload'
-import { CREATE_POST, UPDATE_POST, POST_FORM } from '../graphql';
+import { CREATE_POST, UPDATE_POST } from '../graphql';
 import { PhotoIcon, MapPinIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 
 const formInitialState = {
@@ -78,7 +77,7 @@ export default {
     Button,
     PostFormImages,
     FormField,
-    VUpload,
+    Upload,
     PostFormSettings,
     PhotoIcon,
     MapPinIcon,

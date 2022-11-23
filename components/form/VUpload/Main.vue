@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { $fetch } from 'ohmyfetch'
 import {useNuxtApp} from 'nuxt/app';
 import axios from 'axios'
 
