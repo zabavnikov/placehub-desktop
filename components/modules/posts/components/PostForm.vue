@@ -4,10 +4,10 @@
 
     <!-- Отзыв. -->
     <FormField v-if="form.is_review" name="pluses" label="Достоинства">
-      <TipTap v-model="form.pluses" class="prose-sm" placeholder="Что вам понравилось?" />
+      <TipTap v-model="form.pluses" raw-text class="prose-sm" placeholder="Что вам понравилось?" />
     </FormField>
     <FormField v-if="form.is_review" name="minuses" label="Недостатки">
-      <TipTap v-model="form.minuses" class="prose-sm" placeholder="Что не понравилось?" />
+      <TipTap v-model="form.minuses" raw-text class="prose-sm" placeholder="Что не понравилось?" />
     </FormField>
     <FormField v-if="form.is_review" name="text" label="Комментарий">
       <TipTap v-model="form.text" class="prose-sm" placeholder="Другие впечатления" />
