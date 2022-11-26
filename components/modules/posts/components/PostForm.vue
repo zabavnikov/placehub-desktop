@@ -1,8 +1,24 @@
 <template>
   <form @submit.prevent="onSubmit" class="relative p-4">
-    <FormField name="text">
+    <input type="checkbox" v-model="form.is_review">
+
+    <!-- Отзыв. -->
+    <FormField v-if="form.is_review" name="pluses" label="Достоинства">
+      <TipTap v-model="form.pluses" class="prose-sm" placeholder="Что вам понравилось?" />
+    </FormField>
+    <FormField v-if="form.is_review" name="minuses" label="Недостатки">
+      <TipTap v-model="form.minuses" class="prose-sm" placeholder="Что не понравилось?" />
+    </FormField>
+    <FormField v-if="form.is_review" name="text" label="Комментарий">
+      <TipTap v-model="form.text" class="prose-sm" placeholder="Другие впечатления" />
+    </FormField>
+    <!-- / Отзыв. -->
+
+    <!-- Пост или статья. -->
+    <FormField v-if="! form.is_review" name="text">
       <TipTap v-model="form.text" class="prose-sm" />
     </FormField>
+    <!-- / Пост или статья. -->
 
     <PostFormImages v-if="form.images.length > 0" v-model="form.images" />
 
@@ -41,7 +57,8 @@ import { useNuxtApp } from 'nuxt/app'
 import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
 
 import { ref } from 'vue'
-import { FormField, Button, TipTap } from '@placehub/ui'
+import { FormField, Button } from '@placehub/ui'
+import TipTap from '../../../../../ui/src/components/TipTap/TipTap.vue'
 import Upload from '../../../../../ui/src/components/Upload/Upload.vue'
 import { useRouter } from 'nuxt/app';
 import cloneDeep from 'lodash/cloneDeep.js';
@@ -52,10 +69,15 @@ import PostFormImages from "./PostFormImages"
 import PostFormSettings from "./PostFormSettings"
 import { CREATE_POST, UPDATE_POST } from '../graphql';
 import { PhotoIcon, MapPinIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
+import Input from '~/components/library/VInput/Component';
 
 const formInitialState = {
   place_id: null,
+  pluses: '',
+  minuses: '',
   text: '',
+  is_review: false,
+  rating: 0,
   place: {},
   images: [],
   who_can_comment: 'all',
@@ -74,6 +96,7 @@ export default {
   },
 
   components: {
+    Input,
     Button,
     PostFormImages,
     FormField,
@@ -129,7 +152,7 @@ export default {
 
       this.loading = true
 
-      const input = pick(this.form, ['place_id', 'who_can_comment', 'text', 'images'])
+      const input = pick(this.form, ['place_id', 'who_can_comment', 'text', 'pluses', 'minuses', 'images', 'is_review', 'rating'])
 
       input.images = input.images.map(image => image.id)
 
