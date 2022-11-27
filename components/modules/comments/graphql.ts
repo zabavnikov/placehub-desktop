@@ -1,7 +1,7 @@
 export const COMMENT = `
   id
   user_id
-  model_id
+  post_id
   model_type
   branch_id
   parent_id
@@ -35,7 +35,7 @@ export const COMMENT = `
 export const REPLY = `
   id
   user_id
-  model_id
+  post_id
   model_type
   branch_id
   parent_id

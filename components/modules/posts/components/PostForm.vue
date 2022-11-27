@@ -1,9 +1,7 @@
 <template>
   <form @submit.prevent="onSubmit" class="relative p-4">
-    <input type="checkbox" v-model="form.is_review">
-
     <!-- Отзыв. -->
-    <FormField v-if="form.is_review" name="pluses" label="Достоинства">
+<!--    <FormField v-if="form.is_review" name="pluses" label="Достоинства">
       <TipTap v-model="form.pluses" raw-text class="prose-sm" placeholder="Что вам понравилось?" />
     </FormField>
     <FormField v-if="form.is_review" name="minuses" label="Недостатки">
@@ -11,11 +9,11 @@
     </FormField>
     <FormField v-if="form.is_review" name="text" label="Комментарий">
       <TipTap v-model="form.text" class="prose-sm" placeholder="Другие впечатления" />
-    </FormField>
+    </FormField>-->
     <!-- / Отзыв. -->
 
     <!-- Пост или статья. -->
-    <FormField v-if="! form.is_review" name="text">
+    <FormField name="text">
       <TipTap v-model="form.text" class="prose-sm" />
     </FormField>
     <!-- / Пост или статья. -->
@@ -152,7 +150,7 @@ export default {
 
       this.loading = true
 
-      const input = pick(this.form, ['place_id', 'who_can_comment', 'text', 'pluses', 'minuses', 'images', 'is_review', 'rating'])
+      const input = pick(this.form, ['place_id', 'who_can_comment', 'text', 'images'])
 
       input.images = input.images.map(image => image.id)
 
