@@ -11,14 +11,14 @@ export default async ({ query, variables }, options = {}) => {
     },
     body: {
       query: query
-          .trim()
-          .replaceAll(/\s+/ig, ' '),
+        .trim()
+        .replaceAll(/\s+/ig, ' '),
       variables
     }, ...options
   })
 
   if (Object.hasOwn(data.value, 'errors')) {
-    throw data.value.errors
+    throw data.value.errors[0]
   }
 
   return {

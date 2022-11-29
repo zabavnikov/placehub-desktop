@@ -7,6 +7,20 @@
 
   img {
     width: 100%;
+    display: block;
+  }
+
+  &-grid-2,
+  &-grid-3,
+  &-grid-4,
+  &-grid-5,
+  &-grid-6,
+  &-grid-7,
+  &-grid-8,
+  &-grid-9 {
+    img {
+      @apply object-cover;
+    }
   }
 
   &-grid-2 {

@@ -8,7 +8,7 @@
     :class="classes[modelValue.length]">
     <template #item="{ element, index }">
       <div class="handle relative">
-        <img :src="element.url" alt="" class="block aspect-square object-cover">
+        <img :src="element.url" alt="" class="block">
         <div @click="onDelete(index)" class="absolute top-0 right-0 p-0.5 m-1 p cursor-pointer rounded-lg bg-black bg-opacity-75">
           <XMarkIcon class="w-5 h-5 text-white" />
         </div>

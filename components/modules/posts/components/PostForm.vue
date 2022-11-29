@@ -13,7 +13,7 @@
     <!-- / Отзыв. -->
 
     <!-- Пост или статья. -->
-    <FormField name="text">
+    <FormField name="input.text">
       <TipTap v-model="form.text" class="prose-sm" />
     </FormField>
     <!-- / Пост или статья. -->
@@ -49,141 +49,117 @@
   </form>
 </template>
 
-
-<script>
-import { useNuxtApp } from 'nuxt/app'
+<script setup>
 import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
-
-import { ref } from 'vue'
-import { FormField, Button } from '@placehub/ui'
-import TipTap from '../../../../../ui/src/components/TipTap/TipTap.vue'
-import Upload from '../../../../../ui/src/components/Upload/Upload.vue'
-import { useRouter } from 'nuxt/app';
-import cloneDeep from 'lodash/cloneDeep.js';
-import pick from 'lodash/pick.js';
-import { useGql } from '~/uses'
-import Validation from "~/utils/validation"
 import PostFormImages from "./PostFormImages"
 import PostFormSettings from "./PostFormSettings"
+import TipTap from '../../../../../ui/src/components/TipTap/TipTap.vue'
+import Upload from '../../../../../ui/src/components/Upload/Upload.vue'
+import cloneDeep from 'lodash/cloneDeep.js';
+import pick from 'lodash/pick.js';
 import { CREATE_POST, UPDATE_POST } from '../graphql';
+import { FormField, Button } from '@placehub/ui'
 import { PhotoIcon, MapPinIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
-import Input from '~/components/library/VInput/Component';
+import { ref } from 'vue'
+import { useRouter, useNuxtApp } from 'nuxt/app'
+import { useForm } from 'vee-validate'
 
 const formInitialState = {
   place_id: null,
   pluses: '',
   minuses: '',
   text: '',
-  is_review: false,
+  type: null,
   rating: 0,
   place: {},
   images: [],
   who_can_comment: 'all',
 }
 
-export default {
-  emits: ['created', 'updated'],
-
-  props: {
-    post: {
-      type: Object,
-      default() {
-        return cloneDeep(formInitialState)
+const props = defineProps({
+  post: {
+    type: Object,
+    default() {
+      return {
+        place_id: null,
+        pluses: '',
+        minuses: '',
+        text: '',
+        type: null,
+        rating: 0,
+        place: {},
+        images: [],
+        who_can_comment: 'all',
       }
-    },
-  },
-
-  components: {
-    Input,
-    Button,
-    PostFormImages,
-    FormField,
-    Upload,
-    PostFormSettings,
-    PhotoIcon,
-    MapPinIcon,
-    PaperAirplaneIcon,
-    TipTap
-  },
-
-  async setup(props) {
-    const form = ref(props.post)
-    const loading = ref(false)
-    const router = useRouter()
-
-    const { $overlay } = useNuxtApp()
-
-    const isEdit = props.post.id > 0
-
-    const onSelectPlace = () => {
-      $overlay.show(PlaceSearchDialog, {
-        props: {
-          modelValue: form.value.place,
-        },
-        on: {
-          selected(place) {
-            Object.assign(form.value.place, place)
-            form.value.place_id = place.id
-          }
-        }
-      })
     }
-
-    return {
-      form,
-      loading,
-      router,
-      isEdit,
-      onSelectPlace
-    }
-  },
-
-  data() {
-    return {
-      errors: new Validation
-    }
-  },
-
-  methods: {
-    async onSubmit() {
-      if (this.loading) return
-
-      this.loading = true
-
-      const input = pick(this.form, ['place_id', 'who_can_comment', 'text', 'images'])
-
-      input.images = input.images.map(image => image.id)
-
-      const variables = {
-        input
-      }
-
-      if (this.isEdit) {
-        variables.id = this.post.id
-      }
-
-      try {
-        const { data: { post } } = await useGql(
-          this.isEdit
-            ? UPDATE_POST
-            : CREATE_POST,
-          variables)
-
-        if (! this.isEdit) {
-          this.$emit('created', post)
-        } else {
-          this.$router.push({name: 'posts.show', params: {postId: this.post.id}})
-        }
-
-        this.form.value = cloneDeep(formInitialState)
-      } catch (errors) {
-        this.errors.record(errors)
-      } finally {
-        this.loading = false
-      }
-    },
   }
+})
+
+const emit = defineEmits(['created', 'updated'])
+
+const form = ref(props.post)
+const loading = ref(false)
+const router = useRouter()
+
+const { $overlay } = useNuxtApp()
+
+const isEdit = props.post.id > 0
+
+const onSelectPlace = () => {
+  $overlay.show(PlaceSearchDialog, {
+    props: {
+      modelValue: form.value.place,
+    },
+    on: {
+      selected(place) {
+        Object.assign(form.value.place, place)
+        form.value.place_id = place.id
+      }
+    }
+  })
 }
+
+const { handleSubmit, setErrors } = useForm()
+
+const onSubmit = handleSubmit(async () => {
+  if (loading.value) return
+
+  loading.value = true
+
+  const input = pick(form.value, ['place_id', 'who_can_comment', 'text', 'images'])
+  input.images = input.images.map(image => image.id)
+
+  const variables = {
+    input
+  }
+
+  if (isEdit) {
+    variables.id = props.post.id
+  }
+
+  try {
+    const { data: { post } } = await useFetch({
+      query: isEdit
+          ? UPDATE_POST
+          : CREATE_POST,
+      variables
+    })
+
+    if (! isEdit) {
+      emit('created', post)
+    } else {
+      router.push({name: 'posts.show', params: {postId: post.id}})
+    }
+
+    form.value = cloneDeep(formInitialState)
+  } catch (error) {
+    if (error.message === 'validation') {
+      setErrors(error.extensions.validation)
+    }
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style lang="scss">
