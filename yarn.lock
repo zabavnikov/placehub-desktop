@@ -601,9 +601,9 @@
     requrl latest
 
 "@nuxtjs-alt/http@latest":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/http/-/http-1.5.3.tgz#e71ce1c9e592114a0ff18d869bf9da21645dfd37"
-  integrity sha512-BLhWl2lFQ4XNmTtsllGzM/qA2iooUtfC53HfMXvkEv44aybKOuBTzqooOFnQwRrPn7FvNJlkg1R0qimAOnrWuw==
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@nuxtjs-alt/http/-/http-1.5.4.tgz#da651bc2aece4b2ba3a87fd4232d1dff67904eec"
+  integrity sha512-Q//ZWYGQYix2RB/ADRGasCnDycoJ+0fxUXLc0iAQQNDRJnC08PQxCI4IFJIT1FKPkRFEdTgn1G+zrVIVv07tEw==
   dependencies:
     "@nuxt/kit" "^3.0.0"
     "@refactorjs/ofetch" latest
@@ -1552,9 +1552,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001426:
-  version "1.0.30001434"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001434.tgz#ec1ec1cfb0a93a34a0600d37903853030520a4e5"
-  integrity sha512-aOBHrLmTQw//WFa2rcF1If9fa3ypkC1wzqqiKHgfdrXTWcU8C4gKVZT77eQAPWN1APys3+uQ0Df07rKauXGEYA==
+  version "1.0.30001435"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001435.tgz#502c93dbd2f493bee73a408fe98e98fb1dad10b2"
+  integrity sha512-kdCkUTjR+v4YAJelyiDTqiu82BDr4W4CP5sgTA0ZBmqn30XfS2ZghPLMowik9TPhS+psWJiUNxsqLyurDbmutA==
 
 chalk@^2.0.0:
   version "2.4.2"
@@ -3385,6 +3385,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lucide-vue-next@^0.103.0:
+  version "0.103.0"
+  resolved "https://registry.yarnpkg.com/lucide-vue-next/-/lucide-vue-next-0.103.0.tgz#77dea799c04fc6145c3bae1cb6cf6715bd3db75b"
+  integrity sha512-PD+H+NE/wCsbANvpC70iCTc9phWp+lRlCoOVPg8tRw7e8VrodJ1E7Wd5YI6cDG/EI+HCVs3OkBskwuJr5T86Wg==
+
 magic-string@^0.25.7:
   version "0.25.9"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.9.tgz#de7f9faf91ef8a1c91d02c2e5314c8277dbcdd1c"
@@ -3487,9 +3492,9 @@ minimatch@^3.0.4, minimatch@^3.1.1:
     brace-expansion "^1.1.7"
 
 minimatch@^5.0.1, minimatch@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.1.0.tgz#1717b464f4971b144f6aabe8f2d0b8e4511e09c7"
-  integrity sha512-9TPBGGak4nHfGZsPBohm9AWg6NoT7QTCehS3BIJABslyZbzxfV78QM2Y6+i741OPZIafFAaiiEMh5OyIrJPgtg==
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.1.1.tgz#6c9dffcf9927ff2a31e74b5af11adf8b9604b022"
+  integrity sha512-362NP+zlprccbEt/SkxKfRMHnNY85V74mVnpUpNyr3F35covl09Kec7/sEFLt3RA4oXmewtoaanoIf67SE5Y5g==
   dependencies:
     brace-expansion "^2.0.1"
 

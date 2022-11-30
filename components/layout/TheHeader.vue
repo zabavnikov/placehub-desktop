@@ -9,7 +9,7 @@
           123
         </div>
         <div class="sidebar">
-          456
+          <NuxtLink to="/login">login</NuxtLink>
         </div>
       </div>
     </div>

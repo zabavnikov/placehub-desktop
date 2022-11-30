@@ -1,7 +1,7 @@
 <template>
   <Dropdown>
     <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500">
-      <Cog6ToothIcon class="w-5 h-5" />
+      <Settings2 class="w-5 h-5" />
     </button>
     <template v-slot:popper="{ hide }">
       <FormField name="comments" label="Кто может писать комментарии?">
@@ -19,7 +19,7 @@
 
 <script setup>
 import { Dropdown, FormField } from '@placehub/ui'
-import { Cog6ToothIcon } from '@heroicons/vue/24/outline'
+import { Settings2 } from 'lucide-vue-next'
 import { ref } from 'vue'
 
 defineEmits(['update:who-can-comment'])

@@ -8,16 +8,14 @@
       </Profile>
       <div class="flex items-center space-x-2">
         <NuxtLink :to="{name: 'posts.edit', params: {postId: content.id}}" class="cursor-pointer text-indigo-800 hover:text-indigo-500">
-          редактировать
+          <Pencil class="w-5 h-5" />
         </NuxtLink>
-        <EllipsisHorizontalIcon
-            v-if="full"
-            @click="onDelete"
-            class="w-6 h-6 cursor-pointer text-indigo-800 hover:text-indigo-500 hover:bg-indigo-50 rounded-full"/>
+        <Trash v-if="full" @click="onDelete" class="w-5 h-5 cursor-pointer text-red" />
       </div>
     </div>
 
     <PostForm v-if="isEdit" :post="content" @updated="onUpdated" class="-mt-4"/>
+
     <div v-else class="p-4 -mt-4">
         <Component v-if="content.text" :is="full ? PostBodyFull : PostBody" :post="content"/>
 
@@ -27,24 +25,21 @@
 
         <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
 
-
       <footer class="flex items-center space-x-4 mt-4">
         <NuxtLink :to="{name: 'posts.show', params: {postId: content.id}, hash: '#comments'}"
                   class="flex items-center space-x-1">
-          <ChatBubbleBottomCenterIcon class="w-4 h-4"/>
+          <MessageCircle class="w-5 h-5 text-gray-500"/>
           <span>{{ content.comments_count }}</span>
         </NuxtLink>
         <VLike model-type="posts" :model-id="content.id" :is-liked="content.like.is_liked"
                :count="content.likes_count"/>
         <div @click="onRepost" class="cursor-pointer flex items-center space-x-1">
-          <ArrowUturnRightIcon class="w-4 h-4"/>
+          <Share2 class="w-5 h-5 text-gray-500"/>
           <!-- В репостах не показываем счетчик, так как репост репоста, это репост оригинала. -->
           <span v-if="content.repost_type === null">{{ content.shares_count }}</span>
         </div>
       </footer>
     </div>
-
-
   </Card>
 </template>
 
@@ -55,7 +50,7 @@ import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
 import PostGallery from './PostGallery.vue'
 import PostForm from './PostForm'
-import {ChatBubbleBottomCenterIcon, EllipsisHorizontalIcon, ArrowUturnRightIcon} from '@heroicons/vue/24/outline'
+import { Pencil, Trash, MessageCircle, Share2 } from 'lucide-vue-next'
 import VLike from '~/components/library/VLike';
 import Profile from '~/components/modules/users/components/Profile'
 import { useNuxtApp, useRouter } from 'nuxt/app'

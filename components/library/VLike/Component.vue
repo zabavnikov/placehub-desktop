@@ -1,19 +1,19 @@
 <template>
   <div @click="onClick" :class="classes" :title="like.isLiked ? 'Вам понравилось' : 'Мне нравится'">
-    <heart-icon class="h-4 w-4" :class="{[like.isLiked ? 'text-red-500' : 'text-gray-300']:true}"></heart-icon>
+    <Heart class="h-5 w-5" :class="{[like.isLiked ? 'text-red-500' : 'text-gray-500']:true}" />
     <div>{{ like.count }}</div>
   </div>
 </template>
 
 <script>
-import { HeartIcon } from '@heroicons/vue/24/solid'
+import { Heart } from 'lucide-vue-next'
 import { useGql } from '~/uses';
 import { CREATE_LIKE, DELETE_LIKE } from './graphql'
 
 export default {
   name: 'VLike',
   components: {
-    HeartIcon
+    Heart
   },
   props: {
     modelType: {

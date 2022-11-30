@@ -24,14 +24,14 @@
       <div class="flex items-center space-x-2">
         <!-- Загрузка изображений. -->
         <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
-          <PhotoIcon class="w-5 h-5" />
+          <ImagePlus class="w-5 h-5" />
         </button>
-        <Upload ref="upload" model-type="posts" :fields="['id', 'url']" :presets="['default@width:640,height:480']" v-model="form.images" />
+        <Upload ref="upload" class="hidden" model-type="posts" :fields="['id', 'url']" :presets="['default@width:640,height:480']" v-model="form.images" />
         <!-- / Загрузка изображений. -->
 
         <!-- Выбор места. -->
         <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="onSelectPlace">
-          <MapPinIcon class="w-5 h-5" />
+          <MapPin class="w-5 h-5" />
         </button>
         <!-- / Выбор места. -->
 
@@ -42,7 +42,7 @@
 
       <div class="ml-auto space-x-2 flex items-center">
         <button type="submit" :loading="loading" class="w-8 h-8 flex items-center justify-center bg-indigo-500 rounded-lg">
-          <PaperAirplaneIcon class="w-5 h-5 -mr-0.5 -mt-0.5 text-white rotate-[-45deg]" />
+          <Send class="w-5 h-5 -ml-0.5 mt-0.5 text-white" />
         </button>
       </div>
     </div>
@@ -59,10 +59,10 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import pick from 'lodash/pick.js';
 import { CREATE_POST, UPDATE_POST } from '../graphql';
 import { FormField, Button } from '@placehub/ui'
-import { PhotoIcon, MapPinIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import { useRouter, useNuxtApp } from 'nuxt/app'
 import { useForm } from 'vee-validate'
+import { Send, MapPin, ImagePlus } from 'lucide-vue-next'
 
 const formInitialState = {
   place_id: null,
