@@ -84,18 +84,17 @@ export const POST_FORM = `
   user_id
   place_id
   who_can_comment
+  text(raw: true)
+  can
   place {
     id
     name
     full_name
   }
-  text(raw: true)
-  can
   images(sizes: "default@resize:auto:120:120") {
     id
     url
     sizes
-    aspect_ratio
   }
 `;
 

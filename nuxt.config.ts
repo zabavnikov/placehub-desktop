@@ -22,7 +22,6 @@ export default {
   modules: [
     '@nuxtjs-alt/auth',
     '@nuxtjs-alt/http',
-    '@nuxtjs/apollo',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '~/modules/routes'
@@ -31,17 +30,6 @@ export default {
     public: {
       GRAPHQL_URL: process.env.GRAPHQL_URL
     }
-  },
-  apollo: {
-    clients: {
-      default: {
-        tokenStorage: 'cookie',
-        authType: 'Bearer',
-        tokenName: 'auth._token.local',
-        authHeader: 'Authorization',
-        httpEndpoint: process.env.GRAPHQL_URL
-      }
-    },
   },
   auth: {
     globalMiddleware: false,

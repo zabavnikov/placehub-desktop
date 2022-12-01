@@ -148,7 +148,7 @@ const onSubmit = handleSubmit(async () => {
     if (! isEdit) {
       emit('created', post)
     } else {
-      router.push({name: 'posts.show', params: {postId: post.id}})
+      await router.push({name: 'posts.show', params: {postId: variables.id}})
     }
 
     form.value = cloneDeep(formInitialState)

@@ -1,6 +1,6 @@
 import { useNuxtApp, useFetch } from 'nuxt/app'
 
-export default async ({ query, variables }, options = {}) => {
+export default async ({ query, variables = {} }, options = {}) => {
   const { $auth, $config } = useNuxtApp()
 
   const { data, refresh, pending } = await useFetch($config.public.GRAPHQL_URL, {

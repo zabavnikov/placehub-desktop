@@ -15,7 +15,7 @@ import Post from '~/components/modules/posts/components/Post'
 import ProfileHero from '../components/ProfileHero'
 import { POST_CARD } from '~/components/modules/posts/graphql'
 import { USER } from '~/components/modules/users/graphql'
-import { useFetch } from '~/composables'
+import { useFetch } from '#imports'
 import { useRoute, useNuxtApp } from 'nuxt/app'
 
 const route = useRoute()

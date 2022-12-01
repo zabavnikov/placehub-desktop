@@ -15,12 +15,11 @@ import Post from '~/components/modules/posts/components/Post'
 import PostForm from '~/components/modules/posts/components/PostForm'
 import TheLayout from '~/components/layout/TheLayout'
 import { POST_CARD } from '~/components/modules/posts/graphql'
-import { gql, useAsyncQuery } from '#imports'
 import { ref } from 'vue'
 
 const pulse = ref([])
 
-const query = gql`
+const query = `
   query {
     pulse {
       ...on Post {
@@ -31,8 +30,10 @@ const query = gql`
 `
 
 try {
-  const { data } = await useAsyncQuery(query)
+  const { data } = await useFetch({
+    query
+  })
 
-  pulse.value = data.value.pulse
+  pulse.value = data.pulse
 } catch (error) {}
 </script>
