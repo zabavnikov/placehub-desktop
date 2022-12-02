@@ -5,22 +5,49 @@
   --content-column-width:   540px;
   --main-column-width:      calc(var(--sidebar-column-width) + var(--content-column-width));
   --container-column-width: calc(var(--sidebar-column-width) + var(--sidebar-column-width) + var(--content-column-width) + 2rem);
+
+  --main-width:         calc(var(--main-content-width) + var(--main-sidebar));
+  --main-content-width: 540px;
+  --main-sidebar-width: 200px;
 }
 
+
+.container {
+  @apply flex;
+  width: var(--container-column-width);
+}
 .sidebar {
   width: var(--sidebar-column-width);
-  flex-shrink: 0;
+}
+.header {
+  .sidebar + .main,
+  .main-content + .main-sidebar {
+    @apply border-l border-l-slate-300;
+  }
 }
 .content {
-  width: var(--content-column-width);
-  flex-shrink: 0;
+  .sidebar + .main,
+  .main-content + .main-sidebar {
+    @apply border-l border-l-slate-100;
+  }
 }
+
+// Main
 .main {
-  width: var(--main-column-width);
-  flex-shrink: 0;
+  @apply flex flex-auto;
+  width: var(--main-width);
 }
-.container {
-  width: var(--container-column-width);
+.main-content {
+  width: var(--main-content-width);
+}
+.main-sidebar {
+  width: var(--main-sidebar-width);
+}
+
+.nav,
+.content,
+.main {
+  flex-shrink: 0;
 }
 
 body {

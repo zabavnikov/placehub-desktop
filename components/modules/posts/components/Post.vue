@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <div>
     <div class="flex items-center justify-between p-4">
       <Profile :profile="content.user">
         <template #footer>
@@ -40,12 +40,11 @@
         </div>
       </footer>
     </div>
-  </Card>
+  </div>
 </template>
 
 <script setup>
 import { ref, defineAsyncComponent } from 'vue'
-import Card from '~/components/Card'
 import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
 import PostGallery from './PostGallery.vue'

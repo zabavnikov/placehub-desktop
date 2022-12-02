@@ -1,8 +1,6 @@
 <template>
-  <TheLayout heading="Редактирование поста">
-    <div class="bg-white rounded-lg border border-neutral-200">
-      <PostForm :post="form" />
-    </div>
+  <TheLayout heading="Редактирование">
+    <PostForm :post="form" class="m-4" />
   </TheLayout>
 </template>
 

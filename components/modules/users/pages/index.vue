@@ -1,7 +1,7 @@
 <template>
   <TheLayout>
     <ul class="space-y-2">
-      <li v-for="user in users" :key="user.id" class="flex items-center space-x-2">
+      <li v-for="user in users" :key="user.id" class="flex items-center space-x-2 p-4 hover:bg-blue-50">
         <Profile :profile="user">
           <template #footer>
             Подписаться

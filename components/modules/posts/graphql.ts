@@ -36,6 +36,7 @@ export const POST_CARD = `
   comments_count
   likes_count
   shares_count
+  image_order
   can
   created_at(relative: true)
   images(sizes: "default@resize:auto:640:480") {
@@ -61,6 +62,7 @@ export const POST_FRAGMENT = `
   comments_count
   likes_count
   shares_count
+  image_order
   can
   created_at(relative: true)
   who_can_comment
