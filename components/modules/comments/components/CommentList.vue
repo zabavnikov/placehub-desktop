@@ -58,11 +58,7 @@ import { useOnMore } from '../uses/useOnMore'
 
 export default {
   props: {
-    modelType: {
-      type: String,
-      required: true,
-    },
-    modelId: {
+    postId: {
       type: Number,
       required: true,
     },
@@ -82,7 +78,7 @@ export default {
     const page = ref(0)
 
     const onMore = async () => {
-      const newComments = await useOnMore(props.modelType, props.modelId, comments.list.length)
+      const newComments = await useOnMore(props.postId, comments.list.length)
 
       newComments.forEach(comment => {
         comments.list.push(comment)
@@ -102,13 +98,12 @@ export default {
         }
 
         const { data } = await useGQL(`
-          query ($model_type: String, $branch_id: Int, $page: Int) {
-            replies: comments(model_type: $model_type, branch_id: $branch_id, page: $page) {
+          query ($branch_id: Int, $page: Int) {
+            replies: comments(branch_id: $branch_id, page: $page) {
               ${REPLY}
             }
           }
         `, {
-          model_type: comment.model_type,
           branch_id:  comment.id,
           page:       page.value++
         })

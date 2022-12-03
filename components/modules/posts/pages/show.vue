@@ -4,7 +4,7 @@
 
     <div v-if="post.who_can_comment === 'subscribers'">Комментарии доступны только подписчикам</div>
     <div v-if="post.who_can_comment === 'nobody'">Комментарии закрыты</div>
-    <comment-list id="comments" model-type="posts" :count="post.comments_count" :model-id="post.id" />
+    <comment-list id="comments" :count="post.comments_count" :post-id="post.id" />
   </TheLayout>
 </template>
 
@@ -30,23 +30,21 @@ export default {
 
     try {
       const { data } = await useAsyncGql(`
-        query ($id: Int!, $model_type: String, $with_trashed: Boolean) {
+        query ($id: Int!, $with_trashed: Boolean) {
           post(id: $id) {
             ${POST_FRAGMENT}
           }
-          comments(model_type: $model_type, model_id: $id, with_trashed: $with_trashed) {
+          comments(post_id: $id, with_trashed: $with_trashed) {
             ${COMMENT}
           }
         }
       `, {
         id: parseInt(route.params.postId),
-        model_type: 'posts',
         with_trashed: true
       })
 
       commentsStore.$patch(state => {
-        state.model_type  = 'posts'
-        state.model_id    = parseInt(route.params.postId)
+        state.post_id    = parseInt(route.params.postId)
         state.list        = data.value.comments
       })
 

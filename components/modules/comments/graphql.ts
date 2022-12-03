@@ -2,7 +2,6 @@ export const COMMENT = `
   id
   user_id
   post_id
-  model_type
   branch_id
   parent_id
   text
@@ -36,7 +35,6 @@ export const REPLY = `
   id
   user_id
   post_id
-  model_type
   branch_id
   parent_id
   text

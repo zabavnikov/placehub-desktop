@@ -1,6 +1,6 @@
 <template>
   <main class="main flex-col">
-    <div v-if="!!$slots['hero']" class="mt-4 mx-4 mb-0 space-y-4">
+    <div v-if="!!$slots['hero']" class="flex-1">
       <slot name="hero"></slot>
     </div>
 
@@ -10,7 +10,7 @@
         <slot></slot>
       </div>
 
-      <div class="main-sidebar">
+      <div class="main-sidebar pl-4 pt-4">
         <slot name="sidebar">
           <h3 class="font-medium text-lg">Популярные теги</h3>
           <ul class="mt-1 space-y-1">

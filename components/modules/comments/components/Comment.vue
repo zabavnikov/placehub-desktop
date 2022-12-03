@@ -19,8 +19,8 @@
           </span>
 <!--          <div v-if="isOwner" class="ml-auto flex items-center space-x-1">-->
           <div class="ml-auto flex items-center space-x-1">
-            <pencil-icon @click="onEdit" class="cursor-pointer w-4 h-4 text-gray-500"></pencil-icon>
-            <trash-icon @click="onDelete" class="cursor-pointer w-4 h-4 text-gray-500"></trash-icon>
+            <Pencil @click="onEdit" class="cursor-pointer w-4 h-4 text-gray-500" />
+            <Trash @click="onDelete" class="cursor-pointer w-4 h-4 text-gray-500" />
           </div>
         </div>
         <div class="text-xs font-semibold text-gray-500">{{ comment.created_at }}</div>
@@ -50,9 +50,7 @@
         />
       </footer>
       <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="flex items-center space-x-2 mt-2 cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-          <path d="m19.706 13.708-3 3a1 1 0 0 1-1.414-1.414L16.586 14H5a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0v4h10.586l-1.293-1.293a1 1 0 0 1 1.414-1.414l3 3a1 1 0 0 1-.001 1.415z" />
-        </svg>
+        <MoreHorizontal class="w-4 h-4" />
         <div class="font-semibold">{{ comment.branch_replies_count }} ответов</div>
       </div>
     </section>
@@ -72,11 +70,11 @@
 import CommentForm from './CommentForm'
 import CommentReplyPopover from './CommentReplyPopover'
 import CommentVoteButtons from './CommentVoteButtons'
-import { PencilIcon, TrashIcon, ChatBubbleLeftIcon } from '@heroicons/vue/24/solid'
 import { defineAsyncComponent } from 'vue'
 import { ref, computed } from 'vue'
 import { useCommentsStore } from '../stores/comments'
 import { useNuxtApp } from 'nuxt/app'
+import { MoreHorizontal, Pencil, Trash } from 'lucide-vue-next'
 
 const emit = defineEmits(['toggle-replies', 'deleted'])
 

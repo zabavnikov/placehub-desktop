@@ -17,8 +17,8 @@ import { CREATE_COMMENT, UPDATE_COMMENT } from '../graphql'
 import { FormField, Textarea, Button } from '@placehub/ui'
 import { ref } from 'vue'
 import { useCommentsStore } from '../stores/comments'
+import { useFetch } from '#imports'
 import { useForm } from 'vee-validate'
-import { useGql } from '~/uses'
 
 export default {
   name: 'CommentForm',
@@ -49,8 +49,7 @@ export default {
     const formInitialState = {
       id: null,
       parent_id: parentId,
-      model_type: store.model_type,
-      model_id: store.model_id,
+      post_id: store.post_id,
       text: '',
     }
 
@@ -65,9 +64,9 @@ export default {
       form.value = {...formInitialState}
     }
 
-    const { handleSubmit } = useForm()
+    const { handleSubmit, setErrors } = useForm()
 
-    const onSubmit = handleSubmit(async (values, actions) => {
+    const onSubmit = handleSubmit(async () => {
       if (loading.value) {
         return
       }
@@ -75,25 +74,26 @@ export default {
       loading.value = true
 
       try {
-        const input = pick(form.value, ['parent_id', 'model_type', 'model_id', 'text'])
+        const input = pick(form.value, ['parent_id', 'post_id',  'text'])
 
-        const { data: { commentData }, error } = await useGql(isEdit ? UPDATE_COMMENT : CREATE_COMMENT, {
-          id: comment?.id,
-          input
+        const { data: { commentData }} = await useFetch({
+          query: isEdit ? UPDATE_COMMENT : CREATE_COMMENT,
+          variables: {
+            id: comment?.id,
+            input
+          }
         })
 
-        if (! error) {
-          if (isEdit) {
-            emit('updated', commentData)
-          } else {
-            emit('created', commentData)
-          }
-
-          form.value = {...formInitialState}
+        if (isEdit) {
+          emit('updated', commentData)
+        } else {
+          emit('created', commentData)
         }
+
+        form.value = {...formInitialState}
       } catch (error) {
-        if (error[0]) {
-          actions.setErrors(error[0]['extensions']['validation']);
+        if (error.message === 'validation') {
+          setErrors(error.extensions.validation)
         }
       } finally {
         loading.value = false

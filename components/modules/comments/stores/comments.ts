@@ -3,8 +3,7 @@ import pick from 'lodash.pick'
 
 const form = {
   id:         null,
-  model_type: '',
-  model_id:   null,
+  post_id:   null,
   parent_id:  null,
   text:       '',
 }
@@ -12,8 +11,7 @@ const form = {
 export const useCommentsStore = defineStore('comments', {
   state: () => {
     return {
-      model_type: '',
-      model_id:   null,
+      post_id:   null,
       list: [],
       mode: null,
       activeForm: null
