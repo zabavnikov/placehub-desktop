@@ -23,7 +23,7 @@ export const POST = `
     user {
       ${USER_FIELDS}
     }
-    latest_commentators_ids
+    last_comments_from
     latestCommentators {
       id
       name
@@ -57,7 +57,7 @@ export const POST_CARD = `
   user {
     ${USER_FIELDS}
   }
-  latest_commentators_ids
+  last_comments_from
   latestCommentators {
     id
     name
@@ -91,7 +91,7 @@ export const POST_FRAGMENT = `
   user {
     ${USER_FIELDS}
   }
-  latest_commentators_ids
+  last_comments_from
   latestCommentators {
     id
     name
