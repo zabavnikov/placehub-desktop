@@ -23,6 +23,12 @@ export const POST = `
     user {
       ${USER_FIELDS}
     }
+    latest_commentators_ids
+    latestCommentators {
+      id
+      name
+      avatar
+    }
   }
 `;
 
@@ -84,6 +90,12 @@ export const POST_FRAGMENT = `
   }
   user {
     ${USER_FIELDS}
+  }
+  latest_commentators_ids
+  latestCommentators {
+    id
+    name
+    avatar
   }
 `;
 
