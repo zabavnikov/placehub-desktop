@@ -2,10 +2,7 @@
   <section class="bg-white rounded-lg shadow ring-1 ring-offset-1 ring-gray-100">
     <header class="p-4 border-b border-gray-200">
       <h2 class="text-xl mb-4">Комментарии<span v-if="count > 0"> ({{ count }})</span></h2>
-      <CommentForm
-          :model-type="modelType"
-          :model-id="modelId"
-          @created="comments.unshift($event) "/>
+      <CommentForm @created="comments.unshift($event) "/>
     </header>
 
     <div class="divide-y divide-gray-100">
@@ -15,20 +12,22 @@
         </div>
 
         <!-- Replies -->
-        <div v-if="comment.replies" class="replies divide-y divide-gray-100">
-          <TransitionGroup name="list">
-            <div v-for="reply in comment.replies" :key="reply.id" class="py-4 pr-4 first:-mt-4 pl-12" :id="`comment-${reply.id}`">
-              <Comment :comment="reply" />
-            </div>
-          </TransitionGroup>
-        </div>
-        <div v-if="Object.keys(comment.replies).length && comment.branch_replies_count > Object.keys(comment.replies).length" class=" px-4 mb-4">
-          <Button
-            variant="secondary"
-            class="w-full"
-            :disabled="loading"
-            @click="onMoreReplies(comment)"
-          >Показать еще {{ comment.branch_replies_count - Object.keys(comment.replies).length }}</Button>
+        <div v-if="Object.keys(comment.replies).length">
+          <div class="replies divide-y divide-gray-100">
+            <TransitionGroup name="list">
+              <div v-for="reply in comment.replies" :key="reply.id" class="py-4 pr-4 first:-mt-4 pl-12" :id="`comment-${reply.id}`">
+                <Comment :comment="reply" />
+              </div>
+            </TransitionGroup>
+          </div>
+          <div v-if="comment.branch_replies_count > Object.keys(comment.replies).length" class=" px-4 mb-4">
+            <Button
+                variant="secondary"
+                class="w-full"
+                :disabled="loading"
+                @click="onMoreReplies(comment)"
+            >Показать еще {{ comment.branch_replies_count - Object.keys(comment.replies).length }}</Button>
+          </div>
         </div>
       </div>
     </div>
