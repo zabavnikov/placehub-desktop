@@ -1,6 +1,6 @@
 import { defineNuxtPlugin } from 'nuxt/app'
 import TheLayout from '~/components/layout/TheLayout'
-import { Ripple, OverlayPlugin, } from '@placehub/ui'
+import { Ripple, OverlayPlugin } from '@placehub/ui'
 import AxiosPlugin from '../../ui/src/axios.js'
 
 export default defineNuxtPlugin((nuxtApp) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 pt-4 pb-0" style="width: var(--main-width)">
+  <div class="pl-4 pt-4" style="width: var(--main-width)">
     <div class="h-60 relative">
       <div class="w-full h-full rounded-t-lg relative bg-gray-300/50">
         <img v-show="user.cover !== null" :src="user.cover" :alt="user.name" class="w-full h-full rounded-t-lg" />

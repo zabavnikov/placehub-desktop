@@ -31,9 +31,8 @@
       <p class="whitespace-pre-line leading-relaxed text-gray-900 overflow-hidden">
         {{ comment.text }}
       </p>
-
       <footer class="flex space-x-4 mt-2">
-        <p @click="onReply" class="cursor-pointer">ответить</p>
+        <p @click="onReply" class="cursor-pointer underline">ответить</p>
 <!--        <v-like
             :model-type="`${comment.model_type}_comments`"
             :model-id="comment.id"
@@ -48,20 +47,20 @@
           :votes-up-count="comment.votes_up_count"
           :votes-down-count="comment.votes_down_count"
         />
+        <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="flex items-center space-x-2 cursor-pointer">
+          <MoreHorizontal class="w-4 h-4" />
+          <div class="font-semibold">{{ comment.branch_replies_count }} ответов</div>
+        </div>
       </footer>
-      <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="flex items-center space-x-2 mt-2 cursor-pointer">
-        <MoreHorizontal class="w-4 h-4" />
-        <div class="font-semibold">{{ comment.branch_replies_count }} ответов</div>
-      </div>
     </section>
 
     <CommentForm
-      v-if="showForm"
-      :comment="isEdit ? comment : undefined"
-      :parent-id="isReply ? comment.id : undefined"
-      @created="onCreated"
-      @updated="onUpdated"
-      class="mt-4"
+        v-if="showForm"
+        :comment="isEdit ? comment : undefined"
+        :parent-id="isReply ? comment.id : undefined"
+        @created="onCreated"
+        @updated="onUpdated"
+        class="mt-2"
     />
   </article>
 </template>
