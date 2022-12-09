@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit" class="relative">
+  <form @submit.prevent="onSubmit" class="relative bg-gray-200/30 p-4 rounded">
     <!-- Отзыв. -->
 <!--    <FormField v-if="form.is_review" name="pluses" label="Достоинства">
       <TipTap v-model="form.pluses" raw-text class="prose-sm" placeholder="Что вам понравилось?" />
@@ -55,14 +55,13 @@ import PostFormImages from "./PostFormImages"
 import PostFormSettings from "./PostFormSettings"
 import TipTap from '../../../../../ui/src/components/TipTap/TipTap.vue'
 import Upload from '../../../../../ui/src/components/Upload/Upload.vue'
-import cloneDeep from 'lodash/cloneDeep.js';
-import pick from 'lodash/pick.js';
-import { CREATE_POST, UPDATE_POST } from '../graphql';
+import { CREATE_POST, UPDATE_POST } from '../graphql'
 import { FormField, Button } from '@placehub/ui'
-import { ref } from 'vue'
-import { useRouter, useNuxtApp } from 'nuxt/app'
-import { useForm } from 'vee-validate'
 import { Send, MapPin, ImagePlus } from 'lucide-vue-next'
+import { cloneDeep, pick } from 'lodash'
+import { ref } from 'vue'
+import { useForm } from 'vee-validate'
+import { useRouter, useNuxtApp } from 'nuxt/app'
 
 const formInitialState = {
   place_id: null,
@@ -78,32 +77,19 @@ const formInitialState = {
 
 const props = defineProps({
   post: {
-    type: Object,
-    default() {
-      return {
-        place_id: null,
-        pluses: '',
-        minuses: '',
-        text: '',
-        type: null,
-        rating: 0,
-        place: {},
-        images: [],
-        who_can_comment: 'all',
-      }
-    }
+    type: Object
   }
 })
 
 const emit = defineEmits(['created', 'updated'])
 
-const form = ref(props.post)
+const form = ref(cloneDeep(props.post || formInitialState))
 const loading = ref(false)
 const router = useRouter()
 
 const { $overlay } = useNuxtApp()
 
-const isEdit = props.post.id > 0
+const isEdit = props.post?.id > 0
 
 const onSelectPlace = () => {
   $overlay.show(PlaceSearchDialog, {
@@ -138,20 +124,22 @@ const onSubmit = handleSubmit(async () => {
   }
 
   try {
-    const { data: { post } } = await useFetch({
+    const { data: { post }} = await useFetch({
       query: isEdit
           ? UPDATE_POST
           : CREATE_POST,
       variables
     })
 
+    form.value = cloneDeep(formInitialState)
+
+    console.log(form.value)
+
     if (! isEdit) {
       emit('created', post)
     } else {
       await router.push({name: 'posts.show', params: {postId: variables.id}})
     }
-
-    form.value = cloneDeep(formInitialState)
   } catch (error) {
     if (error.message === 'validation') {
       setErrors(error.extensions.validation)

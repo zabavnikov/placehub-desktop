@@ -5,7 +5,7 @@
   --main-sidebar-width: 200px;
   --main-width:         calc(540px + 200px);
   --sidebar-width:   200px;
-  --container-width: calc(200px + 540px + 200px + 2px);
+  --container-width: calc(200px + 540px + 200px);
 }
 
 
@@ -23,13 +23,6 @@
     @apply border-l border-l-slate-200;
   }
 }
-.content {
-  .sidebar + .main,
-  .main-content + .main-sidebar {
-    @apply border-l border-l-slate-100;
-  }
-}
-
 // Main
 .main {
   @apply flex flex-auto;
@@ -49,7 +42,7 @@
 }
 
 body {
-  @apply text-sm font-medium bg-neutral-50;
+  @apply text-sm font-medium;
   font-family: 'Montserrat', sans-serif;
 }
 

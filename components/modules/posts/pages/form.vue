@@ -1,6 +1,6 @@
 <template>
   <TheLayout heading="Редактирование">
-    <PostForm :post="form" class="m-4" />
+    <PostForm :post="form" />
   </TheLayout>
 </template>
 

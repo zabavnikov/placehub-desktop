@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex items-center justify-between p-4">
+    <header class="flex items-center justify-between mb-2">
       <Profile :profile="content.user">
         <template #footer>
           {{ content.created_at }}
@@ -12,18 +12,16 @@
         </NuxtLink>
         <Trash v-if="full" @click="onDelete" class="w-5 h-5 cursor-pointer text-red" />
       </div>
-    </div>
+    </header>
 
-    <PostForm v-if="isEdit" :post="content" @updated="onUpdated" class="-mt-4"/>
+    <section>
+      <Component v-if="content.text" :is="full ? PostBodyFull : PostBody" :post="content"/>
 
-    <div v-else class="p-4 -mt-4">
-        <Component v-if="content.text" :is="full ? PostBodyFull : PostBody" :post="content"/>
+      <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2 text-gray-500 text-xs">
+        <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>
+      </div>
 
-        <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2 text-gray-500 text-xs">
-          <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>
-        </div>
-
-        <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
+      <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
 
       <footer class="flex items-center space-x-4 mt-4">
         <VLike model-type="posts" :model-id="content.id" :is-liked="content.like.is_liked"
@@ -35,7 +33,7 @@
         </div>
         <LatestCommentatorsList :commentators="content.latestCommentators" :count="content.comments_count" :post-id="content.id" />
       </footer>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -44,7 +42,6 @@ import { ref, defineAsyncComponent } from 'vue'
 import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
 import PostGallery from './PostGallery.vue'
-import PostForm from './PostForm'
 import LatestCommentatorsList from '~/components/modules/comments/components/LastestCommentorsList'
 import { Pencil, Trash, Share2 } from 'lucide-vue-next'
 import VLike from '~/components/library/VLike';

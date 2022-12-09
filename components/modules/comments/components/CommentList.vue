@@ -1,6 +1,6 @@
 <template>
-  <section class="bg-white rounded-lg shadow ring-1 ring-offset-1 ring-gray-100">
-    <header class="p-4 border-b border-gray-200">
+  <section>
+    <header>
 <!--      <h2 class="text-xl mb-4">Комментарии<span v-if="count > 0"> ({{ count }})</span></h2>-->
       <CommentForm @created="comments.unshift($event) "/>
     </header>

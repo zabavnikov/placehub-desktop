@@ -15,7 +15,7 @@
 
         <div class="p-4 text-center">
           <p v-if="pendingDeletion" class="mb-4">
-            Комментарий будет удален через {{ 5 - seconds }}. Нажмите <span class="underline cursor-pointer" @click="onCancel">отмена</span>, чтобы отменить удаление.
+            Комментарий будет удален через <span class="text-red">{{ 5 - seconds }}</span>. <span class="underline cursor-pointer" @click="onCancel">Нажмите отмена</span>, чтобы отменить удаление.
           </p>
           <p v-else class="mb-4">{{ text }}</p>
           <Button :loading="pendingDeletion" variant="danger" class="w-full" @click="onDelete">Удалить</Button>
@@ -94,9 +94,10 @@ const onDelete = async () => {
       if (data[props.mutationName]) {
         emit('deleted')
       }
+
     } catch (error) {}
     finally {
-      pendingDeletion.value = false
+      onCancel()
     }
   }, 5000)
 }

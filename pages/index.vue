@@ -1,8 +1,8 @@
 <template>
   <TheLayout>
-    <PostForm v-if="$auth.loggedIn" @created="pulse.unshift($event)" class="border-b border-b-slate-100 p-4" />
+    <PostForm v-if="$auth.loggedIn" @created="pulse.unshift($event)" class="mb-6" />
 
-    <div class="space-y-4">
+    <div class="space-y-10">
       <Post v-for="post in pulse" :key="post.id" :content="post" />
     </div>
   </TheLayout>
