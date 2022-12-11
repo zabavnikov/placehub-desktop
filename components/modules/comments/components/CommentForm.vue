@@ -16,7 +16,7 @@ import pick from 'lodash.pick'
 import { CREATE_COMMENT, UPDATE_COMMENT } from '../graphql'
 import { FormField, Textarea, Button } from '@placehub/ui'
 import { ref } from 'vue'
-import { useCommentsStore } from '../stores/comments'
+import { useCommentsStore } from '../store.ts'
 import { useFetch } from '#imports'
 import { useForm } from 'vee-validate'
 

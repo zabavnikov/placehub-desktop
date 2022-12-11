@@ -14,7 +14,7 @@ import { useAsyncGql } from '~/uses'
 import { POST_FRAGMENT  } from '../graphql'
 import Post from '../components/Post'
 import PostForm from '~/components/modules/posts/components/PostForm'
-import { useCommentsStore } from '~/components/modules/comments/stores/comments'
+import { useCommentsStore } from '~/components/modules/comments/store.ts'
 import CommentList from '~/components/modules/comments/components/CommentList';
 import { COMMENT } from '../../comments/graphql';
 
@@ -27,6 +27,10 @@ export default {
   async setup(_, { $pinia }) {
     const route = useRoute()
     const commentsStore = useCommentsStore($pinia)
+
+    commentsStore.$patch(state => {
+      state.post_id = parseInt(route.params.postId)
+    })
 
     try {
       const { data } = await useAsyncGql(`
@@ -44,8 +48,7 @@ export default {
       })
 
       commentsStore.$patch(state => {
-        state.post_id    = parseInt(route.params.postId)
-        state.list        = data.value.comments
+        state.list = data.value.comments
       })
 
       return {

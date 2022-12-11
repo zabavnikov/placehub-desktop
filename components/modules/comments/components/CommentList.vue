@@ -2,17 +2,15 @@
   <section>
     <header>
 <!--      <h2 class="text-xl mb-4">Комментарии<span v-if="count > 0"> ({{ count }})</span></h2>-->
-      <CommentForm @created="comments.unshift($event) "/>
+      <CommentForm @created="store.list.unshift($event) "/>
     </header>
 
     <div class="divide-y divide-gray-100">
-      <div v-for="comment in comments" :key="comment.id">
-        <div class="p-4" :id="`comment-${comment.id}`">
-          <Comment :comment="comment" @toggle-replies="onMoreReplies(comment)" />
-        </div>
+      <div v-for="comment in store.list" :key="comment.id">
+        <Comment class="p-4" :comment="comment" @toggle-replies="onMore(comment)" />
 
         <!-- Replies -->
-        <div v-if="Object.keys(comment.replies).length">
+        <div v-if="comment.replies.length">
           <div class="replies divide-y divide-gray-100">
             <TransitionGroup name="list">
               <div v-for="reply in comment.replies" :key="reply.id" class="py-4 pr-4 first:-mt-4 pl-12" :id="`comment-${reply.id}`">
@@ -20,19 +18,102 @@
               </div>
             </TransitionGroup>
           </div>
-          <div v-if="comment.branch_replies_count > Object.keys(comment.replies).length" class=" px-4 mb-4">
+          <div v-if="
+          comment.branch_replies_count > comment.replies.length && !noMoreReplies[comment.id]" class=" px-4 mb-4">
             <Button
                 variant="secondary"
                 class="w-full"
                 :disabled="loading"
-                @click="onMoreReplies(comment)"
-            >Показать еще {{ comment.branch_replies_count - Object.keys(comment.replies).length }}</Button>
+                @click="onMore(comment)"
+            >Показать еще {{ comment.branch_replies_count - comment.replies.length }}</Button>
           </div>
         </div>
       </div>
     </div>
+
+    <Button
+      v-if="!noMoreComments"
+      variant="secondary"
+      class="w-full"
+      :disabled="loading"
+      @click="onMore"
+    >Показать еще</Button>
   </section>
 </template>
+
+<script setup>
+import Comment from '~/components/modules/comments/components/Comment.vue'
+import CommentForm from '~/components/modules/comments/components/CommentForm.vue'
+import { Button } from '@placehub/ui'
+import { COMMENT, REPLY } from '~/components/modules/comments/graphql'
+import { ref } from 'vue'
+import { sortBy, uniqBy } from 'lodash-es'
+import { useCommentsStore } from '~/components/modules/comments/store.ts'
+import { useFetch } from '#imports'
+
+const store = useCommentsStore()
+
+const loading = ref(false)
+
+/*
+  pagePerParent: {
+    parentId: pageNumber
+  }
+ */
+const pages = ref({
+  page: 1,
+  pagePerParent: {},
+})
+
+const noMoreComments = ref(false)
+const noMoreReplies = ref({})
+
+const onMore = async (parentComment = null) => {
+  const isLoadingReplies = parentComment?.id > 0
+
+  const variables = {
+    post_id: store.post_id,
+  }
+
+  if (isLoadingReplies) {
+    variables.branch_id = parentComment.id
+
+    if (! Object.hasOwn(pages.value.pagePerParent, parentComment.id)) {
+      pages.value.pagePerParent[parentComment.id] = 1
+    }
+
+    variables.page = pages.value.pagePerParent[parentComment.id]++
+  } else {
+    variables.page = pages.value.page++
+  }
+
+  const { data: { comments } } = await useFetch({
+    query: `
+      query ($post_id: Int, $branch_id: Int, $page: Int) {
+        comments(post_id: $post_id, branch_id: $branch_id, page: $page) {
+          ${isLoadingReplies ? REPLY : COMMENT}
+        }
+      }
+    `,
+    variables
+  })
+
+  if (comments.length) {
+    if (isLoadingReplies) {
+      comments.forEach((comment) => parentComment.replies.push(comment))
+      parentComment.replies = uniqBy(sortBy(parentComment.replies, 'id'), 'id')
+    } else {
+      comments.forEach((comment) => store.list.push(comment))
+    }
+  } else {
+    if (isLoadingReplies) {
+      noMoreReplies.value[parentComment.id] = true
+    } else {
+      noMoreComments.value = true
+    }
+  }
+}
+</script>
 
 <style>
 .list-enter-active,
@@ -44,91 +125,3 @@
   @apply bg-amber-100;
 }
 </style>
-
-<script>
-import Comment from './Comment'
-import CommentForm from './CommentForm'
-import { ref } from 'vue';
-import { REPLY } from '../graphql';
-import { useGQL } from '~/uses'
-import { useCommentsStore } from '~/components/modules/comments/stores/comments'
-import { Button } from '@placehub/ui'
-import { useOnMore } from '../uses/useOnMore'
-
-export default {
-  props: {
-    postId: {
-      type: Number,
-      required: true,
-    },
-    count: {
-      type: Number,
-    }
-  },
-
-  components: {
-    Button,
-    Comment,
-    CommentForm
-  },
-  setup(props, { $pinia }) {
-    const loading = ref(false)
-    const comments = useCommentsStore($pinia)
-    const page = ref(0)
-
-    const onMore = async () => {
-      const newComments = await useOnMore(props.postId, comments.list.length)
-
-      newComments.forEach(comment => {
-        comments.list.push(comment)
-      })
-    }
-
-    const onMoreReplies = async (comment) => {
-      if (loading.value) {
-        return
-      }
-
-      loading.value = true
-
-      try {
-        if (comment.replies.length === 0) {
-          comment.replies = {}
-        }
-
-        const { data } = await useGQL(`
-          query ($branch_id: Int, $page: Int) {
-            replies: comments(branch_id: $branch_id, page: $page) {
-              ${REPLY}
-            }
-          }
-        `, {
-          branch_id:  comment.id,
-          page:       page.value++
-        })
-
-        // После добавление ответа он добавляется в конец ветки,
-        // но он также будет подгружен после нажатия на: показать еще,
-        // для этого нужно удалить дубликаты и пересчитать branch_replies_count
-        data.replies.forEach((newComment) => {
-          if (! Object.hasOwn(comment.replies, newComment.id)) {
-            comment.replies[newComment.id] = newComment
-          }
-        })
-
-      } catch (error) {
-        console.log(error)
-      } finally {
-        loading.value = false
-      }
-    }
-
-    return {
-      onMoreReplies,
-      onMore,
-      comments: comments.list,
-      loading
-    }
-  }
-}
-</script>

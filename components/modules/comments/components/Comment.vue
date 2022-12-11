@@ -39,14 +39,14 @@
             :count="comment.likes_count"
             :is-liked="comment.like.is_liked"
         />-->
-        <CommentVoteButtons
+<!--        <CommentVoteButtons
           model-type="posts"
           :model-id="comment.id"
           :rating="comment.rating"
           :vote="comment.vote"
           :votes-up-count="comment.votes_up_count"
           :votes-down-count="comment.votes_down_count"
-        />
+        />-->
         <div v-if="comment.branch_replies_count > 0" @click="$emit('toggle-replies')" class="flex items-center space-x-2 cursor-pointer">
           <MoreHorizontal class="w-4 h-4" />
           <div class="font-semibold">{{ comment.branch_replies_count }} ответов</div>
@@ -71,7 +71,7 @@ import CommentReplyPopover from './CommentReplyPopover'
 import CommentVoteButtons from './CommentVoteButtons'
 import { defineAsyncComponent } from 'vue'
 import { ref, computed } from 'vue'
-import { useCommentsStore } from '../stores/comments'
+import { useCommentsStore } from '../store.ts'
 import { useNuxtApp } from 'nuxt/app'
 import { MoreHorizontal, Pencil, Trash } from 'lucide-vue-next'
 
