@@ -84,7 +84,7 @@ const onMore = async (parentComment = null) => {
 
     variables.page = pages.value.pagePerParent[parentComment.id]++
   } else {
-    variables.page = pages.value.page++
+    variables.page = pages.value.page += 1
   }
 
   const { data: { comments } } = await useFetch({
