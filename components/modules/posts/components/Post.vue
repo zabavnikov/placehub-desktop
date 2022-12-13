@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <article>
     <header class="flex items-center justify-between mb-2">
       <Profile :profile="content.user">
         <template #footer>
@@ -34,7 +34,7 @@
         <LatestCommentatorsList :commentators="content.latestCommentators" :count="content.comments_count" :post-id="content.id" />
       </footer>
     </section>
-  </div>
+  </article>
 </template>
 
 <script setup>

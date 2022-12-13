@@ -65,7 +65,7 @@ const pages = ref({
   pagePerParent: {},
 })
 
-const noMoreComments = ref(false)
+const noMoreComments = ref(store.list.length > 10)
 const noMoreReplies = ref({})
 
 const onMore = async (parentComment = null) => {

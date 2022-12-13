@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit" class="relative bg-gray-200/30 p-4 rounded">
+  <form @submit.prevent="onSubmit" class="relative bg-zinc-200/40 p-4 rounded">
     <!-- Отзыв. -->
 <!--    <FormField v-if="form.is_review" name="pluses" label="Достоинства">
       <TipTap v-model="form.pluses" raw-text class="prose-sm" placeholder="Что вам понравилось?" />
