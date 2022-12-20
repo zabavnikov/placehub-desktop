@@ -2,11 +2,11 @@
   <nav class="nav relative">
     <div class="sticky top-14">
       <NuxtLink v-if="$auth.loggedIn" class="block bg-gray-300/50 text-center py-1 px-2 rounded" to="/">Написать</NuxtLink>
-      <ul class="mt-4">
+      <ul class="mt-4 space-y-px">
         <li v-for="link in links">
-          <NuxtLink :to="link.href" class="p-2 rounded-lg text-slate-600 flex items-center space-x-2">
+          <NuxtLink :to="link.href" class="p-2.5 text-indigo-800 rounded-lg flex items-center space-x-2">
             <Component :is="link.icon" class="w-5 h-5"></Component>
-            <span class="font-medium">{{ link.text }}</span>
+            <span>{{ link.text }}</span>
           </NuxtLink>
         </li>
       </ul>
@@ -27,7 +27,7 @@ const links = [
 .nav {
   ul li a {
     &.router-link-active {
-      @apply bg-slate-200;
+      @apply bg-indigo-100;
     }
   }
 }

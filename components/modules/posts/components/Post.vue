@@ -26,11 +26,11 @@
       <footer class="flex items-center space-x-4 mt-4">
         <VLike model-type="posts" :model-id="content.id" :is-liked="content.like.is_liked"
                :count="content.likes_count"/>
-        <div @click="onRepost" class="cursor-pointer flex items-center space-x-1">
+<!--        <div @click="onRepost" class="cursor-pointer flex items-center space-x-1">
           <Share2 class="w-5 h-5 text-gray-500"/>
-          <!-- В репостах не показываем счетчик, так как репост репоста, это репост оригинала. -->
+          &lt;!&ndash; В репостах не показываем счетчик, так как репост репоста, это репост оригинала. &ndash;&gt;
           <span v-if="content.repost_type === null">{{ content.shares_count }}</span>
-        </div>
+        </div>-->
         <LatestCommentatorsList :commentators="content.latestCommentators" :count="content.comments_count" :post-id="content.id" />
       </footer>
     </section>
