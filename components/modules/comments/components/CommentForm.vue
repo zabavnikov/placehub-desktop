@@ -14,7 +14,7 @@
 <script>
 import pick from 'lodash.pick'
 import { CREATE_COMMENT, UPDATE_COMMENT } from '../graphql'
-import { FormField, Textarea, Button } from '@placehub/ui'
+import { FormField, Textarea } from '@placehub/ui'
 import { ref } from 'vue'
 import { useCommentsStore } from '../store.ts'
 import { useFetch } from '#imports'
@@ -36,7 +36,6 @@ export default {
 
   components: {
     Textarea,
-    Button,
     FormField
   },
 

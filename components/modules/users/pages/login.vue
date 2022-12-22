@@ -30,7 +30,6 @@
 
 <script setup>
 import {
-  Button,
   FormField,
   Input,
 } from '@placehub/ui'

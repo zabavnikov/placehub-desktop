@@ -39,7 +39,7 @@
 import Validation from '~/utils/validation';
 import { REGISTER_USER } from '~/components/modules/users/graphql';
 import { useAsyncGql } from '~/uses'
-import { Input, Button } from '@placehub/ui';
+import { Input } from '@placehub/ui';
 
 const formInitialState = {
   name: '',

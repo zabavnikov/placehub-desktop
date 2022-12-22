@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { Textarea, Input, Button, FormField } from '@placehub/ui'
+import { Textarea, Input, FormField } from '@placehub/ui'
 import { UPDATE_USER } from '../graphql'
 import { USER_FORM_FIELD } from '~/components/modules/users/graphql'
 import { useFetch } from '#imports'
