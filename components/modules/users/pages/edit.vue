@@ -1,20 +1,22 @@
 <template>
   <TheLayout heading="Редактирование профиля">
-    <form @submit.prevent="onSubmit" class="space-y-4 m-4">
-      <FormField label="Имя" name="input.name" required>
-        <template v-slot="{ hasError }">
-          <Input v-model="user.name" type="text" id="input.name" />
-        </template>
-        <template #help>
-          Чтобы людям было проще находить ваш аккаунт, используйте имя, под которым вас знают: ваше имя и фамилию, никнейм или название компании.
-        </template>
-      </FormField>
+    <form @submit.prevent="onSubmit">
+      <fieldset class="space-y-4">
+        <FormField label="Имя" name="input.name" required>
+          <template v-slot="{ hasError }">
+            <Input v-model="user.name" type="text" id="input.name" />
+          </template>
+          <template #help>
+            Чтобы людям было проще находить ваш аккаунт, используйте имя, под которым вас знают: ваше имя и фамилию, никнейм или название компании.
+          </template>
+        </FormField>
 
-      <FormField label="О себе" name="input.description">
-        <Textarea v-model="user.description" id="description" />
-      </FormField>
+        <FormField label="О себе" name="input.description">
+          <Textarea v-model="user.description" id="description" />
+        </FormField>
+      </fieldset>
 
-      <div class="-mx-4 bg-indigo-50 h-px" />
+      <div class="my-6 bg-indigo-50 h-px" />
 
       <Button type="submit" :loading="loading">Сохранить</Button>
     </form>

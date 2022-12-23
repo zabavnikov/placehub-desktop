@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center min-h-full">
     <TheHeader />
 
-    <div class="w-full max-w-screen-lg grid grid-cols-10 gap-6">
+    <div class="w-full max-w-screen-lg grid grid-cols-10 gap-6 mt-6">
       <TheNavigation class="col-span-2" />
       <main class="col-span-8 gap-6">
         <slot />

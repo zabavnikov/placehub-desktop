@@ -4,21 +4,19 @@
       <Settings2 class="w-5 h-5" />
     </button>
     <template v-slot:popper="{ hide }">
-      <FormField name="comments" label="Кто может писать комментарии?">
-        <div
-            v-for="(name, key) in commentAccess"
-            :key="key"
-            class="rounded-lg px-2 py-1 cursor-pointer"
-            :class="{'bg-indigo-50': selectedCommentAccess === key}"
-            @click="selectedCommentAccess = key; $emit('update:who-can-comment', key)"
-        >{{ name }}</div>
-      </FormField>
+      <h3 class="m-1 mb-2 font-semibold">Кто может писать комментарии?</h3>
+      <div
+          v-for="(name, key) in commentAccess"
+          :key="key"
+          class="rounded-lg p-2 cursor-pointer"
+          :class="{'bg-indigo-50': selectedCommentAccess === key}"
+          @click="selectedCommentAccess = key; $emit('update:who-can-comment', key)"
+      >{{ name }}</div>
     </template>
   </Dropdown>
 </template>
 
 <script setup>
-import { Dropdown, FormField } from '@placehub/ui'
 import { Settings2 } from 'lucide-vue-next'
 import { ref } from 'vue'
 

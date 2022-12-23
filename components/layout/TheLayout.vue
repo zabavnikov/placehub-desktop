@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!!$slots['hero']" class="flex-1">
+  <div v-if="!!$slots['hero']" class="mb-6">
     <slot name="hero"></slot>
   </div>
 
