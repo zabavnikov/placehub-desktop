@@ -24,6 +24,8 @@ export const COMMENT = `
       avatar
     }
   }
+  can_delete
+  can_update
   user {
     id
     name
@@ -39,6 +41,8 @@ export const REPLY = `
   parent_id
   text
   rating
+  can_delete
+  can_update
   vote {
     type
   }

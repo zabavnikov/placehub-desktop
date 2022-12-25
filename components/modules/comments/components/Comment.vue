@@ -17,10 +17,9 @@
               </template>
             </comment-reply-popover>
           </span>
-<!--          <div v-if="isOwner" class="ml-auto flex items-center space-x-1">-->
-          <div class="ml-auto flex items-center space-x-1">
-            <Pencil @click="onEdit" class="cursor-pointer w-4 h-4 text-gray-500" />
-            <Trash @click="onDelete" class="cursor-pointer w-4 h-4 text-gray-500" />
+          <div v-if="comment.can_update || comment.can_delete" class="ml-auto flex items-center space-x-1">
+            <Pencil v-if="comment.can_update" @click="onEdit" class="cursor-pointer w-4 h-4 text-gray-500" />
+            <Trash v-if="comment.can_delete" @click="onDelete" class="cursor-pointer w-4 h-4 text-gray-500" />
           </div>
         </div>
         <div class="text-xs font-semibold text-gray-500">{{ comment.created_at }}</div>
