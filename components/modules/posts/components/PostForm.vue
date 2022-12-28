@@ -53,8 +53,6 @@
 import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
 import PostFormImages from "./PostFormImages"
 import PostFormSettings from "./PostFormSettings"
-import TipTap from '../../../../../ui/src/components/TipTap/TipTap.vue'
-import Upload from '../../../../../ui/src/components/Upload/Upload.vue'
 import { CREATE_POST, UPDATE_POST } from '../graphql'
 import { FormField, Button } from '@placehub/ui'
 import { Send, MapPin, ImagePlus } from 'lucide-vue-next'

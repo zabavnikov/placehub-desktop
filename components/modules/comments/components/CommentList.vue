@@ -32,7 +32,7 @@
     </div>
 
     <Button
-      v-if="!noMoreComments"
+      v-if="hasMoreComments"
       variant="secondary"
       class="w-full"
       :disabled="loading"
@@ -53,6 +53,13 @@ import { useFetch } from '#imports'
 
 const store = useCommentsStore()
 
+const props = defineProps({
+  count: {
+    type: Number,
+    default: 0,
+  }
+})
+
 const loading = ref(false)
 
 /*
@@ -65,7 +72,7 @@ const pages = ref({
   pagePerParent: {},
 })
 
-const noMoreComments = ref(store.list.length > 10)
+const hasMoreComments = ref(props.count > store.list.length)
 const noMoreReplies = ref({})
 
 const onMore = async (parentComment = null) => {
@@ -109,7 +116,7 @@ const onMore = async (parentComment = null) => {
     if (isLoadingReplies) {
       noMoreReplies.value[parentComment.id] = true
     } else {
-      noMoreComments.value = true
+      hasMoreComments.value = false
     }
   }
 }
