@@ -18,4 +18,9 @@
 import TheFooter from '~/components/layout/TheFooter'
 import TheHeader from '~/components/layout/TheHeader'
 import TheNavigation from '~/components/layout/TheNavigation'
+
+
+useHead({
+  titleTemplate: '%s — PlaceHub.ru',
+})
 </script>

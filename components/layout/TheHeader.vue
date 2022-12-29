@@ -9,7 +9,7 @@
       </div>
       <div class="main">
         <div class="main-content">
-          <input type="search" class="w-full h-full p-2 bg-transparent focus:outline-none" placeholder="Поиск">
+<!--          <input type="search" class="w-full h-full p-2 bg-transparent focus:outline-none" placeholder="Поиск">-->
         </div>
         <div class="main-sidebar">
           <NuxtLink v-if="!$auth.loggedIn" to="/login">login</NuxtLink>

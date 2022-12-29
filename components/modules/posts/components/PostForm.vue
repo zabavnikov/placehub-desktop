@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
+import PlaceFormDialog from '~/components/modules/places/components/PlaceFormDialog.vue'
 import PostFormImages from "./PostFormImages"
 import PostFormSettings from "./PostFormSettings"
 import { CREATE_POST, UPDATE_POST } from '../graphql'
@@ -90,7 +90,7 @@ const { $overlay } = useNuxtApp()
 const isEdit = props.post?.id > 0
 
 const onSelectPlace = () => {
-  $overlay.show(PlaceSearchDialog, {
+  $overlay.show(PlaceFormDialog, {
     props: {
       modelValue: form.value.place,
     },
