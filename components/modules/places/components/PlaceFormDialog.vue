@@ -15,46 +15,46 @@
         <div>
           <label class="form-label asterisk" for="country">Страна</label>
           <div class="form-control">
-            <SearchPlace placeholder="Выберите страну" :search-by="['countries']" @select="onSelect($event, 'country')" />
+            <SearchPlace
+              placeholder="Выберите страну"
+              :search-by="['countries']"
+              @update:modelValue="onSelect($event, 'country')" />
           </div>
         </div>
 
         <div v-if="form.country.id > 0">
           <label class="form-label asterisk" for="region">Регион, область, край и т.д</label>
           <div class="form-control">
-            <!--          <PlaceSearch
-                          placeholder="Введите название"
-                          :search-by="['regions']"
-                          :parent-id="form.country.id"
-                          @input="form.region.name = $event"
-                          @select="onSelect($event, 'region')"
-                      />-->
+            <SearchPlace
+              placeholder="Введите название"
+              :search-by="['regions']"
+              :parent-id="form.country.id"
+              @update:modelValue="onSelect($event, 'region')"
+            />
           </div>
         </div>
 
         <div v-if="form.region.name && addLocality">
           <label class="form-label asterisk" for="locality">Населенный пункт</label>
           <div class="form-control">
-            <!--          <PlaceSearch
-                          placeholder="Введите название"
-                          :search-by="['localities']"
-                          :parent-id="form.region.id"
-                          @input="form.locality.name = $event"
-                          @select="onSelect($event, 'locality')"
-                      />-->
+            <SearchPlace
+              placeholder="Введите название"
+              :search-by="['localities']"
+              :parent-id="form.region.id"
+              @update:modelValue="onSelect($event, 'locality')"
+            />
           </div>
         </div>
 
         <div v-if="(form.region.name || form.locality.name) && addPoi">
           <label class="form-label asterisk" for="poi">Место</label>
           <div class="form-control">
-            <!--          <PlaceSearch
-                          placeholder="Введите название"
-                          :search-by="poiSearchBy"
-                          :parent-id="poiParentId"
-                          @input="form.poi.name = $event"
-                          @select="onSelect($event, 'poi')"
-                      />-->
+            <SearchPlace
+                placeholder="Введите название"
+                :search-by="poiSearchBy"
+                :parent-id="poiParentId"
+                @update:modelValue="onSelect($event, 'poi')"
+            />
           </div>
         </div>
 
@@ -71,21 +71,20 @@
 </template>
 
 <script>
-// import PlaceSearch from '~/modules/places/components/PlaceSearch'
 import Dialog from '~/components/common/Dialog.vue'
-import cloneDeep from 'lodash/cloneDeep'
+import { cloneDeep } from 'lodash-es'
 import { useGql } from '~/uses'
 
-const initialFields = {
-  id: null,
+const initialState = {
+  id:   null,
   name: null,
 }
 
 const formInitialState = {
-  country: { ...initialFields },
-  region: { ...initialFields },
-  locality: { ...initialFields },
-  poi: { ...initialFields },
+  country:  {...initialState},
+  region:   {...initialState},
+  locality: {...initialState},
+  poi:      {...initialState},
 }
 
 export default {
@@ -112,7 +111,7 @@ export default {
   },
   methods: {
     onSelect(place, type) {
-      this.form[type].id = place.id
+      this.form[type].id   = place.id
       this.form[type].name = place.name
     },
     onDelete(type) {
@@ -122,13 +121,13 @@ export default {
         this.addPoi = false
       }
       if (type === 'locality') {
-        this.form.locality = { ...initialFields }
-        this.form.poi = { ...initialFields }
+        this.form.locality = { ...initialState }
+        this.form.poi = { ...initialState }
         this.addLocality = false
         this.addPoi = false
       }
       if (type === 'poi') {
-        this.form.poi = { ...initialFields }
+        this.form.poi = { ...initialState }
         this.addPoi = false
       }
     },
