@@ -15,7 +15,7 @@
     </header>
 
     <section>
-      <Component v-if="content.text" :is="full ? PostBodyFull : PostBody" :post="content"/>
+      <Component :is="full ? PostBodyFull : PostBody" :post="content"/>
 
       <div v-if="content.hashtags.length > 0" class="mt-4 space-x-2 text-gray-500 text-xs">
         <nuxt-link v-for="hashtag in content.hashtags" :to="`/search/${hashtag}`">#{{ hashtag }}</nuxt-link>

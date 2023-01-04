@@ -14,7 +14,8 @@
 
     <!-- Пост или статья. -->
     <FormField name="input.text">
-      <TipTap v-model="form.text" class="prose-sm" />
+      <TipTap :is-article="isArticle" v-model="form.text" class="prose-sm" />
+      <div @click="isArticle = !isArticle">Статья</div>
     </FormField>
     <!-- / Пост или статья. -->
 
@@ -84,6 +85,7 @@ const emit = defineEmits(['created', 'updated'])
 const form = ref(cloneDeep(props.post || formInitialState))
 const loading = ref(false)
 const router = useRouter()
+const isArticle = ref(form.value.type === 'article')
 
 const { $overlay } = useNuxtApp()
 

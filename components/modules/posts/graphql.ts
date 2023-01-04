@@ -5,6 +5,7 @@ export const POST = `
     id
     user_id
     place_id
+    title
     text
     can
     likes_count
@@ -36,6 +37,7 @@ export const POST_CARD = `
   id
   user_id
   place_id
+  title
   text(words: 24)
   likes_count
   hashtags
@@ -69,6 +71,7 @@ export const POST_FRAGMENT = `
   id
   user_id
   place_id
+  title
   text
   hashtags
   comments_count
@@ -104,6 +107,7 @@ export const POST_FORM = `
   user_id
   place_id
   who_can_comment
+  type
   text(raw: true)
   can
   place {
