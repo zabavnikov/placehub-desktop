@@ -112,8 +112,24 @@ export const POST_FORM = `
   can
   place {
     id
+    parent_id
     name
     full_name
+    parent {
+      id
+      parent_id
+      name
+      parent {
+        id
+        parent_id
+        name
+        parent {
+          id
+          parent_id
+          name
+        }
+      }
+    }
   }
   images(sizes: "default@resize:auto:120:120") {
     id

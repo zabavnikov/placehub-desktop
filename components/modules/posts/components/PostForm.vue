@@ -14,12 +14,16 @@
 
     <!-- Пост или статья. -->
     <FormField name="input.text">
-      <TipTap :is-article="isArticle" v-model="form.text" class="prose-sm" />
-      <div @click="isArticle = !isArticle">Статья</div>
+      <TipTap v-model="form.text" class="prose-sm" />
     </FormField>
     <!-- / Пост или статья. -->
 
     <PostFormImages v-if="form.images.length > 0" v-model="form.images" />
+
+    <div v-if="form.place?.full_name" class="flex items-center space-x-2">
+      <div class="truncate">{{ form.place?.full_name }}</div>
+      <X class="flex-shrink-0 w-5 h-5 cursor-pointer" @click="onDetachPlace" />
+    </div>
 
     <div class="mt-4 w-full flex items-end">
       <div class="flex items-center space-x-2">
@@ -51,12 +55,11 @@
 </template>
 
 <script setup>
-import PlaceFormDialog from '~/components/modules/places/components/PlaceFormDialog.vue'
+import PlaceSearchDialog from '~/components/modules/places/components/PlaceSearchDialog.vue'
 import PostFormImages from "./PostFormImages"
 import PostFormSettings from "./PostFormSettings"
 import { CREATE_POST, UPDATE_POST } from '../graphql'
-import { FormField, Button } from '@placehub/ui'
-import { Send, MapPin, ImagePlus } from 'lucide-vue-next'
+import { Send, MapPin, ImagePlus, X } from 'lucide-vue-next'
 import { cloneDeep, pick } from 'lodash'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
@@ -92,17 +95,23 @@ const { $overlay } = useNuxtApp()
 const isEdit = props.post?.id > 0
 
 const onSelectPlace = () => {
-  $overlay.show(PlaceFormDialog, {
+  $overlay.show(PlaceSearchDialog, {
     props: {
       modelValue: form.value.place,
     },
     on: {
       selected(place) {
+        console.log(place)
         Object.assign(form.value.place, place)
         form.value.place_id = place.id
       }
     }
   })
+}
+
+const onDetachPlace = () => {
+  form.value.place_id = null
+  form.value.place = {}
 }
 
 const { handleSubmit, setErrors } = useForm()

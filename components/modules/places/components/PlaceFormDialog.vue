@@ -1,6 +1,6 @@
 <template>
   <Dialog title="Добавление места">
-    <div class="w-[528px]">
+    <div>
       <ul v-if="form.country.name && form.region.name" class="flex flex-wrap space-x-0.5 mb-4 text-sm">
         <li v-for="(place, key) in form" :key="key">
           <div v-if="place.name" class="flex items-center space-x-0.5">
@@ -12,51 +12,39 @@
       </ul>
 
       <form @submit.prevent="onSubmit" class="space-y-4">
-        <div>
-          <label class="form-label asterisk" for="country">Страна</label>
-          <div class="form-control">
-            <SearchPlace
+        <FormField name="country" label="Страна" required>
+          <SearchPlace
               placeholder="Выберите страну"
               :search-by="['countries']"
               @update:modelValue="onSelect($event, 'country')" />
-          </div>
-        </div>
+        </FormField>
 
-        <div v-if="form.country.id > 0">
-          <label class="form-label asterisk" for="region">Регион, область, край и т.д</label>
-          <div class="form-control">
-            <SearchPlace
+        <FormField name="region" v-if="form.country.id > 0" label="Регион, область, край и т.д" required>
+          <SearchPlace
               placeholder="Введите название"
               :search-by="['regions']"
               :parent-id="form.country.id"
               @update:modelValue="onSelect($event, 'region')"
-            />
-          </div>
-        </div>
+          />
+        </FormField>
 
-        <div v-if="form.region.name && addLocality">
-          <label class="form-label asterisk" for="locality">Населенный пункт</label>
-          <div class="form-control">
-            <SearchPlace
+        <FormField name="locality" v-if="form.region.name && addLocality" label="Населенный пункт">
+          <SearchPlace
               placeholder="Введите название"
               :search-by="['localities']"
               :parent-id="form.region.id"
               @update:modelValue="onSelect($event, 'locality')"
-            />
-          </div>
-        </div>
+          />
+        </FormField>
 
-        <div v-if="(form.region.name || form.locality.name) && addPoi">
-          <label class="form-label asterisk" for="poi">Место</label>
-          <div class="form-control">
-            <SearchPlace
-                placeholder="Введите название"
-                :search-by="poiSearchBy"
-                :parent-id="poiParentId"
-                @update:modelValue="onSelect($event, 'poi')"
-            />
-          </div>
-        </div>
+        <FormField name="poi" v-if="(form.region.name || form.locality.name) && addPoi" label="Место">
+          <SearchPlace
+              placeholder="Введите название"
+              :search-by="['poi']"
+              :parent-id="poiParentId"
+              @update:modelValue="onSelect($event, 'poi')"
+          />
+        </FormField>
 
         <div v-if="form.region.name" class="space-y-1">
           <div v-if="!addLocality" class="add-button" @click="addLocality = !addLocality">Прикрепить населенный пункт
@@ -102,9 +90,6 @@ export default {
     hasLocality() {
       return this.form.locality.name
     },
-    poiSearchBy() {
-      return [this.hasLocality ? 'localities' : 'regions']
-    },
     poiParentId() {
       return this.hasLocality ? this.form.locality.id : this.form.region.id
     },
@@ -141,27 +126,24 @@ export default {
       }
 
       try {
-        const { createPlace } = await useGql(`
-        mutation (
-            $country:  CountryInput!
-            $region:   RegionInput!
-            $locality: LocalityInput
-            $poi:      PoiInput
-        ) {
-          createPlace(
-            country:   $country,
-            region:    $region,
-            locality:  $locality,
-            poi:       $poi,
+        const { data: { createPlace } } = await useQuery({
+          query: `
+            mutation (
+              $country:  CountryInput!
+              $region:   RegionInput!
+              $locality: LocalityInput
+              $poi:      PoiInput
           ) {
-            id
-            parent_id
-            name
-            full_name
-            parent {
+            createPlace(
+              country:   $country,
+              region:    $region,
+              locality:  $locality,
+              poi:       $poi,
+            ) {
               id
               parent_id
               name
+              full_name
               parent {
                 id
                 parent_id
@@ -170,12 +152,18 @@ export default {
                   id
                   parent_id
                   name
+                  parent {
+                    id
+                    parent_id
+                    name
+                  }
                 }
               }
             }
           }
-        }
-      `, this.form)
+        `,
+          variables: this.form
+        })
 
         this.$emit('created', createPlace)
       } catch (error) {
