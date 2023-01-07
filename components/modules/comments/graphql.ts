@@ -26,6 +26,7 @@ export const COMMENT = `
   }
   can_delete
   can_update
+  can_reply
   user {
     id
     name
@@ -43,6 +44,7 @@ export const REPLY = `
   rating
   can_delete
   can_update
+  can_reply
   vote {
     type
   }

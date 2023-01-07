@@ -88,7 +88,6 @@ const emit = defineEmits(['created', 'updated'])
 const form = ref(cloneDeep(props.post || formInitialState))
 const loading = ref(false)
 const router = useRouter()
-const isArticle = ref(form.value.type === 'article')
 
 const { $overlay } = useNuxtApp()
 
@@ -101,7 +100,6 @@ const onSelectPlace = () => {
     },
     on: {
       selected(place) {
-        console.log(place)
         Object.assign(form.value.place, place)
         form.value.place_id = place.id
       }
@@ -141,8 +139,6 @@ const onSubmit = handleSubmit(async () => {
     })
 
     form.value = cloneDeep(formInitialState)
-
-    console.log(form.value)
 
     if (! isEdit) {
       emit('created', post)

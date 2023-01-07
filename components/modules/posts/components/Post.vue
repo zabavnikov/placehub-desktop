@@ -24,13 +24,8 @@
       <PostGallery v-if="content.images.length > 0" class="mt-4" :images="content.images"/>
 
       <footer class="flex items-center space-x-4 mt-4">
-        <VLike model-type="posts" :model-id="content.id" :is-liked="content.like.is_liked"
-               :count="content.likes_count"/>
-<!--        <div @click="onRepost" class="cursor-pointer flex items-center space-x-1">
-          <Share2 class="w-5 h-5 text-gray-500"/>
-          &lt;!&ndash; В репостах не показываем счетчик, так как репост репоста, это репост оригинала. &ndash;&gt;
-          <span v-if="content.repost_type === null">{{ content.shares_count }}</span>
-        </div>-->
+        <Like model-type="posts" :model-id="content.id" :is-liked="content.like.is_liked"
+               :count="content.likes_count" />
         <LatestCommentatorsList :commentators="content.latestCommentators" :count="content.comments_count" :post-id="content.id" />
       </footer>
     </section>
@@ -43,8 +38,7 @@ import PostBody from './PostBody.vue'
 import PostBodyFull from './PostBodyFull.vue'
 import PostGallery from './PostGallery.vue'
 import LatestCommentatorsList from '~/components/modules/comments/components/LastestCommentorsList'
-import { Pencil, Trash, Share2 } from 'lucide-vue-next'
-import VLike from '~/components/library/VLike';
+import { Pencil, Trash } from 'lucide-vue-next'
 import Profile from '~/components/modules/users/components/Profile'
 import { useNuxtApp, useRouter } from 'nuxt/app'
 import { useGql } from '~/uses'

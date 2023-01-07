@@ -8,7 +8,7 @@
         />
       </FormField>
       <div class="mt-4 text-slate-500">
-        Если вы не нашли нужное место, <span class="underline cursor-pointer text-black" @click="onCreate">нажмите</span> чтобы добавить его вручную.
+        Если не нашли нужное место, <span class="underline cursor-pointer text-black" @click="onCreate">нажмите</span> чтобы добавить его вручную.
       </div>
   </Dialog>
 </template>
