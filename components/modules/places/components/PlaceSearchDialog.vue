@@ -1,18 +1,21 @@
 <template>
   <Dialog title="Поиск места">
-      <SearchPlace
-        v-model="selectedPlace"
-        :callback="callback"
-        @update:modelValue="onSelect"
-      />
-      <div @click="onCreate">Создать</div>
+      <FormField>
+        <SearchPlace
+            v-model="selectedPlace"
+            :callback="callback"
+            @update:modelValue="onSelect"
+        />
+      </FormField>
+      <div class="mt-4 text-slate-500">
+        Если вы не нашли нужное место, <span class="underline cursor-pointer text-black" @click="onCreate">нажмите</span> чтобы добавить его вручную.
+      </div>
   </Dialog>
 </template>
 
 
 <script setup>
 import Dialog from '~/components/common/Dialog.vue'
-import { useGql } from '~/uses'
 import { ref } from 'vue'
 import { useNuxtApp } from 'nuxt/app'
 import PlaceFormDialog from './PlaceFormDialog'

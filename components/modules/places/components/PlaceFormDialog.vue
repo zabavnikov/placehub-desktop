@@ -16,33 +16,36 @@
           <SearchPlace
               placeholder="Выберите страну"
               :search-by="['countries']"
-              @update:modelValue="onSelect($event, 'country')" />
+              @update:modelValue="onSelect('country', $event)" />
         </FormField>
 
         <FormField name="region" v-if="form.country.id > 0" label="Регион, область, край и т.д" required>
           <SearchPlace
               placeholder="Введите название"
+              can-create
               :search-by="['regions']"
               :parent-id="form.country.id"
-              @update:modelValue="onSelect($event, 'region')"
+              @update:modelValue="onSelect('region', $event)"
           />
         </FormField>
 
         <FormField name="locality" v-if="form.region.name && addLocality" label="Населенный пункт">
           <SearchPlace
               placeholder="Введите название"
+              can-create
               :search-by="['localities']"
               :parent-id="form.region.id"
-              @update:modelValue="onSelect($event, 'locality')"
+              @update:modelValue="onSelect('locality', $event)"
           />
         </FormField>
 
         <FormField name="poi" v-if="(form.region.name || form.locality.name) && addPoi" label="Место">
           <SearchPlace
               placeholder="Введите название"
+              can-create
               :search-by="['poi']"
               :parent-id="poiParentId"
-              @update:modelValue="onSelect($event, 'poi')"
+              @update:modelValue="onSelect('poi', $event)"
           />
         </FormField>
 
@@ -61,7 +64,6 @@
 <script>
 import Dialog from '~/components/common/Dialog.vue'
 import { cloneDeep } from 'lodash-es'
-import { useGql } from '~/uses'
 
 const initialState = {
   id:   null,
@@ -95,9 +97,9 @@ export default {
     },
   },
   methods: {
-    onSelect(place, type) {
+    onSelect(type, place) {
       this.form[type].id   = place.id
-      this.form[type].name = place.name
+      this.form[type].name = place.name || place.full_name
     },
     onDelete(type) {
       if (type === 'region') {
