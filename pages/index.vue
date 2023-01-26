@@ -1,6 +1,7 @@
 <template>
   <TheLayout>
-    <PostForm v-if="$auth.loggedIn" @created="pulse.unshift($event)" class="mb-6" />
+<!--    <PostForm v-if="$auth.loggedIn" @created="pulse.unshift($event)" class="mb-6" />-->
+    <PostEditor class="mb-6" />
 
     <div class="space-y-10">
       <Post v-for="post in pulse" :key="post.id" :content="post" />
@@ -15,6 +16,7 @@ import PostForm from '~/components/modules/posts/components/PostForm'
 import TheLayout from '~/components/layout/TheLayout'
 import { POST_CARD } from '~/components/modules/posts/graphql'
 import { ref } from 'vue'
+import PostEditor from '~/components/modules/posts/components/PostEditor/PostEditor.vue'
 
 const pulse = ref([])
 

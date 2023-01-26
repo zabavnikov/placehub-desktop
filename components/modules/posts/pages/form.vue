@@ -1,11 +1,11 @@
 <template>
   <TheLayout heading="Редактирование">
-    <PostForm :post="form" />
+    <PostEditor :post="form" />
   </TheLayout>
 </template>
 
 <script setup>
-import PostForm from '~/components/modules/posts/components/PostForm'
+import PostEditor from '~/components/modules/posts/components/PostEditor/PostEditor.vue'
 import { POST_FORM } from '../graphql'
 import { ref } from 'vue'
 import { useRoute } from 'nuxt/app'
