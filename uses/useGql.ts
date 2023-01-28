@@ -1,4 +1,3 @@
-import { $fetch } from 'ohmyfetch'
 import { useNuxtApp } from 'nuxt/app'
 
 export default async (query, variables) => await $fetch(

@@ -1,12 +1,15 @@
 <template>
   <div>
-    <div v-for="item in items" :key="item.id">
-      <PostEditorItem v-model:images="item.images" v-model:text="item.text" />
-      {{ item.text }}
+    <div v-for="(block, index) in schema" :key="block.id">
+      <PostEditorBlock
+        v-model:images="block.images"
+        v-model:text="block.text"
+        @update:images="deleteBlockIsEmpty(block, index)"
+      />
     </div>
 
     <!-- Загрузка изображений. -->
-    <div v-if="items.length === 0">
+    <div>
       <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
         <ImagePlus class="w-5 h-5" />
       </button>
@@ -16,7 +19,7 @@
           class="hidden"
           model-type="posts"
           ref="upload"
-          @update:modelValue="addItem"
+          @update:modelValue="addBlock"
       />
     </div>
     <!-- / Загрузка изображений. -->
@@ -24,18 +27,28 @@
 </template>
 
 <script setup>
-import PostEditorItem from '~/components/modules/posts/components/PostEditor/PostEditorItem.vue'
+import PostEditorBlock from '~/components/modules/posts/components/PostEditor/PostEditorBlock.vue'
 import { ref } from 'vue'
 import { Send, MapPin, ImagePlus, X } from 'lucide-vue-next'
+import { useNuxtApp } from 'nuxt/app'
 
-const items = ref([])
+const { $overlay } = useNuxtApp()
+const schema = ref([])
 
-const addItem = (images) => {
-  if (items.value.length === 0) {
-    items.value.push({
-      images,
+const addBlock = (images) => {
+  images.forEach((image) => {
+    schema.value.push({
+      images: [image],
       text: '',
     })
+  })
+
+  console.log(schema)
+}
+
+const deleteBlockIsEmpty = (block, index) => {
+  if (block.images.length === 0) {
+    schema.value.splice(index, 1)
   }
 }
 </script>
