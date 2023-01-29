@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <div class="space-y-4">
+    <FormField name="input.title">
+      <Input placeholder="Введите название фотоотчета" />
+    </FormField>
+
     <div v-for="(block, index) in schema" :key="block.id">
       <PostEditorBlock
         v-model:images="block.images"
@@ -9,25 +13,14 @@
     </div>
 
     <!-- Загрузка изображений. -->
-    <div>
-      <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500" @click="$refs.upload.$el.click()">
-        <ImagePlus class="w-5 h-5" />
-      </button>
-      <Upload
-          :fields="['id', 'url']"
-          :presets="['default@width:640,height:480']"
-          class="hidden"
-          model-type="posts"
-          ref="upload"
-          @update:modelValue="addBlock"
-      />
-    </div>
+    <PostEditorUpload @add-block="addBlock" :schema-not-empty="schema.length" />
     <!-- / Загрузка изображений. -->
   </div>
 </template>
 
 <script setup>
 import PostEditorBlock from '~/components/modules/posts/components/PostEditor/PostEditorBlock.vue'
+import PostEditorUpload from '~/components/modules/posts/components/PostEditor/PostEditorUpload.vue'
 import { ref } from 'vue'
 import { Send, MapPin, ImagePlus, X } from 'lucide-vue-next'
 import { useNuxtApp } from 'nuxt/app'

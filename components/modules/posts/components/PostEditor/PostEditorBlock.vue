@@ -1,14 +1,15 @@
 <template>
   <article>
     <div v-show="! isEdit">
-      <Swiper>
-        <SwiperSlide v-for="image in images" :key="image.id">
-          <img :src="image.url" alt="" @click="isEdit = true" />
+      <Swiper class="rounded-lg">
+        <SwiperSlide v-for="image in images" :key="image.id" class="flex bg-gray-50 justify-center">
+          <img :src="image.url" alt="" @click="isEdit = true" class="h-[360px] object-cover" />
         </SwiperSlide>
       </Swiper>
       <TipTap :model-value="text" @update:modelValue="emit('update:text', $event)" />
     </div>
-    <div v-show="isEdit">
+    <div v-show="isEdit" class="bg-gray-50 p-4 rounded-lg">
+      <h3 class="mb-4 font-medium text-lg">Редактирование</h3>
       <Draggable :model-value="images" @update:modelValue="emit('update:images', $event)" item-key="id" class="grid grid-cols-4 gap-4">
         <template #item="{ element }">
           <div class="aspect-square cursor-move">
@@ -16,13 +17,14 @@
           </div>
         </template>
         <template #footer>
-          <button class="bg-amber-100 aspect-square rounded-lg" type="button" @click="$refs.upload.$el.click()">Добавить изображение</button>
+          <button class="bg-gray-200 hover:bg-indigo-400 transition-colors aspect-square rounded-lg" type="button" @click="$refs.upload.$el.click()">
+            {{ images.length > 1 ? 'Добавить изображение' : 'Создать слайдер' }}
+          </button>
         </template>
       </Draggable>
 
-      <div @click="isEdit = false">Отмена</div>
       <!-- Загрузка изображений. -->
-      <div>
+      <div class="mb-4">
         <Upload
             :fields="['id', 'url']"
             :presets="['default@width:640,height:480']"
@@ -33,6 +35,10 @@
         />
       </div>
       <!-- / Загрузка изображений. -->
+
+      <div class="flex justify-end">
+        <Button @click="isEdit = false">Готово</Button>
+      </div>
     </div>
   </article>
 </template>
