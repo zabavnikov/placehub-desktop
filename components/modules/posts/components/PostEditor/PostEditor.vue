@@ -4,17 +4,23 @@
       <Input placeholder="Введите название фотоотчета" />
     </FormField>
 
-    <div v-for="(block, index) in schema" :key="block.id">
-      <PostEditorBlock
-        v-model:images="block.images"
-        v-model:text="block.text"
-        @update:images="deleteBlockIsEmpty(block, index)"
-      />
+    <div class="space-y-6">
+      <Draggable v-model="schema" item-key="id">
+        <template #item="{ element, index }">
+          <PostEditorBlock
+            v-model:images="element.images"
+            v-model:text="element.text"
+            @deleteBlock="schema.splice(index, 1)"
+          />
+        </template>
+      </Draggable>
+
+      <!-- Загрузка изображений. -->
+      <PostEditorUpload @add-block="addBlock" :schema-not-empty="schema.length > 0" />
+      <!-- / Загрузка изображений. -->
     </div>
 
-    <!-- Загрузка изображений. -->
-    <PostEditorUpload @add-block="addBlock" :schema-not-empty="schema.length" />
-    <!-- / Загрузка изображений. -->
+    <Button @click="onSubmit">Создать</Button>
   </div>
 </template>
 
@@ -22,8 +28,9 @@
 import PostEditorBlock from '~/components/modules/posts/components/PostEditor/PostEditorBlock.vue'
 import PostEditorUpload from '~/components/modules/posts/components/PostEditor/PostEditorUpload.vue'
 import { ref } from 'vue'
-import { Send, MapPin, ImagePlus, X } from 'lucide-vue-next'
 import { useNuxtApp } from 'nuxt/app'
+import { cloneDeep } from 'lodash-es'
+import Draggable from 'vuedraggable'
 
 const { $overlay } = useNuxtApp()
 const schema = ref([])
@@ -31,6 +38,7 @@ const schema = ref([])
 const addBlock = (images) => {
   images.forEach((image) => {
     schema.value.push({
+      id: Date.now(),
       images: [image],
       text: '',
     })
@@ -39,9 +47,17 @@ const addBlock = (images) => {
   console.log(schema)
 }
 
-const deleteBlockIsEmpty = (block, index) => {
-  if (block.images.length === 0) {
-    schema.value.splice(index, 1)
-  }
+const onSubmit = () => {
+  const data = cloneDeep(schema.value)
+
+  data.map((block) => {
+    block.images = block.images.map((image) => {
+      return { id: image.id, text: image.text || '' }
+    })
+
+    return block
+  })
+
+  console.log(data)
 }
 </script>
