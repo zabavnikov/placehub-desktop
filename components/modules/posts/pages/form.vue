@@ -1,6 +1,7 @@
 <template>
   <TheLayout heading="Редактирование">
-    <PostEditor :post="form" />
+<!--    <PostEditor :post="form" />-->
+    <Editor />
   </TheLayout>
 </template>
 

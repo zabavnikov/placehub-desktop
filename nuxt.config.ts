@@ -1,6 +1,7 @@
 export default {
   extends: [
     '../nuxt-base-layer',
+    '../nuxt-editor-layer',
   ],
   app: {
     head: {

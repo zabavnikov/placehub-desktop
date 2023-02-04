@@ -146,10 +146,8 @@ export const GET_POSTS = `
 
 // Mutations
 export const CREATE_POST = `
-  mutation($input: PostInput!) {
-    post: createPost(input: $input) {
-      ${POST_CARD}
-    }
+  mutation($input: [PostInput]!) {
+    post: createPost(input: $input)
   }
 `;
 
