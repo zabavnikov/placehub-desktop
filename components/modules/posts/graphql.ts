@@ -146,7 +146,7 @@ export const GET_POSTS = `
 
 // Mutations
 export const CREATE_POST = `
-  mutation($input: [PostInput]!) {
+  mutation($input: [PostSchemaInput]!) {
     post: createPost(input: $input)
   }
 `;
