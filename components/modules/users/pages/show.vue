@@ -16,7 +16,7 @@ import ProfileHero from '../components/ProfileHero'
 import { POST_CARD } from '~/components/modules/posts/graphql'
 import { USER } from '~/components/modules/users/graphql'
 import { useFetch } from '#imports'
-import { useRoute, useNuxtApp } from 'nuxt/app'
+import { useRoute, useNuxtApp } from '#app/nuxt'
 
 const route = useRoute()
 const { $overlay } = useNuxtApp()

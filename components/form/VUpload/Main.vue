@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import {useNuxtApp} from 'nuxt/app';
+import {useNuxtApp} from '#app/nuxt';
 import axios from 'axios'
 
 export default {

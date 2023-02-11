@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { useNuxtApp, useRuntimeConfig, useFetch } from 'nuxt/app'
+import { useNuxtApp, useRuntimeConfig, useFetch } from '#app/nuxt'
 
 const config = useRuntimeConfig()
 

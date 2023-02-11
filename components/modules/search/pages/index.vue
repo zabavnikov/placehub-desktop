@@ -9,7 +9,7 @@
 <script>
 import { useAsyncGql } from '~/uses'
 import { SEARCH } from '../graphql'
-import { useRoute } from 'nuxt/app';
+import { useRoute } from '#app/nuxt';
 import Post from '~/components/modules/posts/components/Post'
 
 export default {

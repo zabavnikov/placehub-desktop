@@ -40,7 +40,7 @@ import PostGallery from './PostGallery.vue'
 import LatestCommentatorsList from '~/components/modules/comments/components/LastestCommentorsList'
 import { Pencil, Trash } from 'lucide-vue-next'
 import Profile from '~/components/modules/users/components/Profile'
-import { useNuxtApp, useRouter } from 'nuxt/app'
+import { useNuxtApp } from '#app/nuxt'
 import { useGql } from '~/uses'
 
 const props = defineProps({

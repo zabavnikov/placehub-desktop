@@ -7,7 +7,7 @@
 </template>
 <script>
 import { ref } from 'vue'
-import {useNuxtApp, useRoute} from 'nuxt/app'
+import {useNuxtApp, useRoute} from '#app/nuxt'
 
 export default {
   data() {

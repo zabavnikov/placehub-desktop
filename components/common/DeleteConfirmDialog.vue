@@ -30,7 +30,7 @@
 import { Button } from '@placehub/ui'
 import { useFetch } from '#imports'
 import { ref } from 'vue'
-import { useNuxtApp } from 'nuxt/app'
+import { useNuxtApp } from '#app/nuxt'
 
 const emit = defineEmits(['deleted'])
 

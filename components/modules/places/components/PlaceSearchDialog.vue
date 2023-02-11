@@ -17,7 +17,7 @@
 <script setup>
 import Dialog from '~/components/common/Dialog.vue'
 import { ref } from 'vue'
-import { useNuxtApp } from 'nuxt/app'
+import { useNuxtApp } from '#app/nuxt'
 import PlaceFormDialog from './PlaceFormDialog'
 
 const emit = defineEmits(['selected'])

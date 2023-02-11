@@ -28,7 +28,7 @@
 import PostEditorBlock from '~/components/modules/posts/components/PostEditor/PostEditorBlock.vue'
 import PostEditorUpload from '~/components/modules/posts/components/PostEditor/PostEditorUpload.vue'
 import { ref } from 'vue'
-import { useNuxtApp } from 'nuxt/app'
+import { useNuxtApp } from '#app/nuxt'
 import { cloneDeep } from 'lodash-es'
 import Draggable from 'vuedraggable'
 import { pick } from 'lodash'

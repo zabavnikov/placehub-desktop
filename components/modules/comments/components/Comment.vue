@@ -71,7 +71,7 @@ import CommentVoteButtons from './CommentVoteButtons'
 import { defineAsyncComponent } from 'vue'
 import { ref, computed } from 'vue'
 import { useCommentsStore } from '../store.ts'
-import { useNuxtApp } from 'nuxt/app'
+import { useNuxtApp } from '#app/nuxt'
 import { MoreHorizontal, Pencil, Trash } from 'lucide-vue-next'
 
 const emit = defineEmits(['toggle-replies', 'deleted'])

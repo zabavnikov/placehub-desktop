@@ -11,7 +11,6 @@
 import PostEditor from '~/components/modules/posts/components/PostEditor/PostEditor.vue'
 import { CREATE_POST, POST_FORM } from '../graphql'
 import { ref } from 'vue'
-import { useRoute } from 'nuxt/app'
 import { cloneDeep } from 'lodash-es'
 import { useForm } from 'vee-validate'
 
@@ -65,7 +64,7 @@ const onSubmit = handleSubmit(async () => {
   }
 
   try {
-    const { data: { post }} = await useFetch({
+    const { data: { post }} = await useQuery({
       query: CREATE_POST,
       variables
     })

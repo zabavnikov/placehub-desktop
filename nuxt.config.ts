@@ -1,4 +1,7 @@
-export default {
+export default defineNuxtConfig({
+  experimental: {
+    treeshakeClientOnly: false
+  },
   extends: [
     '../nuxt-base-layer',
     '../nuxt-editor-layer',
@@ -68,4 +71,4 @@ export default {
       home: false,
     }
   },
-}
+})

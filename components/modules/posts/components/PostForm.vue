@@ -63,7 +63,7 @@ import { Send, MapPin, ImagePlus, X } from 'lucide-vue-next'
 import { cloneDeep, pick } from 'lodash'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
-import { useRouter, useNuxtApp } from 'nuxt/app'
+import { useNuxtApp } from '#app/nuxt'
 
 const formInitialState = {
   place_id: null,

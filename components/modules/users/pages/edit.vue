@@ -30,7 +30,7 @@ import { USER_FORM_FIELD } from '~/components/modules/users/graphql'
 import { useFetch } from '#imports'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
-import { useRoute } from 'nuxt/app'
+import { useRoute } from '#app/nuxt'
 
 const route = useRoute()
 const loading = ref(false)
