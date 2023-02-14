@@ -57,8 +57,6 @@ const onSubmit = handleSubmit(async () => {
     return block
   })
 
-  console.log(input)
-
   const variables = {
     input
   }
